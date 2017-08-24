@@ -22,9 +22,9 @@ public class Channel {
     }
 
     private Triple getMin() {
-        int minX = -1;
-        int minY = -1;
-        int minZ = -1;
+        int minX = Integer.MAX_VALUE;
+        int minY = Integer.MAX_VALUE;
+        int minZ = Integer.MAX_VALUE;
 
         for (Triple pt : points) {
             minX = Math.min(pt.getX(), minX);
@@ -43,8 +43,8 @@ public class Channel {
         int minY = 0;
         int minZ = 0;
 
-        for (int i = 0; i < channels.length; i++) {
-            mins = channels[i].getMin();
+        for (Channel channel1 : channels) {
+            mins = channel1.getMin();
             minX = mins.getX();
             minY = mins.getY();
             minZ = mins.getZ();
@@ -52,12 +52,12 @@ public class Channel {
 
         }
 
-        for (int i = 0; i < channels.length; i++) {
+        for (Channel channel : channels) {
 
-            for (int j = 0; j < channels[i].points.size(); j++) {
-                channels[i].points.get(j).setX(channels[i].points.get(j).getX() - minX);
-                channels[i].points.get(j).setY(channels[i].points.get(j).getY() - minY);
-                channels[i].points.get(j).setZ(channels[i].points.get(j).getZ() - minZ);
+            for (int j = 0; j < channel.points.size(); j++) {
+                channel.points.get(j).setX(channel.points.get(j).getX() - minX);
+                channel.points.get(j).setY(channel.points.get(j).getY() - minY);
+                channel.points.get(j).setZ(channel.points.get(j).getZ() - minZ);
             }
         }
     }

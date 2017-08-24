@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.List;
 
 /*
 Plugin service for all PointsANalysis operation. User interface is given through command plugins.
@@ -28,8 +29,12 @@ public class Pan {
 
     //Find the channel by name in channels list
     private int findChannel(String channelName) {
-        for (int i = 0; i < channels.size(); i++) {
-            if (channels.get(i).getName().equals(channelName)) return i;
+        return findChannel(channelName, channels);
+    }
+
+    private int findChannel(String channelName, List<Channel> channelList) {
+        for (int i = 0; i < channelList.size(); i++) {
+            if (channelList.get(i).getName().equals(channelName)) return i;
         }
 
         return -1;
@@ -52,8 +57,10 @@ public class Pan {
         //read file data line by line into list(thank you Java 8!)
         ArrayList<String> rawInput = (ArrayList <String>) Files.readAllLines(file.toPath());
 
+        ArrayList<Channel> newChannels = new ArrayList<>();
+
         //Ensure we have the right filetype
-        if (rawInput == null || !rawInput.get(0).equals(CHECK_STRING)) {
+        if (rawInput == null ) { //+|| !rawInput.get(0).equals(CHECK_STRING)
             throw new IllegalArgumentException("Incorrect file content. Please ensure file was exported properly");
         }
 
@@ -72,8 +79,8 @@ public class Pan {
             channelName = line.substring(0, line.indexOf('\t'));
 
             //check if we have a channel named 'channelName' already in 'channels', if not, create
-            if (findChannel(channelName) < 0) {
-                channels.add(new Channel(channelName));
+            if (findChannel(channelName, newChannels) < 0) {
+                newChannels.add(new Channel(channelName));
             }
 
             //Find x,y,z value based on tab delimitation
@@ -83,9 +90,17 @@ public class Pan {
             z = (int)(Double.parseDouble(line.substring(skipTabs(line, 13)+1, skipTabs(line, 14)))+0.5);
 
             //add proper point to proper channel
-            channels.get(findChannel(channelName)).getPoints().add(new Triple(x,y,z));
+            newChannels.get(findChannel(channelName, newChannels)).getPoints().add(new Triple(x,y,z));
         }
 
+        //Since casting on the return of a .toArray() doesn't work, going with the brute force to make relative
+        Channel[] transfer = new Channel[newChannels.size()];
+        for (int i = 0; i < transfer.length; i++) {
+            transfer[i] = newChannels.get(i);
+        }
+
+        Channel.makeRelative(transfer);
+        channels.addAll(newChannels);
 
 
 
