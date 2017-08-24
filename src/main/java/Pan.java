@@ -1,3 +1,5 @@
+import containers.Channel;
+import containers.Triple;
 import org.scijava.plugin.Plugin;
 import org.scijava.service.Service;
 
@@ -15,7 +17,7 @@ TODO: Allow for operation on multiple point datasets from different textfiles (i
 public class Pan {
 
     //Ensure we are reading the correct type of text file by checking the first line (should always be the same)
-    private static final String CHECK_STRING = "Channel Name\tX\tY\tXc\tYc\tHeight\tArea\tWidth\tPhi\tAx\tBG\tI\tFrame\tLength\tLink\tValid\tZ\tZc\tPhotons\tLateral Localization Accuracy\tXw\tYw\tXwc\tYwc\tZw\tZwc";
+    private static final String CHECK_STRING = "containers.Channel Name\tX\tY\tXc\tYc\tHeight\tArea\tWidth\tPhi\tAx\tBG\tI\tFrame\tLength\tLink\tValid\tZ\tZc\tPhotons\tLateral Localization Accuracy\tXw\tYw\tXwc\tYwc\tZw\tZwc";
 
     //Channels available
     private ArrayList<Channel> channels;
@@ -81,7 +83,7 @@ public class Pan {
             z = (int)(Double.parseDouble(line.substring(skipTabs(line, 13)+1, skipTabs(line, 14)))+0.5);
 
             //add proper point to proper channel
-            channels.get(findChannel(channelName)).getPoints().add(new Point(x,y,z));
+            channels.get(findChannel(channelName)).getPoints().add(new Triple(x,y,z));
         }
 
 
