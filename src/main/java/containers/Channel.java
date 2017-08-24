@@ -21,6 +21,8 @@ public class Channel {
 
     }
 
+    //returns a triplet containing the minimum x, y, z values in channel
+    //if there are no points in the channel, will return a triple containing -1's
     private Triple getMin() {
         int minX = Integer.MAX_VALUE;
         int minY = Integer.MAX_VALUE;
@@ -32,10 +34,15 @@ public class Channel {
             minZ = Math.min(pt.getZ(), minZ);
         }
 
+        if (minX == Integer.MAX_VALUE) minX = -1;
+        if (minY == Integer.MAX_VALUE) minY = -1;
+        if (minZ == Integer.MAX_VALUE) minZ = -1;
+
         return new Triple(minX, minY, minZ);
     }
 
 
+    //Subtracts lowest point value in a given channel set from the rest of the channels
     public static void makeRelative(Channel... channels) {
 
         Triple mins;
