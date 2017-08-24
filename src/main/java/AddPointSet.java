@@ -1,8 +1,4 @@
-import ij.plugin.Commands;
 import net.imagej.ImageJ;
-
-import org.scijava.Context;
-import org.scijava.ItemIO;
 import org.scijava.command.Command;
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
@@ -13,48 +9,39 @@ import java.io.File;
 @Plugin(type = Command.class)
 public class AddPointSet implements Command {
 
-    //To report errors (if necessary)
-    @Parameter
-    private LogService logService;
+  //To report errors (if necessary)
+  @Parameter private LogService logService;
 
-    //To obtain text file (must be output from Nikon software) TODO: get software name
-    @Parameter
-    private File pointSet;
+  //To obtain text file (must be output from Nikon software) TODO: get software name
+  @Parameter private File pointSet;
 
+  //STRICTLY for testing purposes
+  public static void main(final String... args) {
+    // Launch ImageJ as usual.
+    final ImageJ ij = net.imagej.Main.launch(args);
 
-    @Override
-    public void run() {
+    // Launch command right away
+    ij.command().run(AddPointSet.class, true);
+  }
 
-        //FOR TESTING PURPOSES ONLY - IN PRODUCTION, PAN WILL BE RECEIVED FROM CONTEXT
-        Pan pan = new Pan();
+  @Override
+  public void run() {
 
-        //ensure we have a text file
-        String name = pointSet.getName();
-        if (name.toLowerCase().lastIndexOf(".txt")!= name.length()-4) {
-            logService.error(new IllegalArgumentException("Please specify a file with .txt extension"));
-            return;
-        }
+    //FOR TESTING PURPOSES ONLY - IN PRODUCTION, PAN WILL BE RECEIVED FROM CONTEXT
+    Pan pan = new Pan();
 
-        //attempt to load dataset into plugin memory
-        try {
-            pan.loadFile(pointSet);
-        } catch (Exception err) {
-            logService.error(err);
-        }
-
+    //ensure we have a text file
+    String name = pointSet.getName();
+    if (name.toLowerCase().lastIndexOf(".txt") != name.length() - 4) {
+      logService.error(new IllegalArgumentException("Please specify a file with .txt extension"));
+      return;
     }
 
-
-    //STRICTLY for testing purposes
-    public static void main(final String... args) {
-        // Launch ImageJ as usual.
-        final ImageJ ij = net.imagej.Main.launch(args);
-
-
-        // Launch command right away
-        ij.command().run(AddPointSet.class, true);
+    //attempt to load dataset into plugin memory
+    try {
+      pan.loadFile(pointSet);
+    } catch (Exception err) {
+      logService.error(err);
     }
+  }
 }
-
-
-
