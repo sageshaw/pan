@@ -19,7 +19,7 @@ public class Pan {
 
   //Ensure we are reading the correct type of text file by checking the first line (should always be the same)
   private static final String CHECK_STRING =
-      "containers.Linear Name\tX\tY\tXc\tYc\tHeight\tArea\tWidth\tPhi\tAx\tBG\tI\tFrame\tLength\tLink\tValid\tZ\tZc\tPhotons\tLateral Localization Accuracy\tXw\tYw\tXwc\tYwc\tZw\tZwc";
+      "Name\tX\tY\tXc\tYc\tHeight\tArea\tWidth\tPhi\tAx\tBG\tI\tFrame\tLength\tLink\tValid\tZ\tZc\tPhotons\tLateral Localization Accuracy\tXw\tYw\tXwc\tYwc\tZw\tZwc";
 
   //master channel list
   private ArrayList<ChannelSet> channels;

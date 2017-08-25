@@ -11,4 +11,6 @@ public interface TripleContainer {
     List<Triple> getPoints();
 
     void makeRelative();
+
+    void translate(int xOffset, int yOffset, int zOffset);
 }

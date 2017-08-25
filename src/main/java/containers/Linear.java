@@ -50,12 +50,15 @@ public class Linear implements TripleContainer {
 
   @Override
   public void makeRelative() {
-      Triple mins = getMin();
+    Triple mins = getMin();
+    translate(-mins.getX(), -mins.getY(), -mins.getZ());
+  }
 
-      for (Triple pt : points) {
-          pt.setX(pt.getX()-mins.getX());
-          pt.setY(pt.getY()-mins.getY());
-          pt.setZ(pt.getZ()-mins.getZ());
-      }
+  public void translate(int xOffset, int yOffset, int zOffset) {
+    for (Triple pt : points) {
+      pt.setX(pt.getX() + xOffset);
+      pt.setY(pt.getY() + yOffset);
+      pt.setZ(pt.getZ() + zOffset);
+    }
   }
 }
