@@ -3,50 +3,25 @@ package containers;
 import java.util.ArrayList;
 import java.util.List;
 
-//containers.Channel object to hold point data + channel name
-public class Channel {
+//containers.Linear object to hold point data + channel name
+public class Linear implements TripleContainer {
 
   //our fields
   private List<Triple> points;
   private String name;
 
-  public Channel(String channelName) {
+  public Linear(String channelName) {
     this(channelName, new ArrayList<>());
   }
 
-  public Channel(String channelName, List<Triple> data) {
+  public Linear(String channelName, List<Triple> data) {
     name = channelName;
     points = data;
   }
 
-  //Subtracts lowest point value in a given channel set from the rest of the channels
-  public static void makeRelative(Channel... channels) {
-
-    Triple mins;
-    int minX = 0;
-    int minY = 0;
-    int minZ = 0;
-
-    for (Channel channel1 : channels) {
-      mins = channel1.getMin();
-      minX = mins.getX();
-      minY = mins.getY();
-      minZ = mins.getZ();
-    }
-
-    for (Channel channel : channels) {
-
-      for (int j = 0; j < channel.points.size(); j++) {
-        channel.points.get(j).setX(channel.points.get(j).getX() - minX);
-        channel.points.get(j).setY(channel.points.get(j).getY() - minY);
-        channel.points.get(j).setZ(channel.points.get(j).getZ() - minZ);
-      }
-    }
-  }
-
   //returns a triplet containing the minimum x, y, z values in channel
   //if there are no points in the channel, will return a triple containing -1's
-  private Triple getMin() {
+  public Triple getMin() {
     int minX = Integer.MAX_VALUE;
     int minY = Integer.MAX_VALUE;
     int minZ = Integer.MAX_VALUE;
@@ -67,9 +42,20 @@ public class Channel {
   //Some getters + setters
   public List<Triple> getPoints() {
     return points;
-  }
+  } //TODO: replace with iterator
 
   public String getName() {
     return name;
+  }
+
+  @Override
+  public void makeRelative() {
+      Triple mins = getMin();
+
+      for (Triple pt : points) {
+          pt.setX(pt.getX()-mins.getX());
+          pt.setY(pt.getY()-mins.getY());
+          pt.setZ(pt.getZ()-mins.getZ());
+      }
   }
 }

@@ -14,10 +14,7 @@
     <groupId>honglab</groupId>
     <artifactId>PointsANalysis</artifactId>
     <version>1.0-SNAPSHOT</version>
-
-    <properties>
-        <main-class>AddPointSet</main-class>
-    </properties>
+    
 
     <repositories>
         <repository>
