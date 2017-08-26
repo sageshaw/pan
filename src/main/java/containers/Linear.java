@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 //containers.Linear object to hold point data + channel name
-public class Linear extends TripleContainer{
+public class Linear extends TripleContainer {
 
   //our fields
   private List<Triple> points;
@@ -53,13 +53,13 @@ public class Linear extends TripleContainer{
     }
   }
 
-    @Override
-    public Iterator <Triple> iterator() {
-        return points.iterator();
-    }
+  @Override
+  public Iterator<Triple> iterator() {
+    return points.iterator();
+  }
 
-    @Override
-    public void add(Object element) {
-        points.add((Triple)element);
-    }
+  @Override
+  public void add(Object element) {
+    points.add((Triple) element);
+  }
 }

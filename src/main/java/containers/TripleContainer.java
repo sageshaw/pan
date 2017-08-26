@@ -1,7 +1,5 @@
 package containers;
 
-import java.util.Iterator;
-
 public abstract class TripleContainer implements Iterable {
   String name;
 

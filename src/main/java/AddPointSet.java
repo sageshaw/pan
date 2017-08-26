@@ -15,9 +15,6 @@ public class AddPointSet implements Command {
   //To obtain text file (must be output from Nikon software) TODO: get software name
   @Parameter private File pointSet;
 
-
-
-
   //STRICTLY for testing purposes
   public static void main(final String... args) {
     // Launch ImageJ as usual.

@@ -1,5 +1,5 @@
-import containers.Linear;
 import containers.ChannelSet;
+import containers.Linear;
 import containers.Triple;
 import containers.TripleContainer;
 import org.scijava.plugin.Plugin;
@@ -29,7 +29,6 @@ public class Pan {
   public Pan() {
     channelSets = new ArrayList<>();
   }
-
 
   //Data is delimited by tab characters. This 'function' (initiator function and recursive body) can skip to the
   //nth tab of a provided string
@@ -63,7 +62,6 @@ public class Pan {
     int y;
     int z;
 
-
     //parse the rest of the file and load points into channelSets list
     for (int i = 1; i < rawInput.size(); i++) {
       //grab line, take channel name
@@ -86,23 +84,17 @@ public class Pan {
               (Double.parseDouble(line.substring(skipTabs(line, 13) + 1, skipTabs(line, 14)))
                   + 0.5);
 
-
       channelIterator = newChannels.iterator();
 
       while (channelIterator.hasNext()) {
 
-          TripleContainer channel = channelIterator.next();
-          if (channel.getName().equals((channelName))) channel.add(new Triple(x, y, z));
+        TripleContainer channel = channelIterator.next();
+        if (channel.getName().equals((channelName))) channel.add(new Triple(x, y, z));
       }
-
     }
 
     newChannels.makeRelative();
 
     channelSets.add(newChannels);
-
   }
-
-
-
 }

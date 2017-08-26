@@ -30,7 +30,6 @@ public class ChannelSet extends TripleContainer {
     return new Triple(minX, minY, minZ);
   }
 
-
   public TripleContainer getChannel(String name) {
     for (TripleContainer channel : channels) {
       if (channel.getName().equals(name)) return channel;
@@ -38,7 +37,6 @@ public class ChannelSet extends TripleContainer {
 
     return null;
   }
-
 
   public TripleContainer removeChannel(String name) {
     for (int i = 0; i < channels.size(); i++) {
@@ -62,8 +60,6 @@ public class ChannelSet extends TripleContainer {
   }
 
   //TODO: Figure out how to use generics for this
-
-
 
   public void add(Object element) {
     channels.add((TripleContainer) element);
