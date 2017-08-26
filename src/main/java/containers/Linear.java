@@ -1,14 +1,14 @@
 package containers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 //containers.Linear object to hold point data + channel name
-public class Linear implements TripleContainer {
+public class Linear extends TripleContainer{
 
   //our fields
   private List<Triple> points;
-  private String name;
 
   public Linear(String channelName) {
     this(channelName, new ArrayList<>());
@@ -39,15 +39,6 @@ public class Linear implements TripleContainer {
     return new Triple(minX, minY, minZ);
   }
 
-  //Some getters + setters
-  public List<Triple> getPoints() {
-    return points;
-  } //TODO: replace with iterator
-
-  public String getName() {
-    return name;
-  }
-
   @Override
   public void makeRelative() {
     Triple mins = getMin();
@@ -61,4 +52,14 @@ public class Linear implements TripleContainer {
       pt.setZ(pt.getZ() + zOffset);
     }
   }
+
+    @Override
+    public Iterator <Triple> iterator() {
+        return points.iterator();
+    }
+
+    @Override
+    public void add(Object element) {
+        points.add((Triple)element);
+    }
 }

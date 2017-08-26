@@ -1,12 +1,16 @@
 package containers;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 
 /** Flyweight class for TripleContainers. */
-public class ChannelSet implements TripleContainer {
+public class ChannelSet extends TripleContainer {
 
   private ArrayList<TripleContainer> channels = new ArrayList<>();
+
+  public ChannelSet(String name) {
+    this.name = name;
+  }
 
   @Override
   public Triple getMin() {
@@ -26,20 +30,6 @@ public class ChannelSet implements TripleContainer {
     return new Triple(minX, minY, minZ);
   }
 
-  @Override
-  public String getName() {
-    return null;
-  }
-
-  @Override
-  public List<Triple> getPoints() {
-    ArrayList<Triple> masterList = new ArrayList<>();
-    for (TripleContainer channel : channels) {
-      masterList.addAll(channel.getPoints());
-    }
-
-    return masterList;
-  }
 
   public TripleContainer getChannel(String name) {
     for (TripleContainer channel : channels) {
@@ -49,9 +39,6 @@ public class ChannelSet implements TripleContainer {
     return null;
   }
 
-  public void addChannel(TripleContainer channel) {
-    channels.add(channel);
-  }
 
   public TripleContainer removeChannel(String name) {
     for (int i = 0; i < channels.size(); i++) {
@@ -67,9 +54,23 @@ public class ChannelSet implements TripleContainer {
     translate(-mins.getX(), -mins.getY(), -mins.getZ());
   }
 
+  @Override
   public void translate(int xOffset, int yOffst, int zOffset) {
     for (TripleContainer channel : channels) {
       channel.translate(xOffset, yOffst, zOffset);
     }
+  }
+
+  //TODO: Figure out how to use generics for this
+
+
+
+  public void add(Object element) {
+    channels.add((TripleContainer) element);
+  }
+
+  @Override
+  public Iterator<TripleContainer> iterator() {
+    return channels.iterator();
   }
 }

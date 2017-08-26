@@ -1,16 +1,19 @@
 package containers;
 
-import java.util.List;
+import java.util.Iterator;
 
-public interface TripleContainer {
-    String name = null;
+public abstract class TripleContainer implements Iterable {
+  String name;
 
-    Triple getMin();
-    String getName();
+  abstract Triple getMin();
 
-    List<Triple> getPoints();
+  public String getName() {
+    return name;
+  }
 
-    void makeRelative();
+  public abstract void add(Object element);
 
-    void translate(int xOffset, int yOffset, int zOffset);
+  abstract void makeRelative();
+
+  abstract void translate(int xOffset, int yOffset, int zOffset);
 }
