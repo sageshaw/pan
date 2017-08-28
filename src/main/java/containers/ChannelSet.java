@@ -69,4 +69,9 @@ public class ChannelSet extends TripleContainer {
   public Iterator<TripleContainer> iterator() {
     return channels.iterator();
   }
+
+  @Override
+  double[] analyzeNearestNeighbor() throws UnsupportedOperationException {
+    throw new UnsupportedOperationException("Nearest neigbor analysis can only be performed on individual channels");
+  }
 }

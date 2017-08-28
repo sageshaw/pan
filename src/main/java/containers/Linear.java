@@ -63,4 +63,31 @@ public class Linear extends TripleContainer {
   public void add(Object element) {
     points.add((Triple) element);
   }
+
+  @Override
+  double[] analyzeNearestNeighbor() {
+    double[] result = new double[points.size()];
+
+    double minDist;
+    Triple currentPoint;
+    double currentDist;
+
+    for (int i = 0; i < result.length; i++) {
+      currentPoint = points.get(i);
+      minDist = Double.MAX_VALUE;
+
+      for (int j = 0; j < points.size(); j++) {
+        if (i == j) j++;
+        currentDist = Math.sqrt((double)((currentPoint.getX()-points.get(j).getX())^2) +
+                (double)((currentPoint.getY()-points.get(j).getY())^2) +
+                (double)((currentPoint.getZ()-points.get(j).getZ())^2));
+
+        minDist = Math.min(currentDist, minDist);
+      }
+
+      result[i] = minDist;
+    }
+
+    return result;
+  }
 }
