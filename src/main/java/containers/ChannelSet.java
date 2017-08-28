@@ -9,7 +9,7 @@ public class ChannelSet extends TripleContainer {
   private ArrayList<TripleContainer> channels = new ArrayList<>();
 
   public ChannelSet(String name) {
-    this.name = name;
+    super(name);
   }
 
   @Override

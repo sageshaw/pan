@@ -1,6 +1,11 @@
 package containers;
 
 public abstract class TripleContainer implements Iterable {
+
+  public TripleContainer(String name) {
+    this.name = name;
+  }
+
   String name;
 
   abstract Triple getMin();

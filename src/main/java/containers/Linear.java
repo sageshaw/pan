@@ -14,8 +14,8 @@ public class Linear extends TripleContainer {
     this(channelName, new ArrayList<>());
   }
 
-  public Linear(String channelName, List<Triple> data) {
-    name = channelName;
+  public Linear(String name, List<Triple> data) {
+    super(name);
     points = data;
   }
 
@@ -45,6 +45,7 @@ public class Linear extends TripleContainer {
     translate(-mins.getX(), -mins.getY(), -mins.getZ());
   }
 
+  @Override
   public void translate(int xOffset, int yOffset, int zOffset) {
     for (Triple pt : points) {
       pt.setX(pt.getX() + xOffset);

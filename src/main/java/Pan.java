@@ -13,15 +13,13 @@ import java.util.Iterator;
 
 /*
 Plugin service for all PointsANalysis operation. User interface is given through command plugins.
-
-TODO: Allow for operation on multiple point datasets from different textfiles (introduce linking?)
  */
 @Plugin(type = Service.class)
 public class Pan {
 
   //Ensure we are reading the correct type of text file by checking the first line (should always be the same)
   private static final String CHECK_STRING =
-      "Name\tX\tY\tXc\tYc\tHeight\tArea\tWidth\tPhi\tAx\tBG\tI\tFrame\tLength\tLink\tValid\tZ\tZc\tPhotons\tLateral Localization Accuracy\tXw\tYw\tXwc\tYwc\tZw\tZwc";
+      "Channel Name\tX\tY\tXc\tYc\tHeight\tArea\tWidth\tPhi\tAx\tBG\tI\tFrame\tLength\tLink\tValid\tZ\tZc\tPhotons\tLateral Localization Accuracy\tXw\tYw\tXwc\tYwc\tZw\tZwc";
 
   //master channel list
   private ArrayList<ChannelSet> channelSets;
@@ -56,7 +54,7 @@ public class Pan {
     }
     //some initialization so we don't need to constantly discard references
     String line;
-    String channelName;
+    String channelName = null;
     Iterator<TripleContainer> channelIterator;
     int x;
     int y;
@@ -94,7 +92,6 @@ public class Pan {
     }
 
     newChannels.makeRelative();
-
     channelSets.add(newChannels);
   }
 }
