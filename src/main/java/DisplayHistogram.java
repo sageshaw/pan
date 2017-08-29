@@ -19,14 +19,25 @@ import java.util.ArrayList;
 public class DisplayHistogram implements Command {
 
     @Parameter private LogService logService;
-    @Parameter private Pan pan;
+//    @Parameter private Pan pan;
 
     @Parameter private File input;
 
     @Override
     public void run() {
 
-        double[] data = new double[1]; //TODO: FIX DATA ARRAY CAPtURE
+
+        ArrayList<String> rawInput = null;
+        try {
+            rawInput = (ArrayList<String>) Files.readAllLines(input.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        double[] data = new double[rawInput.size()];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = Double.parseDouble(rawInput.get(i));
+        }
 
         HistogramFrame demo = new HistogramFrame("Trial1", data);
         demo.pack();
