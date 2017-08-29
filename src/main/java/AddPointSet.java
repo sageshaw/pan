@@ -15,6 +15,10 @@ public class AddPointSet implements Command {
   //To obtain text file (must be output from Nikon software) TODO: get software name
   @Parameter private File pointSet;
 
+
+//  @Parameter private Pan pan;
+
+
   //STRICTLY for testing purposes
   public static void main(final String... args) {
     // Launch ImageJ as usual.
@@ -26,10 +30,7 @@ public class AddPointSet implements Command {
 
   @Override
   public void run() {
-
-    //FOR TESTING PURPOSES ONLY - IN PRODUCTION, PAN WILL BE RECEIVED FROM CONTEXT
     Pan pan = new Pan();
-
     //ensure we have a text file
     String name = pointSet.getName();
     if (name.toLowerCase().lastIndexOf(".txt") != name.length() - 4) {

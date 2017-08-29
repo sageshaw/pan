@@ -157,7 +157,7 @@ public class Octree extends TripleContainer implements Iterable {
     }
 
     @Override
-    double[] analyzeNearestNeighbor() {
+    public double[] analyzeNearestNeighbor() {
         return new double[0];
     }
 }

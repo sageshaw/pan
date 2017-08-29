@@ -71,7 +71,7 @@ public class ChannelSet extends TripleContainer {
   }
 
   @Override
-  double[] analyzeNearestNeighbor() throws UnsupportedOperationException {
+  public double[] analyzeNearestNeighbor() throws UnsupportedOperationException {
     throw new UnsupportedOperationException("Nearest neigbor analysis can only be performed on individual channels");
   }
 }

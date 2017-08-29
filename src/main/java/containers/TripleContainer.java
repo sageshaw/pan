@@ -20,5 +20,5 @@ public abstract class TripleContainer implements Iterable {
 
   abstract void translate(int xOffset, int yOffset, int zOffset);
 
-  abstract double[] analyzeNearestNeighbor();
+  public abstract double[] analyzeNearestNeighbor();
 }

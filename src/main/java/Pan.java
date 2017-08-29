@@ -2,7 +2,9 @@ import containers.ChannelSet;
 import containers.Linear;
 import containers.Triple;
 import containers.TripleContainer;
+import org.scijava.Context;
 import org.scijava.plugin.Plugin;
+import org.scijava.plugin.PluginInfo;
 import org.scijava.service.Service;
 
 import java.io.File;
@@ -92,6 +94,9 @@ public class Pan {
     }
 
     newChannels.makeRelative();
+
     channelSets.add(newChannels);
   }
+
+
 }

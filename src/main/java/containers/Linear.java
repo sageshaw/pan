@@ -65,7 +65,7 @@ public class Linear extends TripleContainer {
   }
 
   @Override
-  double[] analyzeNearestNeighbor() {
+  public double[] analyzeNearestNeighbor() {
     double[] result = new double[points.size()];
 
     double minDist;
@@ -77,10 +77,15 @@ public class Linear extends TripleContainer {
       minDist = Double.MAX_VALUE;
 
       for (int j = 0; j < points.size(); j++) {
-        if (i == j) j++;
-        currentDist = Math.sqrt((double)((currentPoint.getX()-points.get(j).getX())^2) +
-                (double)((currentPoint.getY()-points.get(j).getY())^2) +
-                (double)((currentPoint.getZ()-points.get(j).getZ())^2));
+        if (i == j) {
+          j++;
+          if (j == points.size()) break;
+        }
+
+
+        currentDist = Math.sqrt(Math.pow(currentPoint.getX()-points.get(j).getX(),2.0) +
+                Math.pow(currentPoint.getY()-points.get(j).getY(),2.0) +
+                Math.pow(currentPoint.getZ()-points.get(j).getZ(), 2.0));
 
         minDist = Math.min(currentDist, minDist);
       }
