@@ -65,7 +65,7 @@ public class Linear extends TripleContainer {
   }
 
   @Override
-  public double[] analyzeNearestNeighbor() {
+  public double[] nearestNeighborAnalysis() {
     double[] result = new double[points.size()];
 
     double minDist;

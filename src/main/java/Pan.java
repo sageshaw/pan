@@ -3,17 +3,17 @@ import containers.Linear;
 import containers.Triple;
 import containers.TripleContainer;
 import net.imagej.ImageJPlugin;
-import net.imagej.ImageJService;
-import org.scijava.Context;
+import org.mapdb.Atomic;
 import org.scijava.Priority;
-import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;
-import org.scijava.plugin.PluginInfo;
 import org.scijava.service.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -101,6 +101,7 @@ public class Pan implements ImageJPlugin {
     newChannels.makeRelative();
 
     channelSets.add(newChannels);
+
   }
 
 
@@ -113,7 +114,7 @@ public class Pan implements ImageJPlugin {
     int index = 0;
     while(channelSetIterator.hasNext()) {
       TripleContainer channel = (TripleContainer) channelSetIterator.next();
-      output.add(channel.analyzeNearestNeighbor());
+      output.add(channel.nearestNeighborAnalysis());
     }
 
     return output;

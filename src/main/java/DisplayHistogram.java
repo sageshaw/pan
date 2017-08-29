@@ -1,4 +1,3 @@
-import net.imagej.ImageJ;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -11,41 +10,39 @@ import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
 import java.awt.*;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
 
 @Plugin(type = Command.class, menuPath = "PAN>Display histogram from currently loaded file...")
 public class DisplayHistogram implements Command {
 
     @Parameter private LogService logService;
+    @Parameter private Pan pan;
 
-//    @Parameter private Pan pan;
-
+    @Parameter private File input;
 
     @Override
     public void run() {
 
- //       List<double[]> data = pan.getNearestNeighborAnalysis();
+        double[] data = new double[1]; //TODO: FIX DATA ARRAY CAPtURE
 
-        double[] data = new double[500];
-        for (int i = 0; i < data.length; i++) {
-            data[i] = Math.random()*100;
-        }
-
-        MiniHistogram demo = new MiniHistogram("Trial1", data);
+        HistogramFrame demo = new HistogramFrame("Trial1", data);
         demo.pack();
         demo.setVisible(true);
 
     }
 
-    class MiniHistogram extends ApplicationFrame {
+    class HistogramFrame extends ApplicationFrame {
 
-        public MiniHistogram(String title, double[] data) {
+        public HistogramFrame(String title, double[] data) {
             super(title);
             HistogramDataset dataset = new HistogramDataset();
-            dataset.addSeries("Meh", data, 10);
+            dataset.addSeries("647", data, 200);
 
-            JFreeChart chart = ChartFactory.createHistogram("Example", "ploof",
-                    "plof", dataset, PlotOrientation.VERTICAL, true, true, false);
+            JFreeChart chart = ChartFactory.createHistogram("Example", "Distance (nm)",
+                    "Frequency", dataset, PlotOrientation.VERTICAL, true, true, false);
             ChartPanel chartPanel = new ChartPanel(chart, false);
             chartPanel.setPreferredSize(new Dimension(500, 270));
             setContentPane(chartPanel);
