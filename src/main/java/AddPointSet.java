@@ -1,4 +1,5 @@
 import net.imagej.ImageJ;
+import org.scijava.Context;
 import org.scijava.command.Command;
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
@@ -15,6 +16,7 @@ public class AddPointSet implements Command {
   //To obtain text file (must be output from Nikon software) TODO: get software name
   @Parameter private File pointSet;
 
+  @Parameter private Context context;
 
 //  @Parameter private Pan pan;
 
@@ -31,6 +33,9 @@ public class AddPointSet implements Command {
   @Override
   public void run() {
     Pan pan = new Pan();
+
+    context.inject(pan);
+
     //ensure we have a text file
     String name = pointSet.getName();
     if (name.toLowerCase().lastIndexOf(".txt") != name.length() - 4) {

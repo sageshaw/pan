@@ -2,7 +2,11 @@ import containers.ChannelSet;
 import containers.Linear;
 import containers.Triple;
 import containers.TripleContainer;
+import net.imagej.ImageJPlugin;
+import net.imagej.ImageJService;
 import org.scijava.Context;
+import org.scijava.Priority;
+import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;
 import org.scijava.plugin.PluginInfo;
 import org.scijava.service.Service;
@@ -12,12 +16,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /*
 Plugin service for all PointsANalysis operation. User interface is given through command plugins.
  */
-@Plugin(type = Service.class)
-public class Pan {
+@Plugin(type = Service.class, priority = Priority.HIGH_PRIORITY)
+public class Pan implements ImageJPlugin {
 
   //Ensure we are reading the correct type of text file by checking the first line (should always be the same)
   private static final String CHECK_STRING =
@@ -96,6 +101,23 @@ public class Pan {
     newChannels.makeRelative();
 
     channelSets.add(newChannels);
+  }
+
+
+  //TODO: make available to specify which channelSet
+  public List<double[]> getNearestNeighborAnalysis() {
+    Iterator channelSetIterator = channelSets.get(0).iterator();
+
+    List<double[]> output = new ArrayList <double[]>();
+
+    int index = 0;
+    while(channelSetIterator.hasNext()) {
+      TripleContainer channel = (TripleContainer) channelSetIterator.next();
+      output.add(channel.analyzeNearestNeighbor());
+    }
+
+    return output;
+
   }
 
 
