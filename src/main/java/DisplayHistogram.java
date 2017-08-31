@@ -1,3 +1,4 @@
+import containers.TripleContainer;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -5,58 +6,106 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.scijava.command.Command;
+import org.scijava.command.DynamicCommand;
 import org.scijava.log.LogService;
+import org.scijava.module.DefaultMutableModuleItem;
+import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
+import org.scijava.ui.UIService;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 @Plugin(type = Command.class, menuPath = "PAN>Display histogram from currently loaded file...")
-public class DisplayHistogram implements Command {
+public class DisplayHistogram extends DynamicCommand implements net.imagej.ops.Initializable {
 
-    @Parameter private LogService logService;
-//    @Parameter private Pan pan;
+  @Parameter private LogService logService;
 
-    @Parameter private File input;
+  @Parameter private Pan pan;
 
-    @Override
-    public void run() {
+  @Parameter private UIService ui;
 
+  @Parameter private int numberOfBins;
 
-        ArrayList<String> rawInput = null;
-        try {
-            rawInput = (ArrayList<String>) Files.readAllLines(input.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+  @Parameter private String xAxisLabel;
 
-        double[] data = new double[rawInput.size()];
-        for (int i = 0; i < data.length; i++) {
-            data[i] = Double.parseDouble(rawInput.get(i));
-        }
+  @Parameter private String yAxisLabel;
 
-        HistogramFrame demo = new HistogramFrame("Trial1", data);
-        demo.pack();
-        demo.setVisible(true);
+  @Parameter private String graphName;
 
-    }
+  private List<ModuleItem<Boolean>> checkboxItems = new ArrayList<>();
 
-    class HistogramFrame extends ApplicationFrame {
+  private ArrayList<double[]> rawData;
 
-        public HistogramFrame(String title, double[] data) {
-            super(title);
-            HistogramDataset dataset = new HistogramDataset();
-            dataset.addSeries("647", data, 200);
+  @Override
+  public void run() {
 
-            JFreeChart chart = ChartFactory.createHistogram("Example", "Distance (nm)",
-                    "Frequency", dataset, PlotOrientation.VERTICAL, true, true, false);
-            ChartPanel chartPanel = new ChartPanel(chart, false);
-            chartPanel.setPreferredSize(new Dimension(500, 270));
-            setContentPane(chartPanel);
+    rawData = pan.getNearestNeighborAnalysis();
+
+    HashMap<String, double[]> displayData = new HashMap<>();
+    List<String> keys = new ArrayList<>();
+
+    ModuleItem<Boolean> item;
+
+    for (int i = 0; i < checkboxItems.size(); i++) {
+        item = checkboxItems.get(i);
+        if (item.getValue(this)) {
+            displayData.put(item.getName(), rawData.get(i));
+            keys.add(item.getName());
         }
     }
+
+
+    HistogramFrame demo = new HistogramFrame("Histogram", displayData, keys);
+    demo.pack();
+    demo.setVisible(true);
+  }
+
+  @Override
+  public void initialize() {
+    Iterator panChannelSetIterator = pan.iterator();
+    if (!panChannelSetIterator.hasNext())
+      throw new NullPointerException(
+          "Pan must have at least one ChannelSet loaded to display histogram");
+    TripleContainer channelSet = (TripleContainer) panChannelSetIterator.next();
+    Iterator channelIterator = channelSet.iterator();
+    while (channelIterator.hasNext()) {
+      TripleContainer channel = (TripleContainer) channelIterator.next();
+      final ModuleItem<Boolean> item =
+          new DefaultMutableModuleItem<Boolean>(getInfo(), channel.getName(), boolean.class);
+      item.setLabel(channel.getName());
+      checkboxItems.add(item);
+      getInfo().addInput(item);
+    }
+  }
+
+  class HistogramFrame extends ApplicationFrame {
+
+    public HistogramFrame(String title, HashMap<String, double[]> data, List<String> keys) {
+      super(title);
+      HistogramDataset dataset = new HistogramDataset();
+
+      for (String key : keys) {
+          dataset.addSeries(key, data.get(key), numberOfBins);
+      }
+
+      JFreeChart chart =
+          ChartFactory.createHistogram(
+              graphName,
+              xAxisLabel,
+              yAxisLabel,
+              dataset,
+              PlotOrientation.VERTICAL,
+              true,
+              true,
+              false);
+      ChartPanel chartPanel = new ChartPanel(chart, false);
+      chartPanel.setPreferredSize(new Dimension(500, 270));
+      setContentPane(chartPanel);
+    }
+  }
 }

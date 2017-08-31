@@ -4,9 +4,7 @@ package containers;
 public class Triple {
 
   //coordinate fields
-  private int xCoord;
-  private int yCoord;
-  private int zCoord;
+  private int xCoord, yCoord, zCoord;
 
   //assigned on creation, fields should never change (hence final)
   public Triple(int x, int y, int z) {

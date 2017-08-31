@@ -2,27 +2,21 @@ import containers.ChannelSet;
 import containers.Linear;
 import containers.Triple;
 import containers.TripleContainer;
-import net.imagej.ImageJPlugin;
-import org.mapdb.Atomic;
-import org.scijava.Priority;
+import net.imagej.ImageJService;
+import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;
-import org.scijava.service.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 /*
 Plugin service for all PointsANalysis operation. User interface is given through command plugins.
  */
-@Plugin(type = Service.class, priority = Priority.HIGH_PRIORITY)
-public class Pan implements ImageJPlugin {
+@Plugin(type = ImageJService.class)
+public class Pan extends AbstractPTService<ImageJService> implements ImageJService, Iterable {
 
   //Ensure we are reading the correct type of text file by checking the first line (should always be the same)
   private static final String CHECK_STRING =
@@ -47,6 +41,7 @@ public class Pan implements ImageJPlugin {
   }
 
   //Parse file and load into channelSets list
+
   public void loadFile(File file) throws IllegalArgumentException, IOException {
 
     //read file data line by line into list(thank you Java 8!)
@@ -73,7 +68,7 @@ public class Pan implements ImageJPlugin {
       line = rawInput.get(i);
       channelName = line.substring(0, line.indexOf('\t'));
       //check if we have a channel named 'channelName' already in 'channelSets', if not, create
-      if (newChannels.getChannel("channelName") == null) {
+      if (newChannels.getChannel(channelName) == null) {
         newChannels.add(new Linear(channelName));
       }
       //Find x,y,z value based on tab delimitation
@@ -101,25 +96,35 @@ public class Pan implements ImageJPlugin {
     newChannels.makeRelative();
 
     channelSets.add(newChannels);
-
   }
 
-
-  //TODO: make available to specify which channelSet
-  public List<double[]> getNearestNeighborAnalysis() {
+  //TODO: make available to specify which channelSet - add a communication protocal to request information (another design pattern?)
+  public ArrayList<double[]> getNearestNeighborAnalysis() {
     Iterator channelSetIterator = channelSets.get(0).iterator();
 
-    List<double[]> output = new ArrayList <double[]>();
+    ArrayList<double[]> output = new ArrayList<double[]>();
 
     int index = 0;
-    while(channelSetIterator.hasNext()) {
+    while (channelSetIterator.hasNext()) {
       TripleContainer channel = (TripleContainer) channelSetIterator.next();
       output.add(channel.nearestNeighborAnalysis());
     }
 
     return output;
-
   }
 
+  @Override
+  public Class<ImageJService> getPluginType() {
+    return ImageJService.class;
+  }
 
+  /**
+   * Returns an iterator over elements of type {@code T}.
+   *
+   * @return an Iterator.
+   */
+  @Override
+  public Iterator iterator() {
+    return channelSets.iterator();
+  }
 }
