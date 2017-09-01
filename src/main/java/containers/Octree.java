@@ -37,7 +37,7 @@ import java.util.List;
  */
 
 
-public class Octree extends TripleContainer implements Iterable {
+public class Octree extends OperableContainer {
 
 
     List<Triple> points;
@@ -157,7 +157,12 @@ public class Octree extends TripleContainer implements Iterable {
     }
 
     @Override
-    public double[] nearestNeighborAnalysis() {
+    public double[] getNearestNeighborAnalysis() {
         return new double[0];
+    }
+
+    @Override
+    public Triple getCentroid() {
+        return null;
     }
 }

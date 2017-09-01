@@ -1,7 +1,4 @@
-import containers.ChannelSet;
-import containers.Linear;
-import containers.Triple;
-import containers.TripleContainer;
+import containers.*;
 import net.imagej.ImageJService;
 import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;
@@ -16,7 +13,7 @@ import java.util.Iterator;
 Plugin service for all PointsANalysis operation. User interface is given through command plugins.
  */
 @Plugin(type = ImageJService.class)
-public class Pan extends AbstractPTService<ImageJService> implements ImageJService, Iterable {
+public class IOStorage extends AbstractPTService<ImageJService> implements ImageJService, Iterable {
 
   //Ensure we are reading the correct type of text file by checking the first line (should always be the same)
   private static final String CHECK_STRING =
@@ -25,7 +22,7 @@ public class Pan extends AbstractPTService<ImageJService> implements ImageJServi
   //master channel list
   private ArrayList<ChannelSet> channelSets;
 
-  public Pan() {
+  public IOStorage() {
     channelSets = new ArrayList<>();
   }
 
@@ -98,7 +95,7 @@ public class Pan extends AbstractPTService<ImageJService> implements ImageJServi
     channelSets.add(newChannels);
   }
 
-  //TODO: make available to specify which channelSet - add a communication protocal to request information (another design pattern?)
+
   public ArrayList<double[]> getNearestNeighborAnalysis() {
     Iterator channelSetIterator = channelSets.get(0).iterator();
 
@@ -106,8 +103,8 @@ public class Pan extends AbstractPTService<ImageJService> implements ImageJServi
 
     int index = 0;
     while (channelSetIterator.hasNext()) {
-      TripleContainer channel = (TripleContainer) channelSetIterator.next();
-      output.add(channel.nearestNeighborAnalysis());
+      Operable channel = (Operable) channelSetIterator.next();
+      output.add(channel.getNearestNeighborAnalysis());
     }
 
     return output;

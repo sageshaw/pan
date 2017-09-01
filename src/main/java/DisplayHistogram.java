@@ -1,3 +1,4 @@
+import containers.Operable;
 import containers.TripleContainer;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -25,7 +26,7 @@ public class DisplayHistogram extends DynamicCommand implements net.imagej.ops.I
 
   @Parameter private LogService logService;
 
-  @Parameter private Pan pan;
+  @Parameter private IOStorage ptStore;
 
   @Parameter private UIService ui;
 
@@ -37,6 +38,10 @@ public class DisplayHistogram extends DynamicCommand implements net.imagej.ops.I
 
   @Parameter private String graphName;
 
+  @Parameter private double maxValue;
+
+  @Parameter private double minValue;
+
   private List<ModuleItem<Boolean>> checkboxItems = new ArrayList<>();
 
   private ArrayList<double[]> rawData;
@@ -44,8 +49,9 @@ public class DisplayHistogram extends DynamicCommand implements net.imagej.ops.I
   @Override
   public void run() {
 
-    rawData = pan.getNearestNeighborAnalysis();
+    rawData = ptStore.getNearestNeighborAnalysis();
 
+    //TODO: make communication with PAN more efficient and less clunky in terms of data transmission
     HashMap<String, double[]> displayData = new HashMap<>();
     List<String> keys = new ArrayList<>();
 
@@ -67,10 +73,10 @@ public class DisplayHistogram extends DynamicCommand implements net.imagej.ops.I
 
   @Override
   public void initialize() {
-    Iterator panChannelSetIterator = pan.iterator();
+    Iterator panChannelSetIterator = ptStore.iterator();
     if (!panChannelSetIterator.hasNext())
       throw new NullPointerException(
-          "Pan must have at least one ChannelSet loaded to display histogram");
+          "IOStorage must have at least one ChannelSet loaded to display histogram");
     TripleContainer channelSet = (TripleContainer) panChannelSetIterator.next();
     Iterator channelIterator = channelSet.iterator();
     while (channelIterator.hasNext()) {

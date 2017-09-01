@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 //containers.Linear object to hold point data + channel name
-public class Linear extends TripleContainer {
+public class Linear extends OperableContainer{
 
   //our fields
   private List<Triple> points;
@@ -65,7 +65,7 @@ public class Linear extends TripleContainer {
   }
 
   @Override
-  public double[] nearestNeighborAnalysis() {
+  public double[] getNearestNeighborAnalysis() {
     double[] result = new double[points.size()];
 
     double minDist;
@@ -94,5 +94,20 @@ public class Linear extends TripleContainer {
     }
 
     return result;
+  }
+
+
+  @Override
+  public Triple getCentroid() {
+    int x = 0, y = 0, z = 0;
+    for (Triple pt : points) {
+      x += pt.getX();
+      y += pt.getY();
+      z += pt.getZ();
+    }
+
+    int numPts = points.size();
+
+    return new Triple(x/numPts, y/numPts, z/numPts);
   }
 }

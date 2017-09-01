@@ -6,7 +6,7 @@ import java.util.Iterator;
 /** Flyweight class for TripleContainers. */
 public class ChannelSet extends TripleContainer {
 
-  private ArrayList<TripleContainer> channels = new ArrayList<>();
+  private ArrayList <TripleContainer> channels = new ArrayList <>();
 
   public ChannelSet(String name) {
     super(name);
@@ -66,12 +66,10 @@ public class ChannelSet extends TripleContainer {
   }
 
   @Override
-  public Iterator<TripleContainer> iterator() {
+  public Iterator <TripleContainer> iterator() {
     return channels.iterator();
   }
 
-  @Override
-  public double[] nearestNeighborAnalysis() throws UnsupportedOperationException {
-    throw new UnsupportedOperationException("Nearest neigbor analysis can only be performed on individual channels");
-  }
 }
+
+
