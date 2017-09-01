@@ -29,13 +29,12 @@ public class DisplayHistogram extends DynamicCommand implements Initializable {
 
   @Parameter private LogService logService;
   @Parameter private IOStorage ptStore;
-  @Parameter private UIService ui;
-  @Parameter private int numberOfBins;
-  @Parameter private String xAxisLabel;
-  @Parameter private String yAxisLabel;
-  @Parameter private String graphName;
-  @Parameter private double maxValue;
-  @Parameter private double minValue;
+
+  @Parameter(label = "Number of bins") private int numberOfBins;
+  @Parameter(label = "X Axis Label") private String xAxisLabel;
+  @Parameter(label = "Y Axis Label") private String yAxisLabel;
+  @Parameter(label = "Graph Title") private String graphName;
+  @Parameter(label = "Max Distance Cutoff") private double maxValue;
 
   private List<ChannelModuleItem<Boolean>> checkboxItems = new ArrayList<>();
 
