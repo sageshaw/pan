@@ -10,14 +10,12 @@ import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.scijava.command.Command;
 import org.scijava.command.DynamicCommand;
-import org.scijava.command.DynamicCommandInfo;
 import org.scijava.log.LogService;
-import org.scijava.module.DefaultMutableModuleItem;
-import org.scijava.module.ModuleInfo;
 import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import org.scijava.ui.UIService;
+import net.imagej.ops.Initializable;
 import plugins.IOStorage;
 
 import java.awt.*;
@@ -27,7 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Plugin(type = Command.class, menuPath = "PAN>Display histogram from currently loaded file...")
-public class DisplayHistogram extends DynamicCommand implements net.imagej.ops.Initializable {
+public class DisplayHistogram extends DynamicCommand implements Initializable {
 
   @Parameter private LogService logService;
   @Parameter private IOStorage ptStore;
@@ -75,7 +73,7 @@ public class DisplayHistogram extends DynamicCommand implements net.imagej.ops.I
       moduleItem = bundledChannelItem.getModuleItem();
 
       if (moduleItem.getValue(this)) {
-        displayData.put(moduleItem.getName(), bundledChannelItem.getChannel().getNearestNeighborAnalysis());
+        displayData.put(moduleItem.getName(), ((OperableContainer)bundledChannelItem.getChannel()).getNearestNeighborAnalysis());
         keys.add(moduleItem.getName());
       }
     }
@@ -112,24 +110,4 @@ public class DisplayHistogram extends DynamicCommand implements net.imagej.ops.I
 
   }
 
-  class ChannelModuleItem<T> {
-
-    private OperableContainer channel;
-    private ModuleItem<T> item;
-
-    ChannelModuleItem(ModuleInfo info, String name, Class type, OperableContainer channel) {
-      item = new DefaultMutableModuleItem <T>(info, name, type);
-      this.channel = channel;
-    }
-
-    OperableContainer getChannel() {
-      return channel;
-    }
-
-    ModuleItem<T> getModuleItem() {
-      return item;
-    }
-
-
-  }
 }

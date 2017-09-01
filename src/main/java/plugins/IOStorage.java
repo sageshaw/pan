@@ -22,7 +22,7 @@ public class IOStorage extends AbstractPTService<ImageJService> implements Image
       "Channel Name\tX\tY\tXc\tYc\tHeight\tArea\tWidth\tPhi\tAx\tBG\tI\tFrame\tLength\tLink\tValid\tZ\tZc\tPhotons\tLateral Localization Accuracy\tXw\tYw\tXwc\tYwc\tZw\tZwc";
 
   //master channel list
-  private ArrayList<ChannelSet> channelSets;
+  private ArrayList<TripleContainer> channelSets;
 
   public IOStorage() {
     channelSets = new ArrayList<>();
@@ -38,6 +38,11 @@ public class IOStorage extends AbstractPTService<ImageJService> implements Image
     if (n == 0) return currentPos - 1;
     return findNextTab(line, n - 1, line.indexOf('\t', currentPos) + 1);
   }
+
+  public boolean remove(TripleContainer channelSet) {
+    return channelSets.remove(channelSet);
+  }
+
 
   //Parse file and load into channelSets list
 
