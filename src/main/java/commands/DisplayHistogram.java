@@ -30,25 +30,38 @@ import java.util.List;
 public class DisplayHistogram extends DynamicCommand implements net.imagej.ops.Initializable {
 
   @Parameter private LogService logService;
-
   @Parameter private IOStorage ptStore;
-
   @Parameter private UIService ui;
-
   @Parameter private int numberOfBins;
-
   @Parameter private String xAxisLabel;
-
   @Parameter private String yAxisLabel;
-
   @Parameter private String graphName;
-
   @Parameter private double maxValue;
-
   @Parameter private double minValue;
 
   private List<ChannelModuleItem<Boolean>> checkboxItems = new ArrayList<>();
 
+  @Override
+  public void initialize() {
+    Iterator panChannelSetIterator = ptStore.iterator();
+    if (!panChannelSetIterator.hasNext())
+      throw new NullPointerException(
+              "plugins.IOStorage must have at least one ChannelSet loaded to display histogram");
+
+    while (panChannelSetIterator.hasNext()) {
+      TripleContainer channelSet = (TripleContainer) panChannelSetIterator.next();
+
+      for (Object aChannelSet : channelSet) {
+        OperableContainer channel = (OperableContainer) aChannelSet;
+        final ChannelModuleItem <Boolean> bundledChannelItem =
+                new ChannelModuleItem <>(getInfo(), channel.getName(), boolean.class, channel);
+
+        bundledChannelItem.getModuleItem().setLabel(channel.getName() + "(" + channelSet.getName() + ")");
+        checkboxItems.add(bundledChannelItem);
+        getInfo().addInput(bundledChannelItem.getModuleItem());
+      }
+    }
+  }
 
   @Override
   public void run() {
@@ -70,26 +83,6 @@ public class DisplayHistogram extends DynamicCommand implements net.imagej.ops.I
     HistogramFrame demo = new HistogramFrame("Histogram", displayData, keys);
     demo.pack();
     demo.setVisible(true);
-  }
-
-  @Override
-  public void initialize() {
-    Iterator panChannelSetIterator = ptStore.iterator();
-    if (!panChannelSetIterator.hasNext())
-      throw new NullPointerException(
-          "plugins.IOStorage must have at least one ChannelSet loaded to display histogram");
-
-    TripleContainer channelSet = (TripleContainer) panChannelSetIterator.next();
-
-    for (Object aChannelSet : channelSet) {
-      OperableContainer channel = (OperableContainer) aChannelSet;
-      final ChannelModuleItem <Boolean> bundledChannelItem =
-              new ChannelModuleItem <>(getInfo(), channel.getName(), boolean.class, channel);
-
-      bundledChannelItem.getModuleItem().setLabel(channel.getName());
-      checkboxItems.add(bundledChannelItem);
-      getInfo().addInput(bundledChannelItem.getModuleItem());
-    }
   }
 
   class HistogramFrame extends ApplicationFrame {
