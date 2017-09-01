@@ -1,3 +1,5 @@
+package plugins;
+
 import containers.*;
 import net.imagej.ImageJService;
 import org.scijava.plugin.AbstractPTService;
@@ -96,19 +98,6 @@ public class IOStorage extends AbstractPTService<ImageJService> implements Image
   }
 
 
-  public ArrayList<double[]> getNearestNeighborAnalysis() {
-    Iterator channelSetIterator = channelSets.get(0).iterator();
-
-    ArrayList<double[]> output = new ArrayList<double[]>();
-
-    int index = 0;
-    while (channelSetIterator.hasNext()) {
-      Operable channel = (Operable) channelSetIterator.next();
-      output.add(channel.getNearestNeighborAnalysis());
-    }
-
-    return output;
-  }
 
   @Override
   public Class<ImageJService> getPluginType() {

@@ -1,8 +1,11 @@
+package commands;
+
 import net.imagej.ImageJ;
 import org.scijava.command.Command;
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
+import plugins.IOStorage;
 
 import java.io.File;
 

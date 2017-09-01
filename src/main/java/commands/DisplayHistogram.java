@@ -1,4 +1,6 @@
-import containers.Operable;
+package commands;
+
+import containers.OperableContainer;
 import containers.TripleContainer;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -8,12 +10,15 @@ import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.scijava.command.Command;
 import org.scijava.command.DynamicCommand;
+import org.scijava.command.DynamicCommandInfo;
 import org.scijava.log.LogService;
 import org.scijava.module.DefaultMutableModuleItem;
+import org.scijava.module.ModuleInfo;
 import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import org.scijava.ui.UIService;
+import plugins.IOStorage;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -42,29 +47,25 @@ public class DisplayHistogram extends DynamicCommand implements net.imagej.ops.I
 
   @Parameter private double minValue;
 
-  private List<ModuleItem<Boolean>> checkboxItems = new ArrayList<>();
+  private List<ChannelModuleItem<Boolean>> checkboxItems = new ArrayList<>();
 
-  private ArrayList<double[]> rawData;
 
   @Override
   public void run() {
 
-    rawData = ptStore.getNearestNeighborAnalysis();
-
-    //TODO: make communication with PAN more efficient and less clunky in terms of data transmission
     HashMap<String, double[]> displayData = new HashMap<>();
     List<String> keys = new ArrayList<>();
 
-    ModuleItem<Boolean> item;
+    ModuleItem<Boolean> moduleItem;
 
-    for (int i = 0; i < checkboxItems.size(); i++) {
-        item = checkboxItems.get(i);
-        if (item.getValue(this)) {
-            displayData.put(item.getName(), rawData.get(i));
-            keys.add(item.getName());
-        }
+    for (ChannelModuleItem <Boolean> bundledChannelItem : checkboxItems) {
+      moduleItem = bundledChannelItem.getModuleItem();
+
+      if (moduleItem.getValue(this)) {
+        displayData.put(moduleItem.getName(), bundledChannelItem.getChannel().getNearestNeighborAnalysis());
+        keys.add(moduleItem.getName());
+      }
     }
-
 
     HistogramFrame demo = new HistogramFrame("Histogram", displayData, keys);
     demo.pack();
@@ -76,27 +77,29 @@ public class DisplayHistogram extends DynamicCommand implements net.imagej.ops.I
     Iterator panChannelSetIterator = ptStore.iterator();
     if (!panChannelSetIterator.hasNext())
       throw new NullPointerException(
-          "IOStorage must have at least one ChannelSet loaded to display histogram");
+          "plugins.IOStorage must have at least one ChannelSet loaded to display histogram");
+
     TripleContainer channelSet = (TripleContainer) panChannelSetIterator.next();
-    Iterator channelIterator = channelSet.iterator();
-    while (channelIterator.hasNext()) {
-      TripleContainer channel = (TripleContainer) channelIterator.next();
-      final ModuleItem<Boolean> item =
-          new DefaultMutableModuleItem<Boolean>(getInfo(), channel.getName(), boolean.class);
-      item.setLabel(channel.getName());
-      checkboxItems.add(item);
-      getInfo().addInput(item);
+
+    for (Object aChannelSet : channelSet) {
+      OperableContainer channel = (OperableContainer) aChannelSet;
+      final ChannelModuleItem <Boolean> bundledChannelItem =
+              new ChannelModuleItem <>(getInfo(), channel.getName(), boolean.class, channel);
+
+      bundledChannelItem.getModuleItem().setLabel(channel.getName());
+      checkboxItems.add(bundledChannelItem);
+      getInfo().addInput(bundledChannelItem.getModuleItem());
     }
   }
 
   class HistogramFrame extends ApplicationFrame {
 
-    public HistogramFrame(String title, HashMap<String, double[]> data, List<String> keys) {
+    HistogramFrame(String title, HashMap <String, double[]> data, List <String> keys) {
       super(title);
       HistogramDataset dataset = new HistogramDataset();
 
       for (String key : keys) {
-          dataset.addSeries(key, data.get(key), numberOfBins);
+        dataset.addSeries(key, data.get(key), numberOfBins);
       }
 
       JFreeChart chart =
@@ -113,5 +116,27 @@ public class DisplayHistogram extends DynamicCommand implements net.imagej.ops.I
       chartPanel.setPreferredSize(new Dimension(500, 270));
       setContentPane(chartPanel);
     }
+
+  }
+
+  class ChannelModuleItem<T> {
+
+    private OperableContainer channel;
+    private ModuleItem<T> item;
+
+    ChannelModuleItem(ModuleInfo info, String name, Class type, OperableContainer channel) {
+      item = new DefaultMutableModuleItem <T>(info, name, type);
+      this.channel = channel;
+    }
+
+    OperableContainer getChannel() {
+      return channel;
+    }
+
+    ModuleItem<T> getModuleItem() {
+      return item;
+    }
+
+
   }
 }
