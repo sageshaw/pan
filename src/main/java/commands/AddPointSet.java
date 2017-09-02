@@ -26,8 +26,6 @@ public class AddPointSet implements Command {
     // Launch ImageJ as usual.
     final ImageJ ij = net.imagej.Main.launch(args);
 
-    // Launch command right away
-    ij.command().run(AddPointSet.class, true);
   }
 
   @Override

@@ -34,7 +34,8 @@ public class DisplayHistogram extends DynamicCommand implements Initializable {
   @Parameter(label = "X Axis Label") private String xAxisLabel;
   @Parameter(label = "Y Axis Label") private String yAxisLabel;
   @Parameter(label = "Graph Title") private String graphName;
-  @Parameter(label = "Max Distance Cutoff") private double maxValue;
+
+  @Parameter(label = "Max distance cutoff") private int maxDistance;
 
   private List<ChannelModuleItem<Boolean>> checkboxItems = new ArrayList<>();
 
@@ -72,7 +73,12 @@ public class DisplayHistogram extends DynamicCommand implements Initializable {
       moduleItem = bundledChannelItem.getModuleItem();
 
       if (moduleItem.getValue(this)) {
-        displayData.put(moduleItem.getName(), ((OperableContainer)bundledChannelItem.getChannel()).getNearestNeighborAnalysis());
+
+          double[] nearestNeighborResult = ((OperableContainer) bundledChannelItem.getChannel()).getNearestNeighborAnalysis();
+          nearestNeighborResult = FilterTools.maxValueFilter(maxDistance, nearestNeighborResult);
+
+          displayData.put(moduleItem.getName(), nearestNeighborResult);
+
         keys.add(moduleItem.getName());
       }
     }
@@ -107,6 +113,27 @@ public class DisplayHistogram extends DynamicCommand implements Initializable {
       setContentPane(chartPanel);
     }
 
+  }
+
+  static class FilterTools {
+      static double[] maxValueFilter(int max, double[] data) {
+          int resultLength = data.length;
+          for (double val : data) {
+              if (val > max) resultLength--;
+          }
+
+          double[]result = new double[resultLength];
+
+          int i = 0;
+          for (double val : data) {
+              if (val <= max) {
+                  result[i] = val;
+                  i++;
+              }
+          }
+
+          return result;
+      }
   }
 
 }
