@@ -11,10 +11,68 @@
         <relativePath />
     </parent>
 
-    <groupId>honglab</groupId>
+    <groupId>org.honglab</groupId>
     <artifactId>PointsANalysis</artifactId>
     <version>1.0-SNAPSHOT</version>
-    
+
+    <name>PointsANalysis</name>
+    <description>An plugin that will help 3D point cloud analysis.</description>
+    <url>https://github.com/[MY-ORG]/[MY-REPO]</url>
+    <inceptionYear>2017</inceptionYear>
+    <organization>
+        <name>[MY-ORGANIZATION-NAME]</name>
+        <url>[MY-ORGANIZATION-WEB-SITE]</url>
+    </organization>
+    <licenses>
+        <license>
+            <name>NEED TO FILLS THIS IN</name>
+            <url>THIS TOO</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>[MY-GITHUB-ID]</id>
+            <name>[MY-FULL-NAME]</name>
+            <url>https://imagej.net/User:[MY-IMAGEJ-WIKI-ACCOUNT]</url>
+        </developer>
+    </developers>
+    <contributors>
+        <contributor>
+            <name>None</name>
+        </contributor>
+    </contributors>
+
+    <mailingLists>
+        <mailingList>
+            <name>ImageJ Forum</name>
+            <archive>http://forum.imagej.net/</archive>
+        </mailingList>
+    </mailingLists>
+
+    <scm>
+        <connection>scm:git:git://github.com/[MY-ORG]/[MY-REPO]</connection>
+        <developerConnection>scm:git:git@github.com:[MY-ORG]/[MY-REPO]</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://github.com/[MY-ORG]/[MY-REPO]</url>
+    </scm>
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>http://github.com/[MY-ORG]/[MY-REPO]/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <system>None</system>
+    </ciManagement>
+
+
+    <properties>
+        <main-class>commands.AddPointSet</main-class>
+        <license.licenseName>None</license.licenseName>
+        <license.copyrightOwners>N/A</license.copyrightOwners>
+        <license.projectName>ImageJ software for 3D point cloud analysis and processing.</license.projectName>
+    </properties>
+
 
     <repositories>
         <repository>
@@ -22,28 +80,25 @@
             <url>http://maven.imagej.net/content/groups/public</url>
         </repository>
     </repositories>
-
     <dependencies>
-        <dependency>
-            <groupId>net.imagej</groupId>
-            <artifactId>imagej</artifactId>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/sc.fiji/fiji-lib -->
 
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jfreechart</artifactId>
             <version>1.0.19</version>
         </dependency>
+
+        <dependency>
+            <groupId>net.imagej</groupId>
+            <artifactId>imagej</artifactId>
+        </dependency>
+
+
         <dependency>
             <groupId>org.scijava</groupId>
             <artifactId>scijava-common</artifactId>
         </dependency>
-
-
-
     </dependencies>
-
 
 
 </project>
