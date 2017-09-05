@@ -2,6 +2,8 @@ package commands;
 
 import containers.OperableContainer;
 import containers.TripleContainer;
+import filters.MaxCutoff;
+import filters.PanFilter;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -14,7 +16,6 @@ import org.scijava.log.LogService;
 import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
-import org.scijava.ui.UIService;
 import net.imagej.ops.Initializable;
 import plugins.IOStorage;
 
@@ -75,7 +76,10 @@ public class DisplayHistogram extends DynamicCommand implements Initializable {
       if (moduleItem.getValue(this)) {
 
           double[] nearestNeighborResult = ((OperableContainer) bundledChannelItem.getChannel()).getNearestNeighborAnalysis();
-          nearestNeighborResult = FilterTools.maxValueFilter(maxDistance, nearestNeighborResult);
+
+          PanFilter cutoff = new MaxCutoff(maxDistance);
+
+          nearestNeighborResult = cutoff.filter(nearestNeighborResult);
 
           displayData.put(moduleItem.getName(), nearestNeighborResult);
 
@@ -113,27 +117,6 @@ public class DisplayHistogram extends DynamicCommand implements Initializable {
       setContentPane(chartPanel);
     }
 
-  }
-
-  static class FilterTools {
-      static double[] maxValueFilter(int max, double[] data) {
-          int resultLength = data.length;
-          for (double val : data) {
-              if (val > max) resultLength--;
-          }
-
-          double[]result = new double[resultLength];
-
-          int i = 0;
-          for (double val : data) {
-              if (val <= max) {
-                  result[i] = val;
-                  i++;
-              }
-          }
-
-          return result;
-      }
   }
 
 }
