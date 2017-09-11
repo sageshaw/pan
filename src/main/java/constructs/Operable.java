@@ -1,16 +1,18 @@
-package containers;
+package constructs;
 
 public interface Operable {
 
-    Triple getCentroid();
-
     Triple getDimensions();
+
+    Triple getCentroid();
 
     Triple getMin();
 
     Triple getMax();
 
     double[] getNearestNeighborAnalysis();
+
+
 
 
 }

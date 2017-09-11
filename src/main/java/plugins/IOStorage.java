@@ -1,8 +1,7 @@
 package plugins;
 
-import containers.ChannelSet;
-import containers.TripleContainer;
-import io.scif.img.ImgOpener;
+import constructs.ChannelSet;
+import constructs.TripleContainer;
 import net.imagej.ImageJService;
 import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;

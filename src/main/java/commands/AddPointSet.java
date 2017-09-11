@@ -1,6 +1,9 @@
 package commands;
 
-import containers.*;
+import constructs.*;
+import images.AnalysisImgGenerator;
+import images.DisplayImgGenerator;
+import images.ImgGenerator;
 import net.imagej.ImageJ;
 import net.imglib2.img.display.imagej.ImageJFunctions;
 
@@ -132,7 +135,8 @@ public class AddPointSet implements Command {
 
     newChannels.makeRelative();
 
-    ImageJFunctions.show(newChannels.displayableImage());
+    ImgGenerator imgGenerator = new AnalysisImgGenerator();
+    ImageJFunctions.show(imgGenerator.generate(newChannels));
 
     return newChannels;
   }

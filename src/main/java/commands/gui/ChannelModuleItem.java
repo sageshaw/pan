@@ -1,6 +1,6 @@
 package commands.gui;
 
-import containers.TripleContainer;
+import constructs.TripleContainer;
 import org.scijava.module.DefaultMutableModuleItem;
 import org.scijava.module.ModuleInfo;
 import org.scijava.module.ModuleItem;

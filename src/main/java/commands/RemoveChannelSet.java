@@ -3,7 +3,7 @@ package commands;
 
 
 import commands.gui.ChannelModuleItem;
-import containers.TripleContainer;
+import constructs.TripleContainer;
 import net.imagej.ops.Initializable;
 import org.scijava.command.Command;
 import org.scijava.command.DynamicCommand;

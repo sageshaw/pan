@@ -1,10 +1,10 @@
-package containers;
+package constructs;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-//containers.Linear object to hold point data + channel name
+//constructs.Linear object to hold point data + channel name
 public class Linear extends OperableContainer{
 
   //our fields

@@ -1,8 +1,8 @@
 package commands;
 
 import commands.gui.ChannelModuleItem;
-import containers.OperableContainer;
-import containers.TripleContainer;
+import constructs.OperableContainer;
+import constructs.TripleContainer;
 import filters.MaxCutoff;
 import filters.PanFilter;
 import org.jfree.chart.ChartFactory;

@@ -1,5 +1,6 @@
-package containers;
+package constructs;
 
+import images.Displayable;
 import net.imglib2.RandomAccess;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;
@@ -8,10 +9,11 @@ import net.imglib2.type.numeric.integer.UnsignedByteType;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 
 /** Flyweight class for TripleContainers. */
-public class ChannelSet extends OperableContainer {
+public class ChannelSet extends OperableContainer implements Displayable{
 
   private ArrayList <OperableContainer> channels = new ArrayList <>();
 
@@ -30,6 +32,20 @@ public class ChannelSet extends OperableContainer {
     Triple maxes = getMax();
 
     return new Triple(maxes.getX()-mins.getX(), maxes.getY()-mins.getY(), maxes.getZ()-mins.getZ());
+  }
+
+  @Override
+  public List<Triple> getData() {
+
+    ArrayList<Triple> data = new ArrayList <>();
+
+    for (TripleContainer channel : channels) {
+      Iterator<Triple> itr = channel.iterator();
+      while(itr.hasNext()) data.add(itr.next());
+
+    }
+
+    return data;
   }
 
   @Override
@@ -112,95 +128,6 @@ public class ChannelSet extends OperableContainer {
 
 
 
-  //TODO: Factor out drawing/image generation responsibilities to an image generation factory
-
-  private Img<UnsignedByteType> blankImage() {
-    Triple trplDims = getDimensions();
-    int[] dims = new int[]{trplDims.getX()+1, trplDims.getY()+1, trplDims.getZ()+1};
-    ImgFactory<UnsignedByteType> imageFactory = new ArrayImgFactory<>();
-    Img<UnsignedByteType> img = imageFactory.create(dims, new UnsignedByteType());
-    return img;
-  }
-
-  private void drawPoint(int x, int y, int z, Img<UnsignedByteType> img) {
-    RandomAccess<UnsignedByteType> r = img.randomAccess();
-    r.setPosition(x, 0);
-    r.setPosition(y, 1);
-    r.setPosition(z, 2);
-    UnsignedByteType t = r.get();
-    t.set(255);
-  }
-
-  private void drawX(int x, int y, int lineLength, Img<UnsignedByteType> img) {
-    for (int i = 1; i < lineLength; i++) {
-      try {
-        drawPoint(x+i, y+i, 0, img);
-
-      } catch (ArrayIndexOutOfBoundsException e) {
-        System.out.println("Point ("+x+","+y+") out of bounds. Skipping...");
-      }
-    }
-    for (int i = 1; i < lineLength; i++) {
-      try {
-        drawPoint(x-i, y-i, 0, img);
-
-      } catch (ArrayIndexOutOfBoundsException e) {
-        System.out.println("Point ("+x+","+y+") out of bounds. Skipping...");
-      }
-    }
-    for (int i = 1; i < lineLength; i++) {
-      try {
-        drawPoint(x-i, y+i, 0, img);
-
-      } catch (ArrayIndexOutOfBoundsException e) {
-        System.out.println("Point ("+x+","+y+") out of bounds. Skipping...");
-      }
-    }
-    for (int i = 1; i < lineLength; i++) {
-      try {
-        drawPoint(x+i, y-i, 0, img);
-
-      } catch (ArrayIndexOutOfBoundsException e) {
-        System.out.println("Point ("+x+","+y+") out of bounds. Skipping...");
-      }
-    }
-  }
-
-  public Img<UnsignedByteType> displayableImage() {
-    Img<UnsignedByteType> img = blankImage();
-    Iterator<Triple> channelItr;
-    Triple pt;
-
-    for (TripleContainer channel : channels) {
-      channelItr = channel.iterator();
-      while (channelItr.hasNext()) {
-        pt = channelItr.next();
-        drawX(pt.getX(), pt.getY(), 10, img);
-
-      }
-
-    }
-
-    return img;
-  }
-
-  public Img<UnsignedByteType> image() {
-
-    Img<UnsignedByteType> img = blankImage();
-    Iterator<Triple> channelItr;
-    Triple pt;
-
-    for (TripleContainer channel : channels) {
-      channelItr = channel.iterator();
-      while (channelItr.hasNext()) {
-        pt = channelItr.next();
-        drawPoint(pt.getX(), pt.getY(), pt.getZ(), img);
-
-      }
-    }
-
-    return img;
-  }
 
 
 
