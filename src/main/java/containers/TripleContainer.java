@@ -8,8 +8,6 @@ public abstract class TripleContainer implements Iterable {
 
   String name;
 
-  abstract Triple getMin();
-
 
   public String getName() {
     return name;

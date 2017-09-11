@@ -1,10 +1,9 @@
 package commands;
 
-import containers.ChannelSet;
-import containers.Linear;
-import containers.Triple;
-import containers.TripleContainer;
+import containers.*;
 import net.imagej.ImageJ;
+import net.imglib2.img.display.imagej.ImageJFunctions;
+
 import org.scijava.command.Command;
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
@@ -95,7 +94,7 @@ public class AddPointSet implements Command {
     //some initialization so we don't need to constantly discard references
     String line;
     String channelName = null;
-    Iterator<TripleContainer> channelIterator;
+    Iterator<OperableContainer> channelIterator;
     int x;
     int y;
     int z;
@@ -132,6 +131,8 @@ public class AddPointSet implements Command {
     }
 
     newChannels.makeRelative();
+
+    ImageJFunctions.show(newChannels.displayableImage());
 
     return newChannels;
   }

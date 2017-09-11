@@ -14,6 +14,34 @@ public class Linear extends OperableContainer{
     this(channelName, new ArrayList<>());
   }
 
+  @Override
+  public Triple getMax() {
+    int maxX = Integer.MIN_VALUE;
+    int maxY = Integer.MIN_VALUE;
+    int maxZ = Integer.MIN_VALUE;
+
+    for (Triple pt : points) {
+      maxX = Math.max(pt.getX(), maxX);
+      maxY = Math.max(pt.getY(), maxY);
+      maxZ = Math.max(pt.getZ(), maxZ);
+    }
+
+    if (maxX == Integer.MIN_VALUE) maxX = -1;
+    if (maxY == Integer.MIN_VALUE) maxY = -1;
+    if (maxZ == Integer.MIN_VALUE) maxZ = -1;
+
+    return new Triple(maxX, maxY, maxZ);
+  }
+
+  @Override
+  public Triple getDimensions() {
+
+    Triple mins = getMin();
+    Triple maxes = getMax();
+
+    return new Triple(maxes.getX()-mins.getX(), maxes.getY()-mins.getY(), maxes.getZ()-mins.getZ());
+  }
+
   public Linear(String name, List<Triple> data) {
     super(name);
     points = data;

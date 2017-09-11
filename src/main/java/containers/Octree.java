@@ -51,6 +51,15 @@ public class Octree extends OperableContainer {
         this.parent = parent;
     }
 
+    @Override
+    public Triple getMax() {
+        return null;
+    }
+
+    @Override
+    public Triple getDimensions() {
+        return null;
+    }
 
     public Octree(String name, List<Triple> data) {
         super(name);

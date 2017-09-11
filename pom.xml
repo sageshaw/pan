@@ -82,6 +82,8 @@
     </repositories>
     <dependencies>
 
+        <!--ImageJ dependencies -->
+
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jfreechart</artifactId>
@@ -93,11 +95,42 @@
             <artifactId>imagej</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>org.scijava</groupId>
             <artifactId>scijava-common</artifactId>
         </dependency>
+
+        <!-- imglib2 dependencies -->
+        <dependency>
+            <groupId>net.imglib2</groupId>
+            <artifactId>imglib2</artifactId>
+            <version>4.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.imglib2</groupId>
+            <artifactId>imglib2-algorithm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.imglib2</groupId>
+            <artifactId>imglib2-algorithm-fft</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.imglib2</groupId>
+            <artifactId>imglib2-algorithm-gpl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.imglib2</groupId>
+            <artifactId>imglib2-ij</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.imglib2</groupId>
+            <artifactId>imglib2-realtransform</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.imglib2</groupId>
+            <artifactId>imglib2-ui</artifactId>
+        </dependency>
+
     </dependencies>
 
 

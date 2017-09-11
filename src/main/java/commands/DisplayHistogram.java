@@ -1,5 +1,6 @@
 package commands;
 
+import commands.gui.ChannelModuleItem;
 import containers.OperableContainer;
 import containers.TripleContainer;
 import filters.MaxCutoff;
