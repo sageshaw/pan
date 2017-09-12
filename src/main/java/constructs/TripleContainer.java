@@ -8,6 +8,7 @@ public abstract class TripleContainer implements Iterable {
 
   String name;
 
+  //TODO: clarify responsabilities of TripleContainer and OperableContainer
 
   public String getName() {
     return name;

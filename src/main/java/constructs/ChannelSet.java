@@ -1,13 +1,9 @@
 package constructs;
 
 import images.Displayable;
-import net.imglib2.RandomAccess;
-import net.imglib2.img.Img;
-import net.imglib2.img.ImgFactory;
-import net.imglib2.img.array.ArrayImgFactory;
-import net.imglib2.type.numeric.integer.UnsignedByteType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -15,7 +11,7 @@ import java.util.List;
 /** Flyweight class for TripleContainers. */
 public class ChannelSet extends OperableContainer implements Displayable{
 
-  private ArrayList <OperableContainer> channels = new ArrayList <>();
+  private HashMap<String, OperableContainer> channels = new HashMap <>();
 
   public ChannelSet(String name) {
     super(name);
@@ -39,7 +35,7 @@ public class ChannelSet extends OperableContainer implements Displayable{
 
     ArrayList<Triple> data = new ArrayList <>();
 
-    for (TripleContainer channel : channels) {
+    for (TripleContainer channel : channels.values()) {
       Iterator<Triple> itr = channel.iterator();
       while(itr.hasNext()) data.add(itr.next());
 
@@ -56,7 +52,7 @@ public class ChannelSet extends OperableContainer implements Displayable{
 
     Triple mins;
 
-    for (OperableContainer channel : channels) {
+    for (OperableContainer channel : channels.values()) {
       mins = channel.getMin();
       minX = Math.min(mins.getX(), minX);
       minY = Math.min(mins.getY(), minY);
@@ -72,7 +68,7 @@ public class ChannelSet extends OperableContainer implements Displayable{
     int maxY = Integer.MIN_VALUE;
     int maxZ = Integer.MIN_VALUE;
     Triple maxes;
-    for (OperableContainer channel : channels) {
+    for (OperableContainer channel : channels.values()) {
       maxes = channel.getMax();
       maxX = Math.max(maxes.getX(), maxX);
       maxY = Math.max(maxes.getY(), maxY);
@@ -87,11 +83,7 @@ public class ChannelSet extends OperableContainer implements Displayable{
   }
 
   public TripleContainer getChannel(String name) {
-    for (TripleContainer channel : channels) {
-      if (channel.getName().equals(name)) return channel;
-    }
-
-    return null;
+    return channels.get(name);
   }
 
   public TripleContainer removeChannel(String name) {
@@ -110,20 +102,20 @@ public class ChannelSet extends OperableContainer implements Displayable{
 
   @Override
   public void translate(int xOffset, int yOffst, int zOffset) {
-    for (TripleContainer channel : channels) {
+    for (TripleContainer channel : channels.values()) {
       channel.translate(xOffset, yOffst, zOffset);
     }
   }
 
   //TODO: Figure out how to use generics for this
-
-  public void add(Object element) {
-    channels.add((OperableContainer) element);
+ @Override
+  public void add(Object e) {
+    channels.put(((TripleContainer)e).getName(), (OperableContainer)e);
   }
 
   @Override
   public Iterator <OperableContainer> iterator() {
-    return channels.iterator();
+    return channels.values().iterator();
   }
 
 

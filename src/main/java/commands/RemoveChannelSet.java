@@ -55,8 +55,8 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
             moduleItem = bundledChannelItem.getModuleItem();
 
             if (moduleItem.getValue(this)) {
-               boolean isRemoved = store.remove(bundledChannelItem.getChannel());
-               System.out.println("Channel set '" + bundledChannelItem.getChannel().getName() + "' removed: " + isRemoved );
+               TripleContainer removed = store.remove(bundledChannelItem.getChannel().getName());
+               System.out.println("Channel set '" + bundledChannelItem.getChannel().getName() + "' removed: " + (removed!=null) );
             }
         }
 
