@@ -1,51 +1,109 @@
 package images;
 
-import constructs.Triple;
 import net.imglib2.img.Img;
 import net.imglib2.type.numeric.integer.UnsignedByteType;
 
-import java.util.List;
-
 public class DisplayImgGenerator implements ImgGenerator {
+
+    public enum PointMarker {
+        plus, cross
+    }
+    private static final int DEFAULT_LINE_LENGTH = 20;
+
+    private PointMarker shape;
+    private int lineLength;
+
+    public DisplayImgGenerator(PointMarker shape) {
+        this(shape, DEFAULT_LINE_LENGTH);
+    }
+
+    public DisplayImgGenerator(PointMarker shape, int lineLength) {
+        this.shape = shape;
+        this.lineLength = lineLength;
+    }
+
 
 
     @Override
-    public void placeMarker(int x, int y, int z, Img <UnsignedByteType> img) {
-        drawX(x, y, z, 10, img);
+    public void drawMarker(int x, int y, int z, Img <UnsignedByteType> img) {
+
+        if (shape == PointMarker.cross) drawThickX(x, y, z, lineLength, img);
+        else if(shape == PointMarker.plus) drawThickPlus(x, y, z, lineLength, img);
+
     }
 
-    private void drawX(int x, int y, int z, int lineLength, Img<UnsignedByteType> img) {
-        for (int i = 1; i < lineLength; i++) {
-            try {
-                drawPoint(x+i, y+i, z, img);
 
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("Point ("+x+","+y+") out of bounds. Skipping...");
-            }
+    //TODO: abstract shape creation process with another design pattern?
+
+    private void drawThickPlus(int x, int y, int z, int length, Img<UnsignedByteType> img) {
+        int thickenSize = length/4;
+
+        for (int i = 0; i < thickenSize; i++) {
+            drawThinPlus(x+i, y, z, length, img );
+        }
+        for (int i = 0; i < thickenSize; i++) {
+            drawThinPlus(x-i, y, z, length, img );
+        }
+        for (int i = 0; i < thickenSize; i++) {
+            drawThinPlus(x, y+i, z, length, img );
+        }
+        for (int i = 0; i < thickenSize; i++) {
+            drawThinPlus(x, y-i, z, length, img );
+        }
+    }
+
+    private void drawThinPlus(int x, int y, int z, int length, Img<UnsignedByteType> img) {
+
+        drawPoint(x, y, z, img);
+
+        for (int i = 1; i < length; i++) {
+            drawPoint(x+i, y, z, img);
+        }
+        for (int i = 1; i < length; i++) {
+            drawPoint(x-i, y, z, img);
+
+        }
+        for (int i = 1; i < length; i++) {
+            drawPoint(x, y+i, z, img);
+
+        }
+        for (int i = 1; i < length; i++) {
+            drawPoint(x, y-i, z, img);
+        }
+
+    }
+
+    private void drawThickX(int x, int y, int z, int length, Img<UnsignedByteType> img) {
+        int thickenSize = length/2;
+
+        for (int i = 0; i < thickenSize; i++) {
+            drawThinX(x+i, y, z, length, img );
+        }
+        for (int i = 0; i < thickenSize; i++) {
+            drawThinX(x-i, y, z, length, img );
+        }
+        for (int i = 0; i < thickenSize; i++) {
+            drawThinX(x, y+i, z, length, img );
+        }
+        for (int i = 0; i < thickenSize; i++) {
+            drawThinX(x, y-i, z, length, img );
+        }
+    }
+
+    private void drawThinX(int x, int y, int z, int lineLength, Img<UnsignedByteType> img) {
+        drawPoint(x, y, z, img);
+
+        for (int i = 1; i < lineLength; i++) {
+            drawPoint(x+i, y+i, z, img);
         }
         for (int i = 1; i < lineLength; i++) {
-            try {
-                drawPoint(x-i, y-i, z, img);
-
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("Point ("+x+","+y+") out of bounds. Skipping...");
-            }
+            drawPoint(x-i, y-i, z, img);
         }
         for (int i = 1; i < lineLength; i++) {
-            try {
-                drawPoint(x-i, y+i, z, img);
-
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("Point ("+x+","+y+") out of bounds. Skipping...");
-            }
+            drawPoint(x+i, y-i, z, img);
         }
         for (int i = 1; i < lineLength; i++) {
-            try {
-                drawPoint(x+i, y-i, z, img);
-
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("Point ("+x+","+y+") out of bounds. Skipping...");
-            }
+            drawPoint(x-i, y+i, z, img);
         }
     }
 

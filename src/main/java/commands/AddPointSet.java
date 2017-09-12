@@ -135,7 +135,7 @@ public class AddPointSet implements Command {
 
     newChannels.makeRelative();
 
-    ImgGenerator imgGenerator = new AnalysisImgGenerator();
+    ImgGenerator imgGenerator = new DisplayImgGenerator(DisplayImgGenerator.PointMarker.cross);
     ImageJFunctions.show(imgGenerator.generate(newChannels));
 
     return newChannels;

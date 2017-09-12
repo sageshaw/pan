@@ -8,7 +8,7 @@ import java.util.List;
 
 public class AnalysisImgGenerator implements ImgGenerator{
     @Override
-    public void placeMarker(int x, int y, int z, Img <UnsignedByteType> img) {
+    public void drawMarker(int x, int y, int z, Img <UnsignedByteType> img) {
         drawPoint(x, y, z, img);
     }
 }
