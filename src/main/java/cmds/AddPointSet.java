@@ -1,8 +1,8 @@
-package commands;
+package cmds;
 
-import constructs.*;
-import images.DisplayImgGenerator;
-import images.ImgGenerator;
+import structs.*;
+import display.DisplayImgGenerator;
+import display.ImgGenerator;
 import net.imagej.ImageJ;
 import net.imglib2.img.display.imagej.ImageJFunctions;
 import org.scijava.command.Command;

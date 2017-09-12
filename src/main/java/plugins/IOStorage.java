@@ -1,7 +1,7 @@
 package plugins;
 
-import constructs.ChannelSet;
-import constructs.PointContainer;
+import structs.ChannelSet;
+import structs.PointContainer;
 import net.imagej.ImageJService;
 import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;

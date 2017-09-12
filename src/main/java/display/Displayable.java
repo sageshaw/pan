@@ -1,6 +1,6 @@
-package images;
+package display;
 
-import constructs.Triple;
+import structs.Triple;
 
 import java.util.List;
 

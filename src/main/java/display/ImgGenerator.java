@@ -1,6 +1,6 @@
-package images;
+package display;
 
-import constructs.Triple;
+import structs.Triple;
 import net.imglib2.RandomAccess;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;

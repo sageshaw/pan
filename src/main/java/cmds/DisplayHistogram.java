@@ -1,8 +1,8 @@
-package commands;
+package cmds;
 
-import commands.gui.ChannelModuleItem;
-import constructs.OperableContainer;
-import constructs.PointContainer;
+import cmds.gui.ChannelModuleItem;
+import structs.OperableContainer;
+import structs.PointContainer;
 import filters.MaxCutoff;
 import filters.PanFilter;
 import org.jfree.chart.ChartFactory;

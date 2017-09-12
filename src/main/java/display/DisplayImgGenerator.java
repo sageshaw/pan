@@ -1,4 +1,4 @@
-package images;
+package display;
 
 import net.imglib2.img.Img;
 import net.imglib2.type.numeric.integer.UnsignedByteType;

@@ -1,6 +1,6 @@
-package constructs;
+package structs;
 
-import images.Displayable;
+import display.Displayable;
 
 import java.util.ArrayList;
 import java.util.HashMap;

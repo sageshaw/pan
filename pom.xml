@@ -67,7 +67,7 @@
 
 
     <properties>
-        <main-class>commands.AddPointSet</main-class>
+        <main-class>cmds.AddPointSet</main-class>
         <license.licenseName>None</license.licenseName>
         <license.copyrightOwners>N/A</license.copyrightOwners>
         <license.projectName>ImageJ software for 3D point cloud analysis and processing.</license.projectName>

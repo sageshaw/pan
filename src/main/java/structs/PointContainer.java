@@ -1,4 +1,4 @@
-package constructs;
+package structs;
 
 public abstract class PointContainer implements Iterable {
 

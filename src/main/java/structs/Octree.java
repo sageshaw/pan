@@ -1,4 +1,4 @@
-package constructs;
+package structs;
 
 import java.util.ArrayList;
 import java.util.Iterator;

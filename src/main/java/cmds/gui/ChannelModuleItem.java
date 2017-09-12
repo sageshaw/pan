@@ -1,6 +1,6 @@
-package commands.gui;
+package cmds.gui;
 
-import constructs.PointContainer;
+import structs.PointContainer;
 import org.scijava.module.DefaultMutableModuleItem;
 import org.scijava.module.ModuleInfo;
 import org.scijava.module.ModuleItem;
