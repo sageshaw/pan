@@ -7,6 +7,7 @@ import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 /*
@@ -18,24 +19,28 @@ public class IOStorage extends AbstractPTService<ImageJService> implements Image
 
 
   // master channel list
-  private ArrayList<ChannelSet> channelSets;
+  private HashMap<String, ChannelSet> channelSets;
 
 
 
   public IOStorage() {
-    channelSets = new ArrayList<>();
+    channelSets = new HashMap <>();
   }
 
   public void addChannelSet(ChannelSet newChannelSet) {
     // TODO: temporary fix for image rendering implementation (only can work with one channelset at
     // a time)
-    channelSets = new ArrayList<>();
+    channelSets = new HashMap <>();
 
-    channelSets.add(newChannelSet);
+    channelSets.put(newChannelSet.getName(),newChannelSet);
   }
 
-  public boolean remove(TripleContainer channelSet) {
-    return channelSets.remove(channelSet);
+  public TripleContainer remove(String name) {
+    return channelSets.remove(name);
+  }
+
+  public TripleContainer get(String name) {
+    return channelSets.get(name);
   }
 
   public int channelSetSize() {
@@ -54,6 +59,6 @@ public class IOStorage extends AbstractPTService<ImageJService> implements Image
    */
   @Override
   public Iterator iterator() {
-    return channelSets.iterator();
+    return channelSets.values().iterator();
   }
 }
