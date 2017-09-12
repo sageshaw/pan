@@ -8,7 +8,7 @@ public class DisplayImgGenerator implements ImgGenerator {
     public enum PointMarker {
         plus, cross
     }
-    private static final int DEFAULT_LINE_LENGTH = 20;
+    private static final int DEFAULT_LINE_LENGTH = 10;
 
     private PointMarker shape;
     private int lineLength;
@@ -37,19 +37,19 @@ public class DisplayImgGenerator implements ImgGenerator {
     //TODO: implement a more efficient shape drawing algorithm
 
     private void drawThickPlus(int x, int y, int z, int length, Img<UnsignedByteType> img) {
-        int thickenSize = length/4;
+        int thickenSize = length/5;
 
         for (int i = 0; i < thickenSize; i++) {
-            drawThinPlus(x+i, y, z, length, img );
+            drawThinPlus(x+i, y+i, z, length, img );
         }
         for (int i = 0; i < thickenSize; i++) {
-            drawThinPlus(x-i, y, z, length, img );
+            drawThinPlus(x-i, y-i, z, length, img );
         }
         for (int i = 0; i < thickenSize; i++) {
-            drawThinPlus(x, y+i, z, length, img );
+            drawThinPlus(x-i, y+i, z, length, img );
         }
         for (int i = 0; i < thickenSize; i++) {
-            drawThinPlus(x, y-i, z, length, img );
+            drawThinPlus(x+i, y-i, z, length, img );
         }
     }
 
@@ -75,7 +75,7 @@ public class DisplayImgGenerator implements ImgGenerator {
     }
 
     private void drawThickX(int x, int y, int z, int length, Img<UnsignedByteType> img) {
-        int thickenSize = length/2;
+        int thickenSize = length/5;
 
         for (int i = 0; i < thickenSize; i++) {
             drawThinX(x+i, y, z, length, img );
