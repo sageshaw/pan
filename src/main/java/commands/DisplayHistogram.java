@@ -2,7 +2,7 @@ package commands;
 
 import commands.gui.ChannelModuleItem;
 import constructs.OperableContainer;
-import constructs.TripleContainer;
+import constructs.PointContainer;
 import filters.MaxCutoff;
 import filters.PanFilter;
 import org.jfree.chart.ChartFactory;
@@ -49,7 +49,7 @@ public class DisplayHistogram extends DynamicCommand implements Initializable {
               "plugins.IOStorage must have at least one ChannelSet loaded to display histogram");
 
     while (panChannelSetIterator.hasNext()) {
-      TripleContainer channelSet = (TripleContainer) panChannelSetIterator.next();
+      PointContainer channelSet = (PointContainer) panChannelSetIterator.next();
 
       for (Object aChannelSet : channelSet) {
         OperableContainer channel = (OperableContainer) aChannelSet;

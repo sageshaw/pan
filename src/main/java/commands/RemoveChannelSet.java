@@ -3,7 +3,7 @@ package commands;
 
 
 import commands.gui.ChannelModuleItem;
-import constructs.TripleContainer;
+import constructs.PointContainer;
 import net.imagej.ops.Initializable;
 import org.scijava.command.Command;
 import org.scijava.command.DynamicCommand;
@@ -34,7 +34,7 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
         if(!panChannelSetIterator.hasNext()) throw new NullPointerException("No sets found in plugins.IOStorage");
 
         while(panChannelSetIterator.hasNext()) {
-            TripleContainer set = (TripleContainer) panChannelSetIterator.next();
+            PointContainer set = (PointContainer) panChannelSetIterator.next();
 
             final ChannelModuleItem <Boolean> bundledChannelItem =
                     new ChannelModuleItem <>(getInfo(), set.getName(), boolean.class, set);
@@ -55,7 +55,7 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
             moduleItem = bundledChannelItem.getModuleItem();
 
             if (moduleItem.getValue(this)) {
-               TripleContainer removed = store.remove(bundledChannelItem.getChannel().getName());
+               PointContainer removed = store.remove(bundledChannelItem.getChannel().getName());
                System.out.println("Channel set '" + bundledChannelItem.getChannel().getName() + "' removed: " + (removed!=null) );
             }
         }

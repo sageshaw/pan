@@ -1,14 +1,14 @@
 package constructs;
 
-public abstract class TripleContainer implements Iterable {
+public abstract class PointContainer implements Iterable {
 
-  public TripleContainer(String name) {
+  public PointContainer(String name) {
     this.name = name;
   }
 
   String name;
 
-  //TODO: clarify responsabilities of TripleContainer and OperableContainer
+  //TODO: clarify responsibilities of PointContainer and OperableContainer
 
   public String getName() {
     return name;

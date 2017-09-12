@@ -35,7 +35,7 @@ public class ChannelSet extends OperableContainer implements Displayable{
 
     ArrayList<Triple> data = new ArrayList <>();
 
-    for (TripleContainer channel : channels.values()) {
+    for (PointContainer channel : channels.values()) {
       Iterator<Triple> itr = channel.iterator();
       while(itr.hasNext()) data.add(itr.next());
 
@@ -79,14 +79,14 @@ public class ChannelSet extends OperableContainer implements Displayable{
 
   @Override
   public double[] getNearestNeighborAnalysis() {
-    return new double[0];
+    throw new UnsupportedOperationException("Specify specific channel, not group");
   }
 
-  public TripleContainer getChannel(String name) {
+  public PointContainer getChannel(String name) {
     return channels.get(name);
   }
 
-  public TripleContainer removeChannel(String name) {
+  public PointContainer removeChannel(String name) {
     for (int i = 0; i < channels.size(); i++) {
       if (channels.get(i).getName().equals(name)) return channels.remove(i);
     }
@@ -102,7 +102,7 @@ public class ChannelSet extends OperableContainer implements Displayable{
 
   @Override
   public void translate(int xOffset, int yOffst, int zOffset) {
-    for (TripleContainer channel : channels.values()) {
+    for (PointContainer channel : channels.values()) {
       channel.translate(xOffset, yOffst, zOffset);
     }
   }
@@ -110,7 +110,7 @@ public class ChannelSet extends OperableContainer implements Displayable{
   //TODO: Figure out how to use generics for this
  @Override
   public void add(Object e) {
-    channels.put(((TripleContainer)e).getName(), (OperableContainer)e);
+    channels.put(((PointContainer)e).getName(), (OperableContainer)e);
   }
 
   @Override

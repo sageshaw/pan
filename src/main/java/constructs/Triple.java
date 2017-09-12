@@ -4,47 +4,47 @@ package constructs;
 public class Triple {
 
   //coordinate fields
-  private int xCoord, yCoord, zCoord;
+  private int x, y, z;
 
   //assigned on creation, fields should never change (hence final)
   public Triple(int x, int y, int z) {
 
-    xCoord = x;
-    yCoord = y;
-    zCoord = z;
+    this.x = x;
+    this.y = y;
+    this.z = z;
   }
 
   //Some getters
   public int getX() {
-    return xCoord;
+    return x;
   }
 
   public void setX(int xCoord) {
-    this.xCoord = xCoord;
+    this.x = xCoord;
   }
 
   public int getY() {
-    return yCoord;
+    return y;
   }
 
   //Some setters (use sparingly, only if you know what you're doing)
 
   public void setY(int yCoord) {
-    this.yCoord = yCoord;
+    this.y = yCoord;
   }
 
   public int getZ() {
-    return zCoord;
+    return z;
   }
 
   public void setZ(int zCoord) {
-    this.zCoord = zCoord;
+    this.z = zCoord;
   }
 
   //basic Object method override
   @Override
   public String toString() {
-    return "(" + xCoord + "," + yCoord + "," + zCoord + ")";
+    return "(" + x + "," + y + "," + z + ")";
   }
 
   @Override
@@ -53,6 +53,6 @@ public class Triple {
   }
 
   private boolean equals(Triple pt) {
-    return xCoord == pt.xCoord && yCoord == pt.yCoord && zCoord == pt.zCoord;
+    return x == pt.x && y == pt.y && z == pt.z;
   }
 }

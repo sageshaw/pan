@@ -56,10 +56,7 @@ public class Octree extends OperableContainer {
         return null;
     }
 
-    @Override
-    public Triple getDimensions() {
-        return null;
-    }
+
 
     public Octree(String name, List<Triple> data) {
         super(name);

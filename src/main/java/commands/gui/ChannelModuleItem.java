@@ -1,23 +1,23 @@
 package commands.gui;
 
-import constructs.TripleContainer;
+import constructs.PointContainer;
 import org.scijava.module.DefaultMutableModuleItem;
 import org.scijava.module.ModuleInfo;
 import org.scijava.module.ModuleItem;
 
 public class ChannelModuleItem<T> {
 
-  private TripleContainer channel;
+  private PointContainer channel;
   private ModuleItem<T> item;
 
-  public ChannelModuleItem(ModuleInfo info, String name, Class type, TripleContainer channel) {
+  public ChannelModuleItem(ModuleInfo info, String name, Class type, PointContainer channel) {
     item = new DefaultMutableModuleItem<T>(info, name, type);
     this.channel = channel;
 
 
   }
 
-  public TripleContainer getChannel() {
+  public PointContainer getChannel() {
     return channel;
   }
 

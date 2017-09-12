@@ -33,7 +33,7 @@ public class Linear extends OperableContainer{
     return new Triple(maxX, maxY, maxZ);
   }
 
-  @Override
+
   public Triple getDimensions() {
 
     Triple mins = getMin();

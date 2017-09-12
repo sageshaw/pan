@@ -1,12 +1,11 @@
 package plugins;
 
 import constructs.ChannelSet;
-import constructs.TripleContainer;
+import constructs.PointContainer;
 import net.imagej.ImageJService;
 import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -28,18 +27,17 @@ public class IOStorage extends AbstractPTService<ImageJService> implements Image
   }
 
   public void addChannelSet(ChannelSet newChannelSet) {
-    // TODO: temporary fix for image rendering implementation (only can work with one channelset at
-    // a time)
+    // TODO: temporary fix for image rendering implementation (only can work with one channelset at a time
     channelSets = new HashMap <>();
 
     channelSets.put(newChannelSet.getName(),newChannelSet);
   }
 
-  public TripleContainer remove(String name) {
+  public PointContainer remove(String name) {
     return channelSets.remove(name);
   }
 
-  public TripleContainer get(String name) {
+  public PointContainer get(String name) {
     return channelSets.get(name);
   }
 
