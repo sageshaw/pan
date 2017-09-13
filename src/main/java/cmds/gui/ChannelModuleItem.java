@@ -1,6 +1,6 @@
 package cmds.gui;
 
-import structs.PointContainer;
+import analysis.pts.PointContainer;
 import org.scijava.module.DefaultMutableModuleItem;
 import org.scijava.module.ModuleInfo;
 import org.scijava.module.ModuleItem;

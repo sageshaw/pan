@@ -1,6 +1,6 @@
 package display;
 
-import structs.Triple;
+import analysis.Triple;
 
 import java.util.List;
 

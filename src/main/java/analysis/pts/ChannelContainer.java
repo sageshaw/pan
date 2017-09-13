@@ -1,5 +1,6 @@
-package structs;
+package analysis.pts;
 
+import analysis.Triple;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import display.Displayable;
@@ -76,11 +77,6 @@ public class ChannelContainer implements OperablePointContainer, Displayable, Ma
       maxZ = Math.max(maxes.getZ(), maxZ);
     }
     return new Triple(maxX, maxY, maxZ);
-  }
-
-  @Override
-  public double[] getNearestNeighborAnalysis() {
-    throw new UnsupportedOperationException("Specify specific channel, not group");
   }
 
   @Override

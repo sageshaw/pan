@@ -1,6 +1,7 @@
 package cmds;
 
 
+import analysis.pts.PointContainer;
 import cmds.gui.ChannelModuleItem;
 import net.imagej.ops.Initializable;
 import org.apache.commons.math3.exception.NullArgumentException;
@@ -11,7 +12,6 @@ import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import plugins.IOStorage;
-import structs.PointContainer;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,13 +1,13 @@
 package plugins;
 
+import analysis.pts.ChannelContainer;
+import analysis.pts.MappedContainer;
+import analysis.pts.PointContainer;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import net.imagej.ImageJService;
 import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;
-import structs.ChannelContainer;
-import structs.MappedContainer;
-import structs.PointContainer;
 
 import java.util.Iterator;
 

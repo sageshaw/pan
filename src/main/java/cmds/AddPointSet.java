@@ -1,5 +1,8 @@
 package cmds;
 
+import analysis.Triple;
+import analysis.pts.ChannelContainer;
+import analysis.pts.DefaultLinear;
 import display.DisplayImgGenerator;
 import display.ImgGenerator;
 import net.imagej.ImageJ;
@@ -9,9 +12,6 @@ import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import plugins.IOStorage;
-import structs.ChannelContainer;
-import structs.Linear;
-import structs.Triple;
 
 import java.io.File;
 import java.io.IOException;
@@ -104,7 +104,7 @@ public class AddPointSet implements Command {
       channelName = line.substring(0, line.indexOf('\t'));
       // check if we have a channel named 'channelName' already in 'channelSets', if not, create
         if (newChannels.get(channelName) == null) {
-            newChannels.add(channelName, new Linear());
+          newChannels.add(channelName, new DefaultLinear());
       }
       // Find x,y,z value based on tab delimitation
       // Note: this may work for now, but these hardcoded values may need to be more flexible

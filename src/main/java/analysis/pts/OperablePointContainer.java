@@ -1,4 +1,6 @@
-package structs;
+package analysis.pts;
+
+import analysis.Triple;
 
 public interface OperablePointContainer extends PointContainer {
 
@@ -8,8 +10,6 @@ public interface OperablePointContainer extends PointContainer {
     Triple getMin();
 
     Triple getMax();
-
-    double[] getNearestNeighborAnalysis();
 
 
 }

@@ -1,4 +1,4 @@
-package structs;
+package analysis;
 
 //Because Java doesn't really  have a tuple construct (this one is a triple)
 public class Triple {

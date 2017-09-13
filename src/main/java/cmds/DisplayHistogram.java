@@ -1,5 +1,9 @@
 package cmds;
 
+import analysis.pts.Linear;
+import analysis.pts.MappedContainer;
+import analysis.pts.OperablePointContainer;
+import analysis.techs.LinearNearestNeighbor;
 import cmds.gui.ChannelModuleItem;
 import filters.MaxCutoff;
 import filters.PanFilter;
@@ -18,8 +22,6 @@ import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import plugins.IOStorage;
-import structs.MappedContainer;
-import structs.OperablePointContainer;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -84,7 +86,7 @@ public class DisplayHistogram extends DynamicCommand implements Initializable {
 
       if (moduleItem.getValue(this)) {
 
-        double[] nearestNeighborResult = ((OperablePointContainer) bundledChannelItem.getChannel()).getNearestNeighborAnalysis();
+        double[] nearestNeighborResult = new LinearNearestNeighbor((Linear) (bundledChannelItem.getChannel())).process();
 
           PanFilter cutoff = new MaxCutoff(maxDistance);
 
