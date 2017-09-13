@@ -37,7 +37,7 @@ import java.util.List;
  */
 
 
-public class Octree extends OperableContainer {
+public class Octree extends OperableOperableContainer {
 
 
     List<Triple> points;

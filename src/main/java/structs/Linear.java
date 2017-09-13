@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 //structs.Linear object to hold point data + channel name
-public class Linear extends OperableContainer{
+public class Linear extends OperableOperableContainer {
 
   //our fields
   private List<Triple> points;

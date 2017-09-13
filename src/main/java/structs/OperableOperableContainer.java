@@ -1,8 +1,8 @@
 package structs;
 
-public abstract class OperableContainer extends PointContainer {
+public abstract class OperableOperableContainer extends PointContainer {
 
-    public OperableContainer(String name) {
+    public OperableOperableContainer(String name) {
         super(name);
     }
 

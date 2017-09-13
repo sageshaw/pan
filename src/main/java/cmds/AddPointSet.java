@@ -1,6 +1,5 @@
 package cmds;
 
-import structs.*;
 import display.DisplayImgGenerator;
 import display.ImgGenerator;
 import net.imagej.ImageJ;
@@ -10,6 +9,7 @@ import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import plugins.IOStorage;
+import structs.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -90,7 +90,7 @@ public class AddPointSet implements Command {
     // some initialization so we don't need to constantly discard references
     String line;
     String channelName = null;
-    Iterator<OperableContainer> channelIterator;
+    Iterator <OperableOperableContainer> channelIterator;
     int x;
     int y;
     int z;

@@ -1,10 +1,9 @@
 package cmds;
 
 import cmds.gui.ChannelModuleItem;
-import structs.OperableContainer;
-import structs.PointContainer;
 import filters.MaxCutoff;
 import filters.PanFilter;
+import net.imagej.ops.Initializable;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -17,8 +16,9 @@ import org.scijava.log.LogService;
 import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
-import net.imagej.ops.Initializable;
 import plugins.IOStorage;
+import structs.OperableOperableContainer;
+import structs.PointContainer;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class DisplayHistogram extends DynamicCommand implements Initializable {
       PointContainer channelSet = (PointContainer) panChannelSetIterator.next();
 
       for (Object aChannelSet : channelSet) {
-        OperableContainer channel = (OperableContainer) aChannelSet;
+        OperableOperableContainer channel = (OperableOperableContainer) aChannelSet;
         final ChannelModuleItem <Boolean> bundledChannelItem =
                 new ChannelModuleItem <>(getInfo(), channel.getName(), boolean.class, channel);
 
@@ -76,7 +76,7 @@ public class DisplayHistogram extends DynamicCommand implements Initializable {
 
       if (moduleItem.getValue(this)) {
 
-          double[] nearestNeighborResult = ((OperableContainer) bundledChannelItem.getChannel()).getNearestNeighborAnalysis();
+        double[] nearestNeighborResult = ((OperableOperableContainer) bundledChannelItem.getChannel()).getNearestNeighborAnalysis();
 
           PanFilter cutoff = new MaxCutoff(maxDistance);
 

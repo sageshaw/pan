@@ -6,9 +6,10 @@ public abstract class PointContainer implements Iterable {
     this.name = name;
   }
 
-  String name;
 
-  //TODO: clarify responsibilities of PointContainer and OperableContainer
+  protected String name;
+
+  //TODO: clarify responsibilities of PointContainer and OperableOperableContainer
 
   public String getName() {
     return name;

@@ -9,9 +9,9 @@ import java.util.List;
 
 
 /** Flyweight class for TripleContainers. */
-public class ChannelSet extends OperableContainer implements Displayable{
+public class ChannelSet extends OperableOperableContainer implements Displayable {
 
-  private HashMap<String, OperableContainer> channels = new HashMap <>();
+    private HashMap <String, OperableOperableContainer> channels = new HashMap <>();
 
   public ChannelSet(String name) {
     super(name);
@@ -52,7 +52,7 @@ public class ChannelSet extends OperableContainer implements Displayable{
 
     Triple mins;
 
-    for (OperableContainer channel : channels.values()) {
+      for (OperableOperableContainer channel : channels.values()) {
       mins = channel.getMin();
       minX = Math.min(mins.getX(), minX);
       minY = Math.min(mins.getY(), minY);
@@ -68,7 +68,7 @@ public class ChannelSet extends OperableContainer implements Displayable{
     int maxY = Integer.MIN_VALUE;
     int maxZ = Integer.MIN_VALUE;
     Triple maxes;
-    for (OperableContainer channel : channels.values()) {
+      for (OperableOperableContainer channel : channels.values()) {
       maxes = channel.getMax();
       maxX = Math.max(maxes.getX(), maxX);
       maxY = Math.max(maxes.getY(), maxY);
@@ -110,11 +110,11 @@ public class ChannelSet extends OperableContainer implements Displayable{
   //TODO: Figure out how to use generics for this
  @Override
   public void add(Object e) {
-    channels.put(((PointContainer)e).getName(), (OperableContainer)e);
+     channels.put(((PointContainer) e).getName(), (OperableOperableContainer) e);
   }
 
   @Override
-  public Iterator <OperableContainer> iterator() {
+  public Iterator <OperableOperableContainer> iterator() {
     return channels.values().iterator();
   }
 
