@@ -1,10 +1,9 @@
 package cmds;
 
 
-
 import cmds.gui.ChannelModuleItem;
-import structs.PointContainer;
 import net.imagej.ops.Initializable;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.command.Command;
 import org.scijava.command.DynamicCommand;
 import org.scijava.log.LogService;
@@ -12,16 +11,16 @@ import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import plugins.IOStorage;
+import structs.PointContainer;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Plugin(type = Command.class, menuPath="PAN>Remove channel set...")
 public class RemoveChannelSet extends DynamicCommand implements Initializable{
 
     @Parameter
-    IOStorage store;
+    IOStorage ptStore;
 
     @Parameter
     LogService logService;
@@ -30,16 +29,19 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
 
     @Override
     public void initialize() {
-        Iterator panChannelSetIterator = store.iterator();
-        if(!panChannelSetIterator.hasNext()) throw new NullPointerException("No sets found in plugins.IOStorage");
 
-        while(panChannelSetIterator.hasNext()) {
-            PointContainer set = (PointContainer) panChannelSetIterator.next();
+        String[] channelSetKeys = ptStore.keys();
+
+
+        if (channelSetKeys.length == 0) throw new NullArgumentException();
+
+        for (String channelSetKey : channelSetKeys) {
+            PointContainer channelSet = ptStore.get(channelSetKey);
 
             final ChannelModuleItem <Boolean> bundledChannelItem =
-                    new ChannelModuleItem <>(getInfo(), set.getName(), boolean.class, set);
+                    new ChannelModuleItem <>(getInfo(), channelSetKey, boolean.class, channelSet);
 
-            bundledChannelItem.getModuleItem().setLabel(set.getName());
+            bundledChannelItem.getModuleItem().setLabel(channelSetKey);
             checkboxItems.add(bundledChannelItem);
             getInfo().addInput(bundledChannelItem.getModuleItem());
         }
@@ -55,8 +57,7 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
             moduleItem = bundledChannelItem.getModuleItem();
 
             if (moduleItem.getValue(this)) {
-               PointContainer removed = store.remove(bundledChannelItem.getChannel().getName());
-               System.out.println("Channel set '" + bundledChannelItem.getChannel().getName() + "' removed: " + (removed!=null) );
+                PointContainer removed = ptStore.remove(ptStore.key(bundledChannelItem.getChannel()));
             }
         }
 

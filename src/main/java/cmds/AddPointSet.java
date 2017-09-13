@@ -9,13 +9,14 @@ import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import plugins.IOStorage;
-import structs.*;
+import structs.ChannelContainer;
+import structs.Linear;
+import structs.Triple;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 @Plugin(type = Command.class, menuPath = "PAN>Add point set from text file...")
 public class AddPointSet implements Command {
@@ -49,7 +50,7 @@ public class AddPointSet implements Command {
       return;
     }
 
-    ChannelSet newData = null;
+      ChannelContainer newData = null;
 
     // attempt to load dataset into plugin memory
     try {
@@ -57,7 +58,8 @@ public class AddPointSet implements Command {
     } catch (Exception err) {
       logService.error(err);
     } finally {
-      if (newData != null) ptStore.addChannelSet(newData);
+        String channelSetName = "set" + ptStore.channelSetSize();
+        if (newData != null) ptStore.add(channelSetName, newData);
     }
   }
 
@@ -75,12 +77,12 @@ public class AddPointSet implements Command {
 
   // Parse file and load into channelSets list
 
-  public ChannelSet loadFile(File file) throws IllegalArgumentException, IOException {
+    public ChannelContainer loadFile(File file) throws IllegalArgumentException, IOException {
 
     // read file data line by line into list(thank you Java 8!)
     ArrayList<String> rawInput = (ArrayList<String>) Files.readAllLines(file.toPath());
 
-    ChannelSet newChannels = new ChannelSet("set" + ptStore.channelSetSize());
+        ChannelContainer newChannels = new ChannelContainer();
 
     // Ensure we have the right filetype
     if (rawInput == null || !rawInput.get(0).equals(CHECK_STRING)) {
@@ -90,7 +92,7 @@ public class AddPointSet implements Command {
     // some initialization so we don't need to constantly discard references
     String line;
     String channelName = null;
-    Iterator <OperableOperableContainer> channelIterator;
+
     int x;
     int y;
     int z;
@@ -101,8 +103,8 @@ public class AddPointSet implements Command {
       line = rawInput.get(i);
       channelName = line.substring(0, line.indexOf('\t'));
       // check if we have a channel named 'channelName' already in 'channelSets', if not, create
-      if (newChannels.getChannel(channelName) == null) {
-        newChannels.add(new Linear(channelName));
+        if (newChannels.get(channelName) == null) {
+            newChannels.add(channelName, new Linear());
       }
       // Find x,y,z value based on tab delimitation
       // Note: this may work for now, but these hardcoded values may need to be more flexible
@@ -117,13 +119,8 @@ public class AddPointSet implements Command {
               (Double.parseDouble(line.substring(skipTabs(line, 13) + 1, skipTabs(line, 14)))
                   + 0.5);
 
-      channelIterator = newChannels.iterator();
+        newChannels.get(channelName).add(new Triple(x, y, z));
 
-      while (channelIterator.hasNext()) {
-
-        PointContainer channel = channelIterator.next();
-        if (channel.getName().equals((channelName))) channel.add(new Triple(x, y, z));
-      }
     }
 
     newChannels.makeRelative();

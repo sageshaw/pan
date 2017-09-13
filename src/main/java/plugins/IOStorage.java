@@ -1,42 +1,62 @@
 package plugins;
 
-import structs.ChannelSet;
-import structs.PointContainer;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import net.imagej.ImageJService;
 import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;
+import structs.ChannelContainer;
+import structs.MappedContainer;
+import structs.PointContainer;
 
-import java.util.HashMap;
 import java.util.Iterator;
 
 /*
 Plugin service for all PointsANalysis operation. User interface is given through command plugins.
  */
 @Plugin(type = ImageJService.class)
-public class IOStorage extends AbstractPTService<ImageJService> implements ImageJService, Iterable {
+public class IOStorage extends AbstractPTService <ImageJService> implements ImageJService, Iterable, MappedContainer {
 
 
 
   // master channel list
-  private HashMap<String, ChannelSet> channelSets;
+  private BiMap <String, ChannelContainer> channelSets;
 
 
 
   public IOStorage() {
-    channelSets = new HashMap <>();
+    channelSets = HashBiMap.create();
   }
 
-  public void addChannelSet(ChannelSet newChannelSet) {
+  @Override
+  public String key(PointContainer value) {
+    return channelSets.inverse().get(value);
+  }
+
+  @Override
+  public String[] keys() {
+    return channelSets.keySet().toArray(new String[0]);
+  }
+
+  @Override
+  public void add(String name, PointContainer container) {
     // TODO: temporary fix for image rendering implementation (only can work with one channelset at a time
-    channelSets = new HashMap <>();
+    channelSets = HashBiMap.create();
 
-    channelSets.put(newChannelSet.getName(),newChannelSet);
+    channelSets.put(name, (ChannelContainer) container);
   }
 
+  @Override
   public PointContainer remove(String name) {
     return channelSets.remove(name);
   }
 
+  @Override
+  public boolean remove(PointContainer value) {
+    return channelSets.remove(key(value), value);
+  }
+
+  @Override
   public PointContainer get(String name) {
     return channelSets.get(name);
   }

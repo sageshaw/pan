@@ -1,25 +1,13 @@
 package structs;
 
-public abstract class PointContainer implements Iterable {
-
-  public PointContainer(String name) {
-    this.name = name;
-  }
+public interface PointContainer extends Iterable {
 
 
-  protected String name;
+  void add(Object element);
 
-  //TODO: clarify responsibilities of PointContainer and OperableOperableContainer
+  void makeRelative();
 
-  public String getName() {
-    return name;
-  }
-
-  public abstract void add(Object element);
-
-  abstract void makeRelative();
-
-  abstract void translate(int xOffset, int yOffset, int zOffset);
+  void translate(int xOffset, int yOffset, int zOffset);
 
 
 }

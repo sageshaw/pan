@@ -1,20 +1,21 @@
 package structs;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import display.Displayable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 
 /** Flyweight class for TripleContainers. */
-public class ChannelSet extends OperableOperableContainer implements Displayable {
+public class ChannelContainer implements OperablePointContainer, Displayable, MappedContainer {
 
-    private HashMap <String, OperableOperableContainer> channels = new HashMap <>();
+  private BiMap <String, OperablePointContainer> channels = HashBiMap.create();
 
-  public ChannelSet(String name) {
-    super(name);
+  public ChannelContainer() {
+
   }
 
   @Override
@@ -52,7 +53,7 @@ public class ChannelSet extends OperableOperableContainer implements Displayable
 
     Triple mins;
 
-      for (OperableOperableContainer channel : channels.values()) {
+    for (OperablePointContainer channel : channels.values()) {
       mins = channel.getMin();
       minX = Math.min(mins.getX(), minX);
       minY = Math.min(mins.getY(), minY);
@@ -68,7 +69,7 @@ public class ChannelSet extends OperableOperableContainer implements Displayable
     int maxY = Integer.MIN_VALUE;
     int maxZ = Integer.MIN_VALUE;
     Triple maxes;
-      for (OperableOperableContainer channel : channels.values()) {
+    for (OperablePointContainer channel : channels.values()) {
       maxes = channel.getMax();
       maxX = Math.max(maxes.getX(), maxX);
       maxY = Math.max(maxes.getY(), maxY);
@@ -82,16 +83,29 @@ public class ChannelSet extends OperableOperableContainer implements Displayable
     throw new UnsupportedOperationException("Specify specific channel, not group");
   }
 
-  public PointContainer getChannel(String name) {
+  @Override
+  public String key(PointContainer value) {
+    return channels.inverse().get(value);
+  }
+
+  @Override
+  public PointContainer get(String name) {
     return channels.get(name);
   }
 
-  public PointContainer removeChannel(String name) {
-    for (int i = 0; i < channels.size(); i++) {
-      if (channels.get(i).getName().equals(name)) return channels.remove(i);
-    }
+  @Override
+  public PointContainer remove(String name) {
+    return channels.remove(name);
+  }
 
-    return null;
+  @Override
+  public boolean remove(PointContainer value) {
+    return channels.remove(key(value), value);
+  }
+
+  @Override
+  public String[] keys() {
+    return channels.keySet().toArray(new String[0]);
   }
 
   @Override
@@ -110,11 +124,18 @@ public class ChannelSet extends OperableOperableContainer implements Displayable
   //TODO: Figure out how to use generics for this
  @Override
   public void add(Object e) {
-     channels.put(((PointContainer) e).getName(), (OperableOperableContainer) e);
+   throw new UnsupportedOperationException("Cannot add dataset without name. Use add(String name, Object e)");
+  }
+
+
+  //TODO: clunky, untangle
+  @Override
+  public void add(String name, PointContainer container) {
+    channels.put(name, (OperablePointContainer) container);
   }
 
   @Override
-  public Iterator <OperableOperableContainer> iterator() {
+  public Iterator <OperablePointContainer> iterator() {
     return channels.values().iterator();
   }
 

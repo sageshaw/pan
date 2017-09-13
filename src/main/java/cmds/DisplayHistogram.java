@@ -4,6 +4,7 @@ import cmds.gui.ChannelModuleItem;
 import filters.MaxCutoff;
 import filters.PanFilter;
 import net.imagej.ops.Initializable;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -17,13 +18,12 @@ import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import plugins.IOStorage;
-import structs.OperableOperableContainer;
-import structs.PointContainer;
+import structs.MappedContainer;
+import structs.OperablePointContainer;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 @Plugin(type = Command.class, menuPath = "PAN>Display histogram from currently loaded file...")
@@ -41,27 +41,35 @@ public class DisplayHistogram extends DynamicCommand implements Initializable {
 
   private List<ChannelModuleItem<Boolean>> checkboxItems = new ArrayList<>();
 
+  //TODO: fix casting hell
   @Override
   public void initialize() {
-    Iterator panChannelSetIterator = ptStore.iterator();
-    if (!panChannelSetIterator.hasNext())
-      throw new NullPointerException(
-              "plugins.IOStorage must have at least one ChannelSet loaded to display histogram");
 
-    while (panChannelSetIterator.hasNext()) {
-      PointContainer channelSet = (PointContainer) panChannelSetIterator.next();
+    String[] channelSetKeys = ptStore.keys();
 
-      for (Object aChannelSet : channelSet) {
-        OperableOperableContainer channel = (OperableOperableContainer) aChannelSet;
+    if (channelSetKeys.length == 0) {
+      throw new NullArgumentException();
+    }
+
+    MappedContainer channelSet = null;
+    String[] channelKeys;
+
+    for (String channelSetKey : channelSetKeys) {
+      channelSet = (MappedContainer) ptStore.get(channelSetKey);
+      channelKeys = channelSet.keys();
+
+      for (String channelKey : channelKeys) {
+        OperablePointContainer channel = (OperablePointContainer) channelSet.get(channelKey);
         final ChannelModuleItem <Boolean> bundledChannelItem =
-                new ChannelModuleItem <>(getInfo(), channel.getName(), boolean.class, channel);
+                new ChannelModuleItem <>(getInfo(), channelKey, boolean.class, channel);
 
-        bundledChannelItem.getModuleItem().setLabel(channel.getName() + "(" + channelSet.getName() + ")");
+        bundledChannelItem.getModuleItem().setLabel(channelKey + "(" + channelSetKey + ")");
         checkboxItems.add(bundledChannelItem);
         getInfo().addInput(bundledChannelItem.getModuleItem());
       }
     }
   }
+
 
   @Override
   public void run() {
@@ -76,7 +84,7 @@ public class DisplayHistogram extends DynamicCommand implements Initializable {
 
       if (moduleItem.getValue(this)) {
 
-        double[] nearestNeighborResult = ((OperableOperableContainer) bundledChannelItem.getChannel()).getNearestNeighborAnalysis();
+        double[] nearestNeighborResult = ((OperablePointContainer) bundledChannelItem.getChannel()).getNearestNeighborAnalysis();
 
           PanFilter cutoff = new MaxCutoff(maxDistance);
 

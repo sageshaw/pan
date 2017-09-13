@@ -5,13 +5,13 @@ import java.util.Iterator;
 import java.util.List;
 
 //structs.Linear object to hold point data + channel name
-public class Linear extends OperableOperableContainer {
+public class Linear implements OperablePointContainer {
 
   //our fields
   private List<Triple> points;
 
-  public Linear(String channelName) {
-    this(channelName, new ArrayList<>());
+  public Linear() {
+    this(new ArrayList <>());
   }
 
   @Override
@@ -42,8 +42,7 @@ public class Linear extends OperableOperableContainer {
     return new Triple(maxes.getX()-mins.getX(), maxes.getY()-mins.getY(), maxes.getZ()-mins.getZ());
   }
 
-  public Linear(String name, List<Triple> data) {
-    super(name);
+  public Linear(List <Triple> data) {
     points = data;
   }
 

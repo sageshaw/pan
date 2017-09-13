@@ -37,7 +37,7 @@ import java.util.List;
  */
 
 
-public class Octree extends OperableOperableContainer {
+public class Octree implements OperablePointContainer {
 
 
     List<Triple> points;
@@ -45,9 +45,8 @@ public class Octree extends OperableOperableContainer {
     Octree[] children;
 
 
+    private Octree(List <Triple> data, Octree parent) {
 
-    private Octree(String name, List<Triple> data, Octree parent) {
-        this(name, data);
         this.parent = parent;
     }
 
@@ -57,9 +56,7 @@ public class Octree extends OperableOperableContainer {
     }
 
 
-
-    public Octree(String name, List<Triple> data) {
-        super(name);
+    public Octree(List <Triple> data) {
 
         //Calculate dimensions of 'box'
         int xMax = 0;
