@@ -1,4 +1,8 @@
-package analysis.pts;
+package analysis.data;
+
+/**
+ * Defines a basic container for points (Triple)
+ */
 
 public interface PointContainer extends Iterable {
 

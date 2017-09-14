@@ -1,7 +1,7 @@
 package cmds;
 
 
-import analysis.pts.PointContainer;
+import analysis.data.PointContainer;
 import cmds.gui.ChannelModuleItem;
 import net.imagej.ops.Initializable;
 import org.apache.commons.math3.exception.NullArgumentException;
@@ -16,6 +16,7 @@ import plugins.IOStorage;
 import java.util.ArrayList;
 import java.util.List;
 
+//Command to remove channelSets from IOStorage
 @Plugin(type = Command.class, menuPath="PAN>Remove channel set...")
 public class RemoveChannelSet extends DynamicCommand implements Initializable{
 
@@ -27,6 +28,7 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
 
     List<ChannelModuleItem<Boolean>> checkboxItems = new ArrayList<>();
 
+    //TODO: include in the Dynamic initialization, have some code duplication
     @Override
     public void initialize() {
 

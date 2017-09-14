@@ -3,11 +3,16 @@ package display;
 import net.imglib2.img.Img;
 import net.imglib2.type.numeric.integer.UnsignedByteType;
 
+/**
+ * An implementation of ImgGenerator for client viewing (better than individual pixels
+ */
+
 public class DisplayImgGenerator implements ImgGenerator {
 
     public enum PointMarker {
         plus, cross
     }
+
     private static final int DEFAULT_LINE_LENGTH = 10;
 
     private PointMarker shape;
@@ -23,7 +28,6 @@ public class DisplayImgGenerator implements ImgGenerator {
     }
 
 
-
     @Override
     public void drawMarker(int x, int y, int z, Img <UnsignedByteType> img) {
 
@@ -34,7 +38,7 @@ public class DisplayImgGenerator implements ImgGenerator {
 
 
     //TODO: abstract shape creation process with another design pattern?
-    //TODO: implement a more efficient shape drawing algorithm
+    //implement a more efficient shape drawing algorithm
 
     private void drawThickPlus(int x, int y, int z, int length, Img<UnsignedByteType> img) {
         int thickenSize = length/5;

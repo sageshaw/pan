@@ -1,7 +1,7 @@
 package cmds;
 
-import analysis.pts.MappedContainer;
-import analysis.pts.OperablePointContainer;
+import analysis.data.MappedContainer;
+import analysis.data.OperablePointContainer;
 import cmds.gui.ChannelModuleItem;
 import net.imagej.ops.Initializable;
 import org.apache.commons.math3.exception.NullArgumentException;
@@ -55,7 +55,7 @@ public abstract class OutputAnalysisCommand extends DynamicCommand implements In
     }
 
 
-    public List <ChannelModuleItem <Boolean>> getCheckedModules() {
+    protected List <ChannelModuleItem <Boolean>> getCheckedModules() {
         ArrayList <ChannelModuleItem <Boolean>> checkItems = new ArrayList <>();
 
         ModuleItem <Boolean> moduleItem;

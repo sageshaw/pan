@@ -1,11 +1,14 @@
-package analysis.pts;
+package analysis.data;
 
 import analysis.Triple;
 
 import java.util.Iterator;
 import java.util.List;
 
-//analysis.pts.Linear object to hold point data + channel name
+/**
+ * analysis.data.Linear object to hold point data. This is abstract to allow for any type of List to be used as the
+ * containing object (and other features that clients might extend)
+ */
 public abstract class Linear implements OperablePointContainer {
 
 

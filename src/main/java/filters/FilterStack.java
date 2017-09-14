@@ -3,6 +3,10 @@ package filters;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a stack of filters - maybe simplify with Streams?
+ */
+
 public class FilterStack implements PanFilter {
 
     List<PanFilter> filterList = new ArrayList<>();
@@ -29,7 +33,6 @@ public class FilterStack implements PanFilter {
 
         return data;
     }
-
 
 
 }

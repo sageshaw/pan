@@ -1,8 +1,8 @@
 package plugins;
 
-import analysis.pts.ChannelContainer;
-import analysis.pts.MappedContainer;
-import analysis.pts.PointContainer;
+import analysis.data.ChannelContainer;
+import analysis.data.MappedContainer;
+import analysis.data.PointContainer;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import net.imagej.ImageJService;

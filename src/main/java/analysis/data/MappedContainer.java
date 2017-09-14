@@ -1,4 +1,4 @@
-package analysis.pts;
+package analysis.data;
 
 public interface MappedContainer {
 
