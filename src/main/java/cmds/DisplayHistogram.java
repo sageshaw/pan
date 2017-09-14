@@ -1,14 +1,10 @@
 package cmds;
 
 import analysis.pts.Linear;
-import analysis.pts.MappedContainer;
-import analysis.pts.OperablePointContainer;
 import analysis.techs.LinearNearestNeighbor;
 import cmds.gui.ChannelModuleItem;
 import filters.MaxCutoff;
 import filters.PanFilter;
-import net.imagej.ops.Initializable;
-import org.apache.commons.math3.exception.NullArgumentException;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -16,12 +12,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.scijava.command.Command;
-import org.scijava.command.DynamicCommand;
-import org.scijava.log.LogService;
 import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
-import plugins.IOStorage;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -29,10 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Plugin(type = Command.class, menuPath = "PAN>Display histogram from currently loaded file...")
-public class DisplayHistogram extends DynamicCommand implements Initializable {
-
-  @Parameter private LogService logService;
-  @Parameter private IOStorage ptStore;
+public class DisplayHistogram extends OutputAnalysisCommand {
 
   @Parameter(label = "Number of bins") private int numberOfBins;
   @Parameter(label = "X Axis Label") private String xAxisLabel;
@@ -41,61 +31,25 @@ public class DisplayHistogram extends DynamicCommand implements Initializable {
 
   @Parameter(label = "Max distance cutoff") private int maxDistance;
 
-  private List<ChannelModuleItem<Boolean>> checkboxItems = new ArrayList<>();
 
-  //TODO: fix casting hell
-  @Override
-  public void initialize() {
-
-    String[] channelSetKeys = ptStore.keys();
-
-    if (channelSetKeys.length == 0) {
-      throw new NullArgumentException();
-    }
-
-    MappedContainer channelSet = null;
-    String[] channelKeys;
-
-    for (String channelSetKey : channelSetKeys) {
-      channelSet = (MappedContainer) ptStore.get(channelSetKey);
-      channelKeys = channelSet.keys();
-
-      for (String channelKey : channelKeys) {
-        OperablePointContainer channel = (OperablePointContainer) channelSet.get(channelKey);
-        final ChannelModuleItem <Boolean> bundledChannelItem =
-                new ChannelModuleItem <>(getInfo(), channelKey, boolean.class, channel);
-
-        bundledChannelItem.getModuleItem().setLabel(channelKey + "(" + channelSetKey + ")");
-        checkboxItems.add(bundledChannelItem);
-        getInfo().addInput(bundledChannelItem.getModuleItem());
-      }
-    }
-  }
-
-
+    //TODO: Clean up coupling between superclass and subclass implementation
   @Override
   public void run() {
-
     HashMap<String, double[]> displayData = new HashMap<>();
     List<String> keys = new ArrayList<>();
+      List <ChannelModuleItem <Boolean>> checkedItems = getCheckedModules();
 
     ModuleItem<Boolean> moduleItem;
 
-    for (ChannelModuleItem <Boolean> bundledChannelItem : checkboxItems) {
+      for (ChannelModuleItem <Boolean> bundledChannelItem : checkedItems) {
       moduleItem = bundledChannelItem.getModuleItem();
 
-      if (moduleItem.getValue(this)) {
-
-        double[] nearestNeighborResult = new LinearNearestNeighbor((Linear) (bundledChannelItem.getChannel())).process();
-
+          double[] nearestNeighborResult = new LinearNearestNeighbor((Linear) (bundledChannelItem.getChannel())).process();
           PanFilter cutoff = new MaxCutoff(maxDistance);
-
           nearestNeighborResult = cutoff.filter(nearestNeighborResult);
-
           displayData.put(moduleItem.getName(), nearestNeighborResult);
+          keys.add(moduleItem.getName());
 
-        keys.add(moduleItem.getName());
-      }
     }
 
     HistogramFrame demo = new HistogramFrame("Histogram", displayData, keys);
