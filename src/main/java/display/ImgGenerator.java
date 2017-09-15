@@ -27,7 +27,7 @@ public interface ImgGenerator {
     default Img<UnsignedByteType> blankImage(Displayable data) {
         Triple tupleDims = data.getDimensions();
         ImgFactory<UnsignedByteType> imgFactory = new ArrayImgFactory<>();
-        int[] dims = new int[]{tupleDims.getX()+1, tupleDims.getY()+1, tupleDims.getZ()+1};
+        int[] dims = new int[]{tupleDims.getX(), tupleDims.getY(), tupleDims.getZ() + 1};
         return imgFactory.create(dims, new UnsignedByteType() );
     }
 

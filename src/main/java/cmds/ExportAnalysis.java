@@ -1,12 +1,19 @@
 package cmds;
 
+import analysis.data.Linear;
+import analysis.data.OperablePointContainer;
+import analysis.ops.LinearNearestNeighbor;
 import cmds.gui.ChannelModuleItem;
 import ij.gui.GenericDialog;
 import ij.io.SaveDialog;
 import org.scijava.command.Command;
+import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Plugin;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 /**
@@ -18,12 +25,31 @@ public class ExportAnalysis extends OutputAnalysisCommand {
 
     @Override
     public void run() {
-        List <ChannelModuleItem <Boolean>> checkedItems = getCheckedModules();
-
         //Get file directory to use, if user hits cancel, getFile will return null, and the command will
         //exit
         File export = getFile("");
         if (export == null) return;
+
+        List <ChannelModuleItem <Boolean>> checkedItems = getCheckedModules();
+
+        String result = "Channel\tValue\r\n";
+
+        ModuleItem <Boolean> moduleItem;
+        OperablePointContainer channel;
+        double[] nearestNeighborResult;
+        for (ChannelModuleItem <Boolean> bundledChannelModule : checkedItems) {
+            moduleItem = bundledChannelModule.getModuleItem();
+            nearestNeighborResult = new LinearNearestNeighbor((Linear) bundledChannelModule.getChannel()).process();
+            for (double value : nearestNeighborResult) {
+                result += moduleItem.getName() + "\t" + value + "\r\n";
+            }
+        }
+
+        try (BufferedWriter writer = Files.newBufferedWriter(export.toPath())) {
+            writer.write(result);
+        } catch (IOException e) {
+
+        }
 
 
     }

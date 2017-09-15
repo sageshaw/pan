@@ -33,7 +33,11 @@ public class AddPointSet implements Command {
   @Parameter private LogService logService;
 
   // To obtain text file export from Nikon Elements
-  @Parameter private File pointSet;
+  @Parameter(label = "Exported .txt file from Nikon Elements")
+  private File pointSet;
+
+  @Parameter(label = "Crop image to only fit dataset?")
+  private boolean isRelative;
 
   @Parameter private IOStorage ptStore;
 
@@ -62,6 +66,13 @@ public class AddPointSet implements Command {
       logService.error(err);
     } finally {
       String channelSetName = "set" + ptStore.channelSetSize();
+      //Reduce coordinates, preserve distance relationships since it makes computations easier (some things will not work
+      // if this is not used
+      if (isRelative) newData.makeRelative();
+      //Generate a displayable image (for users only, not for analysis) and open on screen
+      ImgGenerator imgGenerator = new DisplayImgGenerator(DisplayImgGenerator.PointMarker.plus);
+      ImageJFunctions.show(imgGenerator.generate(newData));
+
       if (newData != null) ptStore.add(channelSetName, newData);
     }
   }
@@ -126,15 +137,6 @@ public class AddPointSet implements Command {
       newChannels.get(channelName).add(new Triple(x, y, z));
 
     }
-
-    //Reduce coordinates, preserve distance relationships since it makes computations easier (some things will not work
-    // if this is not used
-    newChannels.makeRelative();
-
-    //Generate a displayable image (for users only, not for analysis) and open on screen
-    ImgGenerator imgGenerator = new DisplayImgGenerator(DisplayImgGenerator.PointMarker.plus);
-    ImageJFunctions.show(imgGenerator.generate(newChannels));
-
     return newChannels;
   }
 }

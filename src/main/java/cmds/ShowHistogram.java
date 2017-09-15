@@ -28,7 +28,7 @@ import java.util.List;
  * techniques have been implemented yet.
  */
 @Plugin(type = Command.class, menuPath = "PAN>Display histogram from currently loaded file...")
-public class DisplayHistogram extends OutputAnalysisCommand {
+public class ShowHistogram extends OutputAnalysisCommand {
 
   //Parameters for histogram
   @Parameter(label = "Number of bins") private int numberOfBins;

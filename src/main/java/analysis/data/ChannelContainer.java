@@ -29,10 +29,11 @@ public class ChannelContainer implements OperablePointContainer, Displayable, Ma
     //Returns dimensions (in number of pixels) across all channels.
     @Override
     public Triple getDimensions() {
-        Triple mins = getMin();
-        Triple maxes = getMax();
-
-        return new Triple(maxes.getX()-mins.getX(), maxes.getY()-mins.getY(), maxes.getZ()-mins.getZ());
+//        Triple mins = getMin();
+//        Triple maxes = getMax();
+//
+//        return new Triple(maxes.getX()-mins.getX(), maxes.getY()-mins.getY(), maxes.getZ()-mins.getZ());
+        return getMax();
     }
 
     //Returns a List with all contained points (Triple).
