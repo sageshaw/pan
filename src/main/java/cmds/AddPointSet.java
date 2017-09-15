@@ -65,30 +65,20 @@ public class AddPointSet implements Command {
     } catch (Exception err) {
       logService.error(err);
     } finally {
-      String channelSetName = "set" + ptStore.channelSetSize();
+        String channelSetName = pointSet.getName();
       //Reduce coordinates, preserve distance relationships since it makes computations easier (some things will not work
       // if this is not used
       if (isRelative) newData.makeRelative();
       //Generate a displayable image (for users only, not for analysis) and open on screen
-      ImgGenerator imgGenerator = new DisplayImgGenerator(DisplayImgGenerator.PointMarker.plus);
+
+        ImgGenerator imgGenerator = new DisplayImgGenerator(DisplayImgGenerator.PointMarker.plus, 7);
       ImageJFunctions.show(imgGenerator.generate(newData));
+
 
       if (newData != null) ptStore.add(channelSetName, newData);
     }
   }
 
-  //TODO: switch to regex
-  // Data is delimited by tab characters. This 'function' (initiator function and recursive body)
-  // can skip to the
-  // nth tab of a provided string
-  private int skipTabs(String line, int n) {
-    return findNextTab(line, n, 0);
-  }
-
-  private int findNextTab(String line, int n, int currentPos) {
-    if (n == 0) return currentPos - 1;
-    return findNextTab(line, n - 1, line.indexOf('\t', currentPos) + 1);
-  }
 
   // Parse file and load into channelSets list
 
@@ -116,7 +106,10 @@ public class AddPointSet implements Command {
     for (int i = 1; i < rawInput.size(); i++) {
       // grab line, take channel name
       line = rawInput.get(i);
-      channelName = line.substring(0, line.indexOf('\t'));
+
+        String[] splitLine = line.split("\t");
+
+        channelName = splitLine[0];
       // check if we have a channel named 'channelName' already in 'channelSets', if not, create
       if (newChannels.get(channelName) == null) {
         newChannels.add(channelName, new DefaultLinear());
@@ -125,14 +118,13 @@ public class AddPointSet implements Command {
       // Note: this may work for now, but these hardcoded values may need to be more flexible
       x =
               (int)
-                      (Double.parseDouble(line.substring(skipTabs(line, 4) + 1, skipTabs(line, 5))) + 0.5);
+                      (Double.parseDouble(splitLine[2]) + 0.5);
       y =
               (int)
-                      (Double.parseDouble(line.substring(skipTabs(line, 5) + 1, skipTabs(line, 6))) + 0.5);
+                      (Double.parseDouble(splitLine[3]) + 0.5);
       z =
               (int)
-                      (Double.parseDouble(line.substring(skipTabs(line, 13) + 1, skipTabs(line, 14)))
-                              + 0.5);
+                      (Double.parseDouble(splitLine[13]) + 0.5);
 
       newChannels.get(channelName).add(new Triple(x, y, z));
 

@@ -27,14 +27,16 @@ public interface ImgGenerator {
     default Img<UnsignedByteType> blankImage(Displayable data) {
         Triple tupleDims = data.getDimensions();
         ImgFactory<UnsignedByteType> imgFactory = new ArrayImgFactory<>();
-        int[] dims = new int[]{tupleDims.getX(), tupleDims.getY(), tupleDims.getZ() + 1};
+        int[] dims = new int[]{tupleDims.getX() + 1, tupleDims.getY() + 1, tupleDims.getZ() + 1};
         return imgFactory.create(dims, new UnsignedByteType() );
     }
 
     default void drawPoint(int x, int y, int z, Img<UnsignedByteType> img) {
         RandomAccess<UnsignedByteType> r = img.randomAccess();
 
-        if (x > img.dimension(0) || y > img.dimension(1) || z > img.dimension(2) || x < 0 || y <0 || z < 0) return;
+        if (x >= img.dimension(0) || y >= img.dimension(1) || z >= img.dimension(2) || x < 0 || y < 0 || z < 0) return;
+
+        //System.out.println("x:" + x + "y:"  + y + "z:" + z + " " + img.dimension(0) + " " + img.dimension(1) + " " + img.dimension(2));
 
         r.setPosition(x, 0);
         r.setPosition(y, 1);
