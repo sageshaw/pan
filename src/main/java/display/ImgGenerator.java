@@ -7,14 +7,12 @@ import net.imglib2.img.ImgFactory;
 import net.imglib2.img.array.ArrayImgFactory;
 import net.imglib2.type.numeric.integer.UnsignedByteType;
 
-import java.util.List;
-
 public interface ImgGenerator {
 
     void drawMarker(int x, int y, int z, Img<UnsignedByteType> img);
 
     default Img<UnsignedByteType> generate(Displayable data) {
-        List<Triple> points = data.getData();
+        Triple[] points = data.getPoints();
         Img<UnsignedByteType> img = blankImage(data);
 
         for (Triple pt : points) {
