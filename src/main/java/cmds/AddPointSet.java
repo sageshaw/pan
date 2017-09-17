@@ -73,7 +73,7 @@ public class AddPointSet implements Command {
       if (isRelative) newData.makeRelative();
       //Generate a displayable image (for users only, not for analysis) and open on screen
 
-        ImgGenerator imgGenerator = new DisplayImgGenerator(DisplayImgGenerator.PointMarker.plus, 7);
+      ImgGenerator imgGenerator = new DisplayImgGenerator(DisplayImgGenerator.PointMarker.plus, 7);
       ImageJFunctions.show(imgGenerator.generate(newData));
 
 
@@ -120,10 +120,10 @@ public class AddPointSet implements Command {
       // Note: this may work for now, but these hardcoded values may need to be more flexible
       x =
               (int)
-                      (Double.parseDouble(splitLine[2]) + 0.5);
+                      (Double.parseDouble(splitLine[1]) + 0.5);
       y =
               (int)
-                      (Double.parseDouble(splitLine[3]) + 0.5);
+                      (Double.parseDouble(splitLine[2]) + 0.5);
       z =
               (int)
                       (Double.parseDouble(splitLine[13]) + 0.5);

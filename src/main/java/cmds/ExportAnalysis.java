@@ -4,7 +4,6 @@ import analysis.data.Linear;
 import analysis.data.OperablePointContainer;
 import analysis.data.PointContainer;
 import analysis.ops.LinearNearestNeighbor;
-import ij.gui.GenericDialog;
 import ij.io.SaveDialog;
 import org.scijava.command.Command;
 import org.scijava.plugin.Plugin;
@@ -65,15 +64,15 @@ public class ExportAnalysis extends OutputAnalysisCommand {
         String path = getPath(defaultName);
         if (path == null) return null;
         File export = new File(path);
-        if (export.exists()) {
-            GenericDialog gd = new GenericDialog("Confirm Save");
-            gd.addMessage("'" + export.getName() + "' already exists. Would you like to replace it?");
-            gd.setOKLabel("Replace");
-            gd.showDialog();
-            if (gd.wasCanceled()) {
-                return getFile(defaultName);
-            }
-        }
+//        if (export.exists()) {
+//            GenericDialog gd = new GenericDialog("Confirm Save");
+//            gd.addMessage("'" + export.getName() + "' already exists. Would you like to replace it?");
+//            gd.setOKLabel("Replace");
+//            gd.showDialog();
+//            if (gd.wasCanceled()) {
+//                return getFile(defaultName);
+//            }
+//        }
 
         return export;
     }

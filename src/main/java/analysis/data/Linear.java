@@ -45,7 +45,7 @@ public class Linear<T extends Triple> implements ListPointContainer, OperablePoi
 
     @Override
     public Triple[] getPoints() {
-        return new Triple[0];
+        return points.toArray(new Triple[0]);
     }
 
 
@@ -95,7 +95,7 @@ public class Linear<T extends Triple> implements ListPointContainer, OperablePoi
 
   @Override
   public int getSize() {
-      return 0;
+      return points.size();
   }
 
     @Override
