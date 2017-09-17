@@ -10,11 +10,11 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.statistics.HistogramDataset;
-import org.jfree.ui.ApplicationFrame;
 import org.scijava.command.Command;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,12 +60,13 @@ public class ShowHistogram extends DynamicOutputCommand {
 
     //Create the chart (courtesy of JFreeChart), pack, and display
     HistogramFrame demo = new HistogramFrame("Histogram", displayData);
+
     demo.pack();
     demo.setVisible(true);
   }
 
   //No other classes use this, so inner class it is. This represents the Histogram window
-  class HistogramFrame extends ApplicationFrame {
+  class HistogramFrame extends JFrame {
 
     HistogramFrame(String title, Map <String, double[]> data) {
       super(title);
