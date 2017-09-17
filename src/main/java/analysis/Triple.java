@@ -7,6 +7,18 @@ import java.util.Iterator;
 //Because Java doesn't really  have a tuple construct (this one is a triple) to represent a voxel
 public class Triple implements PointContainer {
 
+  public static Triple MAX_TRIPLE() {
+    return new Triple(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+  }
+
+  public static Triple MIN_TRIPLE() {
+    return new Triple(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
+  }
+
+  public static Triple ZERO_TRIPLE() {
+    return new Triple(0, 0, 0);
+  }
+
   //coordinate fields
   private int x, y, z;
 

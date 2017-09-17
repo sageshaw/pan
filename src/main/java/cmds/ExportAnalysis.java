@@ -19,7 +19,7 @@ import java.util.Set;
  * Exports file with analysis data (double list)
  */
 @Plugin(type = Command.class, menuPath = "PAN>Export analysis...")
-public class ExportAnalysis extends OutputAnalysisCommand {
+public class ExportAnalysis extends DynamicOutputCommand {
 
 
     @Override

@@ -38,8 +38,11 @@ public class AddPointSet implements Command {
   @Parameter(label = "Exported .txt file from Nikon Elements")
   private File pointSet;
 
-  @Parameter(label = "Crop image to only fit dataset?")
+  @Parameter(label = "Crop image to only fit dataset")
   private boolean isRelative;
+
+  @Parameter(label = "Show image render of dataset")
+  private boolean display;
 
   @Parameter private IOStorage ptStore;
 
@@ -67,20 +70,46 @@ public class AddPointSet implements Command {
     } catch (Exception err) {
       logService.error(err);
     } finally {
-        String channelSetName = pointSet.getName();
+
+      //Grab name, and label duplicate if necessary
+      String channelSetName = addPostDuplicateString(pointSet.getName());
+
+
+
       //Reduce coordinates, preserve distance relationships since it makes computations easier (some things will not work
       // if this is not used
       if (isRelative) newData.makeRelative();
       //Generate a displayable image (for users only, not for analysis) and open on screen
-
-      ImgGenerator imgGenerator = new DisplayImgGenerator(DisplayImgGenerator.PointMarker.plus, 7);
-      ImageJFunctions.show(imgGenerator.generate(newData));
-
+      if (display) {
+        ImgGenerator imgGenerator = new DisplayImgGenerator(DisplayImgGenerator.PointMarker.plus, 7);
+        ImageJFunctions.show(imgGenerator.generate(newData));
+      }
 
       if (newData != null) ptStore.add(channelSetName, newData);
     }
   }
 
+  private String addPostDuplicateString(String name) {
+    int duplNum = 1;
+    boolean hasDuplicate = false;
+    for (String loadedName : ptStore.keys()) {
+      if (loadedName.contains(name)) {
+        hasDuplicate = true;
+        if (!loadedName.equals(name)) {
+          int currentNum = Integer.parseInt(loadedName.substring(loadedName.length() - 2, loadedName.length() - 1));
+          if (currentNum >= duplNum) {
+            duplNum = currentNum + 1;
+          }
+        }
+      }
+    }
+
+    if (hasDuplicate) {
+      name += "(" + duplNum + ")";
+    }
+
+    return name;
+  }
 
   // Parse file and load into channelSets list
 

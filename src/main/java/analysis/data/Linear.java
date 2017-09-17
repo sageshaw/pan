@@ -1,6 +1,7 @@
 package analysis.data;
 
 import analysis.Triple;
+import display.Displayable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,7 +11,7 @@ import java.util.List;
  * analysis.data.Linear object to hold point data. This is abstract to allow for any type of List to be used as the
  * containing object (and other features that clients might extend)
  */
-public class Linear<T extends Triple> implements ListPointContainer, OperablePointContainer {
+public class Linear<T extends Triple> implements ListPointContainer, OperablePointContainer, Displayable {
 
 
     protected List <T> points;
@@ -48,7 +49,7 @@ public class Linear<T extends Triple> implements ListPointContainer, OperablePoi
         return points.toArray(new Triple[0]);
     }
 
-
+  @Override
   public Triple getDimensions() {
 
     Triple mins = getMin();

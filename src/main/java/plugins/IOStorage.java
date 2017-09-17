@@ -1,6 +1,5 @@
 package plugins;
 
-import analysis.data.ChannelContainer;
 import analysis.data.MappedPointContainer;
 import analysis.data.PointContainer;
 import com.google.common.collect.BiMap;
@@ -40,10 +39,7 @@ public class IOStorage extends AbstractPTService <ImageJService> implements Imag
 
   @Override
   public void add(String name, PointContainer container) {
-    // TODO: temporary fix for image rendering implementation (only can work with one channelset at a time
-    channelSets = HashBiMap.create();
-
-    channelSets.put(name, (ChannelContainer) container);
+      channelSets.put(name, (MappedPointContainer) container);
   }
 
   @Override

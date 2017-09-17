@@ -11,21 +11,46 @@ public interface ImgGenerator {
 
     void drawMarker(int x, int y, int z, Img<UnsignedByteType> img);
 
-    default Img<UnsignedByteType> generate(Displayable data) {
-        Triple[] points = data.getPoints();
-        Img<UnsignedByteType> img = blankImage(data);
 
+    default Img <UnsignedByteType> generate(Displayable... datasets) {
+
+        Triple[] points;
+        int size = 0;
+
+        for (Displayable data : datasets) {
+            size += data.getPoints().length;
+        }
+
+        points = new Triple[size];
+        int i = 0;
+        for (Displayable data : datasets) {
+            for (Triple pt : data.getPoints()) {
+                points[i] = pt;
+                i++;
+            }
+        }
+
+        Img <UnsignedByteType> img = blankImage(datasets);
         for (Triple pt : points) {
             drawMarker(pt.getX(), pt.getY(), pt.getZ(), img);
         }
 
         return img;
+
+
     }
 
-    default Img<UnsignedByteType> blankImage(Displayable data) {
-        Triple tupleDims = data.getDimensions();
+    default Img <UnsignedByteType> blankImage(Displayable... datasets) {
+        Triple maxDims = Triple.ZERO_TRIPLE();
+        for (Displayable data : datasets) {
+            Triple curDims = data.getDimensions();
+            maxDims.setX(Math.max(maxDims.getX(), curDims.getX()));
+            maxDims.setY(Math.max(maxDims.getY(), curDims.getY()));
+            maxDims.setZ(Math.max(maxDims.getZ(), curDims.getZ()));
+        }
+
         ImgFactory<UnsignedByteType> imgFactory = new ArrayImgFactory<>();
-        int[] dims = new int[]{tupleDims.getX() + 1, tupleDims.getY() + 1, tupleDims.getZ() + 1};
+        int[] dims = new int[]{maxDims.getX() + 1, maxDims.getY() + 1, maxDims.getZ() + 1};
         return imgFactory.create(dims, new UnsignedByteType() );
     }
 
