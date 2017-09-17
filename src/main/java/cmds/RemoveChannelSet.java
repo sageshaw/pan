@@ -28,7 +28,6 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
 
     List <ChannelModuleItem <Boolean, PointContainer>> checkboxItems = new ArrayList <>();
 
-    //TODO: include in the Dynamic initialization, have some code duplication
     @Override
     public void initialize() {
 

@@ -26,6 +26,10 @@ import java.util.ArrayList;
 @Plugin(type = Command.class, menuPath = "PAN>Add point set from text file...")
 public class AddPointSet implements Command {
 
+    private static final int XC = 1;
+    private static final int YC = 2;
+    private static final int ZC = 16;
+
   // Ensure we are reading the correct type of text file by checking the first line (should always
   // be the same)
   private static final String CHECK_STRING =
@@ -149,13 +153,13 @@ public class AddPointSet implements Command {
       // Note: this may work for now, but these hardcoded values may need to be more flexible
       x =
               (int)
-                      (Double.parseDouble(splitLine[1]) + 0.5);
+                      (Double.parseDouble(splitLine[XC]) + 0.5);
       y =
               (int)
-                      (Double.parseDouble(splitLine[2]) + 0.5);
+                      (Double.parseDouble(splitLine[YC]) + 0.5);
       z =
               (int)
-                      (Double.parseDouble(splitLine[13]) + 0.5);
+                      (Double.parseDouble(splitLine[ZC]) + 0.5);
 
       ((ListPointContainer) newChannels.get(channelName)).add(new Triple(x, y, z));
 

@@ -39,7 +39,6 @@ public class ShowHistogram extends DynamicOutputCommand {
   @Parameter(label = "Max distance cutoff") private int maxDistance;
 
 
-  //TODO: Clean up coupling between superclass and subclass implementation
   @Override
   public void run() {
     //Grab checked items
