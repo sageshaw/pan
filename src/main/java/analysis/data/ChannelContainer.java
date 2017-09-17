@@ -5,50 +5,61 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import display.Displayable;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * A class meant to hold individual channels. This is used as a way to access information across channels,
  * as well as to compartmentalize sets of channels from the same dataset/image.
  */
 
-public class ChannelContainer implements OperablePointContainer, Displayable, MappedContainer {
+public class ChannelContainer<T extends OperablePointContainer> implements OperablePointContainer, MappedPointContainer, Displayable {
 
     //Use of Guava's BiMap for inverse hashmap functionality
-    private BiMap <String, OperablePointContainer> channels = HashBiMap.create();
+    private BiMap <String, T> channels = HashBiMap.create();
 
 
-    //Currently unsupported, may change in the future
-    @Override
-    public Triple getCentroid() {
-        throw new UnsupportedOperationException();
-    }
 
     //Returns dimensions (in number of pixels) across all channels.
     @Override
     public Triple getDimensions() {
-//        Triple mins = getMin();
-//        Triple maxes = getMax();
-//
-//        return new Triple(maxes.getX()-mins.getX(), maxes.getY()-mins.getY(), maxes.getZ()-mins.getZ());
         return getMax();
     }
 
     //Returns a List with all contained points (Triple).
     @Override
-    public List<Triple> getData() {
+    public Triple[] getPoints() {
 
-        ArrayList<Triple> data = new ArrayList <>();
+        Triple[] result = new Triple[getSize()];
 
-        for (PointContainer channel : channels.values()) {
-            Iterator<Triple> itr = channel.iterator();
-            while(itr.hasNext()) data.add(itr.next());
+        int i = 0;
+        for (T channel : channels.values()) {
+            Triple[] chnlPts = channel.getPoints();
+            for (Triple pt : chnlPts) {
+                result[i] = pt;
+                i++;
+            }
+
+        }
+        return result;
+    }
+
+    @Override
+    public Triple getCentroid() {
+        int x = 0;
+        int y = 0;
+        int z = 0;
+
+        for (T channel : channels.values()) {
+            for (Triple pt : channel.getPoints()) {
+                x += pt.getX();
+                y += pt.getY();
+                z += pt.getZ();
+            }
+
 
         }
 
-        return data;
+        return new Triple(x / getSize(), y / getSize(), z / getSize());
     }
 
     //Returns lowest x, y, z coordinates  across channels
@@ -86,23 +97,24 @@ public class ChannelContainer implements OperablePointContainer, Displayable, Ma
         return new Triple(maxX, maxY, maxZ);
     }
 
+
     //Return channel key based on OperablePointContainer object (equals method is default object signature comparison)
-    @Override
     public String key(PointContainer value) {
         return channels.inverse().get(value);
     }
 
     //Return corresponding OperablePointContainer object to  name
     @Override
-    public PointContainer get(String name) {
+    public T get(String name) {
         return channels.get(name);
     }
 
     //Remove corresponding OperablePointContainer object based on name
     @Override
-    public PointContainer remove(String name) {
+    public T remove(String name) {
         return channels.remove(name);
     }
+
 
     //Removes container from Map based on object
     @Override
@@ -126,27 +138,31 @@ public class ChannelContainer implements OperablePointContainer, Displayable, Ma
     //Translate contained containers a specified number of pixels
     @Override
     public void translate(int xOffset, int yOffset, int zOffset) {
-        for (PointContainer channel : channels.values()) {
+        for (T channel : channels.values()) {
             channel.translate(xOffset, yOffset, zOffset);
         }
     }
 
-    //TODO: Figure out how to use generics for this
     @Override
-    public void add(Object e) {
-        throw new UnsupportedOperationException("Cannot add dataset without name. Use add(String name, Object e)");
+    public int getSize() {
+        int size = 0;
+
+        for (T channel : channels.values()) {
+            size += channel.getSize();
+        }
+
+        return size;
     }
 
 
-    //TODO: clunky, untangle typing (TOO MUCH CASTING)
     //Add new container to map (must be a OperablePointContainer)
     @Override
     public void add(String name, PointContainer container) {
-        channels.put(name, (OperablePointContainer) container);
+        channels.put(name, (T) container);
     }
 
     @Override
-    public Iterator <OperablePointContainer> iterator() {
+    public Iterator <T> iterator() {
         return channels.values().iterator();
     }
 

@@ -2,19 +2,19 @@ package cmds;
 
 import analysis.data.Linear;
 import analysis.data.OperablePointContainer;
+import analysis.data.PointContainer;
 import analysis.ops.LinearNearestNeighbor;
-import cmds.gui.ChannelModuleItem;
 import ij.gui.GenericDialog;
 import ij.io.SaveDialog;
 import org.scijava.command.Command;
-import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Plugin;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Exports file with analysis data (double list)
@@ -30,18 +30,18 @@ public class ExportAnalysis extends OutputAnalysisCommand {
         File export = getFile("");
         if (export == null) return;
 
-        List <ChannelModuleItem <Boolean>> checkedItems = getCheckedModules();
-
         String result = "Channel\tValue\r\n";
 
-        ModuleItem <Boolean> moduleItem;
+        Map <String, PointContainer> checkedChannels = getCheckedChannels();
+        Set <String> channelNames = checkedChannels.keySet();
+
         OperablePointContainer channel;
         double[] nearestNeighborResult;
-        for (ChannelModuleItem <Boolean> bundledChannelModule : checkedItems) {
-            moduleItem = bundledChannelModule.getModuleItem();
-            nearestNeighborResult = new LinearNearestNeighbor((Linear) bundledChannelModule.getChannel()).process();
+
+        for (String name : channelNames) {
+            nearestNeighborResult = new LinearNearestNeighbor((Linear) checkedChannels.get(name)).process();
             for (double value : nearestNeighborResult) {
-                result += moduleItem.getName() + "\t" + value + "\r\n";
+                result += name + "\t" + value + "\r\n";
             }
         }
 

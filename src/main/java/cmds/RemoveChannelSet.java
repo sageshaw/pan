@@ -26,7 +26,7 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
     @Parameter
     LogService logService;
 
-    List<ChannelModuleItem<Boolean>> checkboxItems = new ArrayList<>();
+    List <ChannelModuleItem <Boolean, PointContainer>> checkboxItems = new ArrayList <>();
 
     //TODO: include in the Dynamic initialization, have some code duplication
     @Override
@@ -40,7 +40,7 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
         for (String channelSetKey : channelSetKeys) {
             PointContainer channelSet = ptStore.get(channelSetKey);
 
-            final ChannelModuleItem <Boolean> bundledChannelItem =
+            final ChannelModuleItem <Boolean, PointContainer> bundledChannelItem =
                     new ChannelModuleItem <>(getInfo(), channelSetKey, boolean.class, channelSet);
 
             bundledChannelItem.getModuleItem().setLabel(channelSetKey);
@@ -55,7 +55,7 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
 
         ModuleItem<Boolean> moduleItem;
 
-        for (ChannelModuleItem <Boolean> bundledChannelItem : checkboxItems) {
+        for (ChannelModuleItem <Boolean, PointContainer> bundledChannelItem : checkboxItems) {
             moduleItem = bundledChannelItem.getModuleItem();
 
             if (moduleItem.getValue(this)) {

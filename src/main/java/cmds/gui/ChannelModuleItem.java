@@ -6,27 +6,26 @@ import org.scijava.module.ModuleInfo;
 import org.scijava.module.ModuleItem;
 
 //Bundles ModuleItems<T> and PointContainers together to easily perform dynamic checklist guis (see ExportAnalysis)
-public class ChannelModuleItem<T> {
+public class ChannelModuleItem<T, K extends PointContainer> {
 
-  //the PointContainer and ModuleItem
-  private PointContainer channel;
+  //the ListPointContainer and ModuleItem
+  private K channel;
+  private String name;
   private ModuleItem<T> item;
 
 
-  public ChannelModuleItem(ModuleInfo info, String name, Class type, PointContainer channel) {
+  public ChannelModuleItem(ModuleInfo info, String name, Class type, K channel) {
     item = new DefaultMutableModuleItem<T>(info, name, type);
     this.channel = channel;
 
-
   }
 
-  public PointContainer getChannel() {
+  public K getChannel() {
     return channel;
   }
 
   public ModuleItem<T> getModuleItem() {
     return item;
   }
-
 
 }

@@ -1,8 +1,8 @@
 package cmds;
 
 import analysis.data.Linear;
+import analysis.data.PointContainer;
 import analysis.ops.LinearNearestNeighbor;
-import cmds.gui.ChannelModuleItem;
 import filters.MaxCutoff;
 import filters.PanFilter;
 import org.jfree.chart.ChartFactory;
@@ -12,14 +12,13 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.scijava.command.Command;
-import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 //TODO: change to distribution graph instead of bar histogram graph
 
@@ -45,24 +44,22 @@ public class ShowHistogram extends OutputAnalysisCommand {
   public void run() {
     //Grab checked items
     HashMap<String, double[]> displayData = new HashMap<>();
-    List<String> keys = new ArrayList<>();
-    List <ChannelModuleItem <Boolean>> checkedItems = getCheckedModules();
 
-    ModuleItem<Boolean> moduleItem;
+    Map <String, PointContainer> checkedChannels = getCheckedChannels();
+    Set <String> channelNames = checkedChannels.keySet();
+
     //Loop through checked items, filter for cutoff distance, add to hashmap for input, add corresponding key to array
-    for (ChannelModuleItem <Boolean> bundledChannelItem : checkedItems) {
-      moduleItem = bundledChannelItem.getModuleItem();
+    for (String name : channelNames) {
 
-      double[] nearestNeighborResult = new LinearNearestNeighbor((Linear) (bundledChannelItem.getChannel())).process();
+      double[] nearestNeighborResult = new LinearNearestNeighbor((Linear) (checkedChannels.get(name))).process();
       PanFilter cutoff = new MaxCutoff(maxDistance);
       nearestNeighborResult = cutoff.filter(nearestNeighborResult);
-      displayData.put(moduleItem.getName(), nearestNeighborResult);
-      keys.add(moduleItem.getName());
+      displayData.put(name, nearestNeighborResult);
 
     }
 
     //Create the chart (courtesy of JFreeChart), pack, and display
-    HistogramFrame demo = new HistogramFrame("Histogram", displayData, keys);
+    HistogramFrame demo = new HistogramFrame("Histogram", displayData);
     demo.pack();
     demo.setVisible(true);
   }
@@ -70,12 +67,12 @@ public class ShowHistogram extends OutputAnalysisCommand {
   //No other classes use this, so inner class it is. This represents the Histogram window
   class HistogramFrame extends ApplicationFrame {
 
-    HistogramFrame(String title, HashMap <String, double[]> data, List <String> keys) {
+    HistogramFrame(String title, Map <String, double[]> data) {
       super(title);
       HistogramDataset dataset = new HistogramDataset();
 
-      for (String key : keys) {
-        dataset.addSeries(key, data.get(key), numberOfBins);
+      for (String name : data.keySet()) {
+        dataset.addSeries(name, data.get(name), numberOfBins);
       }
 
       JFreeChart chart =

@@ -2,7 +2,9 @@ package cmds;
 
 import analysis.Triple;
 import analysis.data.ChannelContainer;
-import analysis.data.DefaultLinear;
+import analysis.data.Linear;
+import analysis.data.ListPointContainer;
+import analysis.data.OperablePointContainer;
 import display.DisplayImgGenerator;
 import display.ImgGenerator;
 import net.imagej.ImageJ;
@@ -87,7 +89,7 @@ public class AddPointSet implements Command {
     // read file data line by line into list(thank you Java 8!)
     ArrayList<String> rawInput = (ArrayList<String>) Files.readAllLines(file.toPath());
 
-    ChannelContainer newChannels = new ChannelContainer();
+    ChannelContainer <OperablePointContainer> newChannels = new ChannelContainer();
 
     // Ensure we have the right filetype
     if (rawInput == null || !rawInput.get(0).equals(CHECK_STRING)) {
@@ -112,7 +114,7 @@ public class AddPointSet implements Command {
         channelName = splitLine[0];
       // check if we have a channel named 'channelName' already in 'channelSets', if not, create
       if (newChannels.get(channelName) == null) {
-        newChannels.add(channelName, new DefaultLinear());
+        newChannels.add(channelName, new Linear <Triple>());
       }
       // Find x,y,z value based on tab delimitation
       // Note: this may work for now, but these hardcoded values may need to be more flexible
@@ -126,7 +128,7 @@ public class AddPointSet implements Command {
               (int)
                       (Double.parseDouble(splitLine[13]) + 0.5);
 
-      newChannels.get(channelName).add(new Triple(x, y, z));
+      ((ListPointContainer) newChannels.get(channelName)).add(new Triple(x, y, z));
 
     }
     return newChannels;

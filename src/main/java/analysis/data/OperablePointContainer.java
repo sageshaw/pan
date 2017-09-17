@@ -15,5 +15,7 @@ public interface OperablePointContainer extends PointContainer {
 
     Triple getMax();
 
+    Triple[] getPoints();
+
 
 }

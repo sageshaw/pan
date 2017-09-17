@@ -1,7 +1,7 @@
 package plugins;
 
 import analysis.data.ChannelContainer;
-import analysis.data.MappedContainer;
+import analysis.data.MappedPointContainer;
 import analysis.data.PointContainer;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -15,12 +15,12 @@ import java.util.Iterator;
 Plugin service for all PointsANalysis operation. User interface is given through command plugins.
  */
 @Plugin(type = ImageJService.class)
-public class IOStorage extends AbstractPTService <ImageJService> implements ImageJService, Iterable, MappedContainer {
+public class IOStorage extends AbstractPTService <ImageJService> implements ImageJService, Iterable, MappedPointContainer {
 
 
 
   // master channel list
-  private BiMap <String, ChannelContainer> channelSets;
+  private BiMap <String, MappedPointContainer> channelSets;
 
 
 
@@ -47,7 +47,7 @@ public class IOStorage extends AbstractPTService <ImageJService> implements Imag
   }
 
   @Override
-  public PointContainer remove(String name) {
+  public MappedPointContainer remove(String name) {
     return channelSets.remove(name);
   }
 
@@ -57,7 +57,7 @@ public class IOStorage extends AbstractPTService <ImageJService> implements Imag
   }
 
   @Override
-  public PointContainer get(String name) {
+  public MappedPointContainer get(String name) {
     return channelSets.get(name);
   }
 
@@ -78,5 +78,20 @@ public class IOStorage extends AbstractPTService <ImageJService> implements Imag
   @Override
   public Iterator iterator() {
     return channelSets.values().iterator();
+  }
+
+  @Override
+  public void translate(int xOffset, int yOffset, int zOffset) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public int getSize() {
+    return channelSets.size();
+  }
+
+  @Override
+  public void makeRelative() {
+    throw new UnsupportedOperationException();
   }
 }

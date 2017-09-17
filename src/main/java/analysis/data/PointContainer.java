@@ -1,17 +1,10 @@
 package analysis.data;
 
-/**
- * Defines a basic container for points (Triple)
- */
+public interface PointContainer<T extends PointContainer> extends Iterable {
 
-public interface PointContainer extends Iterable {
+    void translate(int xOffset, int yOffset, int zOffset);
 
+    int getSize();
 
-  void add(Object element);
-
-  void makeRelative();
-
-  void translate(int xOffset, int yOffset, int zOffset);
-
-
+    void makeRelative();
 }
