@@ -26,9 +26,14 @@ import java.util.ArrayList;
 @Plugin(type = Command.class, menuPath = "PAN>Add point set from text file...")
 public class AddPointSet implements Command {
 
-    private static final int XC = 1;
-    private static final int YC = 2;
-    private static final int ZC = 16;
+  private static final String X_TITLE = "X";
+  private static final String Y_TITLE = "Y";
+  private static final String Z_TITLE = "Z";
+
+
+  private int X;
+  private int Y;
+  private int Z;
 
   // Ensure we are reading the correct type of text file by checking the first line (should always
   // be the same)
@@ -129,6 +134,25 @@ public class AddPointSet implements Command {
       throw new IllegalArgumentException(
               "Incorrect file content. Please ensure file was exported properly");
     }
+
+    String[] categories = rawInput.get(0).split("\t");
+
+    for (int i = 0; i < categories.length; i++) {
+      switch (categories[i]) {
+        case X_TITLE:
+          X = i;
+          break;
+        case Y_TITLE:
+          Y = i;
+          break;
+        case Z_TITLE:
+          Z = i;
+          break;
+        default:
+          break;
+      }
+    }
+
     // some initialization so we don't need to constantly discard references
     String line;
     String channelName = null;
@@ -153,13 +177,13 @@ public class AddPointSet implements Command {
       // Note: this may work for now, but these hardcoded values may need to be more flexible
       x =
               (int)
-                      (Double.parseDouble(splitLine[XC]) + 0.5);
+                      (Double.parseDouble(splitLine[X]) + 0.5);
       y =
               (int)
-                      (Double.parseDouble(splitLine[YC]) + 0.5);
+                      (Double.parseDouble(splitLine[Y]) + 0.5);
       z =
               (int)
-                      (Double.parseDouble(splitLine[ZC]) + 0.5);
+                      (Double.parseDouble(splitLine[Z]) + 0.5);
 
       ((ListPointContainer) newChannels.get(channelName)).add(new Triple(x, y, z));
 
