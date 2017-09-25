@@ -11,7 +11,7 @@ import java.util.List;
  * analysis.data.Linear object to hold point data. This is abstract to allow for any type of List to be used as the
  * containing object (and other features that clients might extend)
  */
-public class Linear<T extends Triple> implements ListPointContainer, OperablePointContainer, Displayable {
+public class Linear<T extends Triple> implements ListPointContainer, Displayable {
 
 
     protected List <T> points;

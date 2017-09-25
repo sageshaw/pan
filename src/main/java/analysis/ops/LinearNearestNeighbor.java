@@ -1,7 +1,7 @@
 package analysis.ops;
 
 import analysis.Triple;
-import analysis.data.Linear;
+import analysis.data.ListPointContainer;
 
 /**
  * An implementation of a NearestNeighbor search for a Linear container (which means it is a linear search).
@@ -9,10 +9,12 @@ import analysis.data.Linear;
 
 public class LinearNearestNeighbor extends AnalysisOperation {
 
+    ListPointContainer container;
 
     //Must pass in a Linear container to operate on
-    public LinearNearestNeighbor(Linear container) {
-        super(container);
+    public LinearNearestNeighbor(ListPointContainer container) {
+        this.container = container;
+
     }
 
 

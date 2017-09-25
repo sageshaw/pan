@@ -4,7 +4,7 @@ package analysis.data;
  * Defines a basic container for points (Triple)
  */
 
-public interface ListPointContainer<T extends PointContainer> extends PointContainer {
+public interface ListPointContainer<T extends PointContainer> extends OperablePointContainer {
 
 
     void add(T pt);
