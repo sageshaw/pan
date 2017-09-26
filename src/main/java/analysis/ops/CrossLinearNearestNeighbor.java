@@ -24,11 +24,13 @@ public class CrossLinearNearestNeighbor extends AnalysisOperation {
             double minDist = Double.MAX_VALUE;
 
             for (Triple datPt : datPoints) {
-                double curDist = Math.sqrt(Math.pow(opPt.getX() - datPt.getX(), 2.0) +
-                        Math.pow(opPt.getY() - datPt.getY(), 2.0) +
-                        Math.pow(opPt.getZ() - datPt.getZ(), 2.0));
+                if (opPt != datPt) {
+                    double curDist = Math.sqrt(Math.pow(opPt.getX() - datPt.getX(), 2.0) +
+                            Math.pow(opPt.getY() - datPt.getY(), 2.0) +
+                            Math.pow(opPt.getZ() - datPt.getZ(), 2.0));
 
-                minDist = Math.min(curDist, minDist);
+                    minDist = Math.min(curDist, minDist);
+                }
             }
 
             result[i] = minDist;

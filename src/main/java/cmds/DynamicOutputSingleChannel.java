@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class DynamicOutputCommand extends DynamicCommand implements Initializable {
+public abstract class DynamicOutputSingleChannel extends DynamicCommand implements Initializable {
 
     //Grab the instances of classes we need
     @Parameter

@@ -1,9 +1,10 @@
-package cmds;
+package cmds.analysis;
 
 import analysis.data.Linear;
 import analysis.data.OperablePointContainer;
 import analysis.data.PointContainer;
 import analysis.ops.LinearNearestNeighbor;
+import cmds.DynamicOutputSingleChannel;
 import ij.io.SaveDialog;
 import org.scijava.command.Command;
 import org.scijava.plugin.Plugin;
@@ -19,7 +20,7 @@ import java.util.Set;
  * Exports file with analysis data (double list)
  */
 @Plugin(type = Command.class, menuPath = "PAN>Export analysis...")
-public class ExportAnalysisText extends DynamicOutputCommand {
+public class ExportAnalysisText extends DynamicOutputSingleChannel {
 
 
     @Override
