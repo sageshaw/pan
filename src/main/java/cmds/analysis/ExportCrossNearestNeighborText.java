@@ -8,7 +8,7 @@ import cmds.DynamicOutputDoubleChannel;
 import org.scijava.command.Command;
 import org.scijava.plugin.Plugin;
 
-@Plugin(type = Command.class, menuPath = "PAN>Export analysis...>")
+@Plugin(type = Command.class, menuPath = "PAN>Export analysis...>Cross-channel Nearest Neighbor")
 public class ExportCrossNearestNeighborText extends DynamicOutputDoubleChannel implements AnalysisTextExporter {
 
 
