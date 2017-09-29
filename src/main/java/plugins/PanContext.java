@@ -2,6 +2,8 @@ package plugins;
 
 import analysis.data.MappedPointContainer;
 import analysis.data.PointContainer;
+import analysis.ops.OpScript;
+import analysis.util.ClassUtilities;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import net.imagej.ImageJService;
@@ -9,22 +11,33 @@ import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;
 
 import java.util.Iterator;
+import java.util.List;
 
 /*
 Plugin service for all PointsANalysis operation. User interface is given through command plugins.
  */
 @Plugin(type = ImageJService.class)
-public class IOStorage extends AbstractPTService <ImageJService> implements ImageJService, Iterable, MappedPointContainer {
-
+public class PanContext extends AbstractPTService <ImageJService> implements ImageJService, MappedPointContainer {
 
 
   // master channel list
   private BiMap <String, MappedPointContainer> channelSets;
 
 
-
-  public IOStorage() {
+  public PanContext() {
     channelSets = HashBiMap.create();
+  }
+
+  public List <Class <?>> findOpScripts() {
+    List <Class <?>> processes = null;
+    try {
+      processes = ClassUtilities.findAnnotatedClasses("analysis.ops", OpScript.class);
+    } catch (Exception e) {
+      System.out.println("Error loading algorithms.");
+    }
+
+    return processes;
+
   }
 
   @Override

@@ -9,7 +9,7 @@ import org.scijava.command.DynamicCommand;
 import org.scijava.log.LogService;
 import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
-import plugins.IOStorage;
+import plugins.PanContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ public abstract class DynamicOutputSingleChannel extends DynamicCommand implemen
 
     //Grab the instances of classes we need
     @Parameter
-    protected IOStorage ptStore;
+    protected PanContext ptStore;
 
     List <ChannelModuleItem <Boolean, PointContainer>> checkboxItems = new ArrayList <>();
     @Parameter
@@ -47,7 +47,7 @@ public abstract class DynamicOutputSingleChannel extends DynamicCommand implemen
         //Using the keys for the channelSets, iterate through the channelSets and grab the keys inside each individual
         //channelSet to iterate through channels
         for (String channelSetKey : channelSetKeys) {
-            //Grab a channelSet from IOStorage to iterate through its channels
+            //Grab a channelSet from PanContext to iterate through its channels
             channelSet = ptStore.get(channelSetKey);
             channelKeys = channelSet.keys();
             //Using keys, grab channel and create a ChannelModuleItem (bundled channel and ModuleItem) and

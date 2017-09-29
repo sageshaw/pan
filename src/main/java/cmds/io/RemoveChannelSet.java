@@ -11,17 +11,17 @@ import org.scijava.log.LogService;
 import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
-import plugins.IOStorage;
+import plugins.PanContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
-//Command to remove channelSets from IOStorage
+//Command to remove channelSets from PanContext
 @Plugin(type = Command.class, menuPath="PAN>Remove channel set...")
 public class RemoveChannelSet extends DynamicCommand implements Initializable{
 
     @Parameter
-    IOStorage ptStore;
+    PanContext ptStore;
 
     @Parameter
     LogService logService;

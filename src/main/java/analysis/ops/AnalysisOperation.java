@@ -6,10 +6,14 @@ package analysis.ops;
  */
 public abstract class AnalysisOperation {
 
+    public AnalysisOperation() {
+    }
+
     //Executes template
     public double[] execute() {
         return process();
     }
+
 
     abstract double[] process();
 

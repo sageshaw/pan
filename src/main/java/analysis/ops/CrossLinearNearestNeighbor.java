@@ -1,20 +1,27 @@
 package analysis.ops;
 
 import analysis.Triple;
-import analysis.data.ListPointContainer;
+import analysis.data.OperablePointContainer;
 
-public class CrossLinearNearestNeighbor extends AnalysisOperation {
 
-    ListPointContainer operator;
-    ListPointContainer data;
+@OpScript(type = CrossChannelOperation.class, label = "Cross Nearest Neighbor")
+public class CrossLinearNearestNeighbor extends CrossChannelOperation {
 
-    public CrossLinearNearestNeighbor(ListPointContainer op, ListPointContainer dat) {
-        operator = op;
-        data = dat;
+    OperablePointContainer operator;
+    OperablePointContainer data;
+
+    public CrossLinearNearestNeighbor(OperablePointContainer op, OperablePointContainer dat) {
+        init(op, dat);
     }
 
     @Override
-    double[] process() {
+    public void init(OperablePointContainer first, OperablePointContainer second) {
+        operator = first;
+        data = second;
+    }
+
+    @Override
+    public double[] process() {
         Triple[] opPoints = operator.getPoints();
         Triple[] datPoints = data.getPoints();
         double[] result = new double[opPoints.length];

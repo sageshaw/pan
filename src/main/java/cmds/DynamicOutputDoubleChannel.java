@@ -7,14 +7,14 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.command.DynamicCommand;
 import org.scijava.module.MutableModuleItem;
 import org.scijava.plugin.Parameter;
-import plugins.IOStorage;
+import plugins.PanContext;
 
 import java.util.ArrayList;
 
 public abstract class DynamicOutputDoubleChannel extends DynamicCommand implements Initializable {
 
     @Parameter
-    IOStorage ptStore;
+    PanContext ptStore;
 
     @Parameter(label = "From", choices = {"a", "b"})
     private String from;

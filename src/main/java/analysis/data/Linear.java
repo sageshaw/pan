@@ -121,17 +121,17 @@ public class Linear<T extends Triple> implements ListPointContainer, Displayable
   }
 
     @Override
-    public void add(PointContainer pt) {
+    public void add(Triple pt) {
         points.add((T) pt);
     }
 
     @Override
-    public PointContainer remove(int i) {
+    public Triple remove(int i) {
         return points.remove(i);
     }
 
     @Override
-    public boolean remove(PointContainer pt) {
+    public boolean remove(Triple pt) {
         return points.remove(pt);
     }
 

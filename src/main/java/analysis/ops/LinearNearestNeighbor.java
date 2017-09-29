@@ -1,22 +1,26 @@
 package analysis.ops;
 
 import analysis.Triple;
-import analysis.data.ListPointContainer;
+import analysis.data.OperablePointContainer;
 
 /**
  * An implementation of a NearestNeighbor search for a Linear container (which means it is a linear search).
  */
 
-public class LinearNearestNeighbor extends AnalysisOperation {
+@OpScript(type = SingleChannelOperation.class, label = "Nearest Neighbor")
+public class LinearNearestNeighbor extends SingleChannelOperation {
 
-    ListPointContainer container;
+    OperablePointContainer container;
 
     //Must pass in a Linear container to operate on
-    public LinearNearestNeighbor(ListPointContainer container) {
-        this.container = container;
-
+    public LinearNearestNeighbor(OperablePointContainer container) {
+        init(container);
     }
 
+    @Override
+    public void init(OperablePointContainer data) {
+        this.container = data;
+    }
 
     //Returns double array of all nearest neighbor relationships
     @Override
@@ -55,5 +59,6 @@ public class LinearNearestNeighbor extends AnalysisOperation {
 
         return result;
     }
+
 
 }

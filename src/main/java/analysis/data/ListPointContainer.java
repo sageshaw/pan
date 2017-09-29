@@ -1,10 +1,12 @@
 package analysis.data;
 
+import analysis.Triple;
+
 /**
  * Defines a basic container for points (Triple)
  */
 
-public interface ListPointContainer<T extends PointContainer> extends OperablePointContainer {
+public interface ListPointContainer<T extends Triple> extends OperablePointContainer {
 
 
     void add(T pt);

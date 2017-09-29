@@ -13,7 +13,7 @@ import org.scijava.command.Command;
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
-import plugins.IOStorage;
+import plugins.PanContext;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +53,8 @@ public class AddPointSet implements Command {
   @Parameter(label = "Show image render of dataset")
   private boolean display;
 
-  @Parameter private IOStorage ptStore;
+    @Parameter
+    private PanContext ptStore;
 
   // STRICTLY for testing purposes
   public static void main(final String... args) {
