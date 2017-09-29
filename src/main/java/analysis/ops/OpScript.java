@@ -11,9 +11,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface OpScript {
 
 
-    boolean displayHistogram() default true;
-
-    boolean exportable() default true;
 
     Class <? extends AnalysisOperation> type();
 
