@@ -2,6 +2,8 @@ package cmds;
 
 import analysis.data.MappedPointContainer;
 import analysis.data.OperablePointContainer;
+import analysis.ops.AnalysisOperation;
+import analysis.ops.CrossChannelOperation;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.module.MutableModuleItem;
 import org.scijava.plugin.Parameter;
@@ -91,4 +93,8 @@ public abstract class CrossChannelCommand extends AnalysisCommand {
         return to;
     }
 
+    @Override
+    Class <? extends AnalysisOperation> getOperationType() {
+        return CrossChannelOperation.class;
+    }
 }

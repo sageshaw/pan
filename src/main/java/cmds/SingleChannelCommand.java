@@ -2,6 +2,8 @@ package cmds;
 
 import analysis.data.MappedPointContainer;
 import analysis.data.PointContainer;
+import analysis.ops.AnalysisOperation;
+import analysis.ops.SingleChannelOperation;
 import cmds.gui.ChannelModuleItem;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.log.LogService;
@@ -93,5 +95,10 @@ public abstract class SingleChannelCommand extends AnalysisCommand {
         }
 
         return result;
+    }
+
+    @Override
+    Class <? extends AnalysisOperation> getOperationType() {
+        return SingleChannelOperation.class;
     }
 }

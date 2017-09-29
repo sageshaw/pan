@@ -5,17 +5,11 @@ import analysis.ops.CrossChannelOperation;
 import cmds.CrossChannelCommand;
 import cmds.TextExportCommand;
 import org.scijava.command.Command;
-import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
-import plugins.PanContext;
 
-@Plugin(type = Command.class, menuPath = "PAN>Export Cross-channel Analysis...")
+@Plugin(type = Command.class, menuPath = "PAN>Analysis>Cross-Channel Analysis>Export as Text File")
 public class ExportCrossText extends CrossChannelCommand implements TextExportCommand {
 
-
-
-    @Parameter
-    PanContext panContext;
 
 
     @Override

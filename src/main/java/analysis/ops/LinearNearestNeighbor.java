@@ -12,10 +12,11 @@ public class LinearNearestNeighbor extends SingleChannelOperation {
 
     OperablePointContainer container;
 
-    //Must pass in a Linear container to operate on
-    public LinearNearestNeighbor(OperablePointContainer container) {
-        setChannel(container);
-    }
+
+//    //Must pass in a Linear container to operate on
+//    public LinearNearestNeighbor(OperablePointContainer container) {
+//        setChannel(container);
+//    }
 
     @Override
     public void setChannel(OperablePointContainer data) {

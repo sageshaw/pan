@@ -1,7 +1,6 @@
 package cmds;
 
-
-import analysis.ops.CrossChannelOperation;
+import analysis.ops.AnalysisOperation;
 import analysis.ops.OpScript;
 import net.imagej.ops.Initializable;
 import org.scijava.command.DynamicCommand;
@@ -14,10 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AnalysisCommand extends DynamicCommand implements Initializable {
-
     @Parameter
     PanContext panContext;
-
     @Parameter(label = "Analysis", choices = {"a", "b"})
     String analysisChoice;
 
@@ -28,7 +25,7 @@ public abstract class AnalysisCommand extends DynamicCommand implements Initiali
 
         for (Class <?> c : analysisClasses) {
             for (Annotation a : c.getAnnotations()) {
-                if (a instanceof OpScript && ((OpScript) a).type() == CrossChannelOperation.class) {
+                if (a instanceof OpScript && ((OpScript) a).type() == getOperationType()) {
                     options.add(((OpScript) a).label());
                 }
             }
@@ -43,7 +40,7 @@ public abstract class AnalysisCommand extends DynamicCommand implements Initiali
 
         for (Class <?> c : analysisClasses) {
             for (Annotation a : c.getAnnotations()) {
-                if (a instanceof OpScript && ((OpScript) a).type() == CrossChannelOperation.class) {
+                if (a instanceof OpScript && ((OpScript) a).type() == getOperationType()) {
                     if (analysisChoice.equals(((OpScript) a).label())) return c;
                 }
             }
@@ -51,4 +48,6 @@ public abstract class AnalysisCommand extends DynamicCommand implements Initiali
 
         throw new IllegalStateException("Chosen analysis algorithm not available");
     }
+
+    abstract Class <? extends AnalysisOperation> getOperationType();
 }

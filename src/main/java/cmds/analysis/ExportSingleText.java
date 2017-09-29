@@ -5,10 +5,13 @@ import analysis.data.PointContainer;
 import analysis.ops.SingleChannelOperation;
 import cmds.SingleChannelCommand;
 import cmds.TextExportCommand;
+import org.scijava.command.Command;
+import org.scijava.plugin.Plugin;
 
 import java.util.Map;
 import java.util.Set;
 
+@Plugin(type = Command.class, menuPath = "PAN>Analysis>Single-Channel Analysis>Export as Text File")
 public class ExportSingleText extends SingleChannelCommand implements TextExportCommand {
 
 
