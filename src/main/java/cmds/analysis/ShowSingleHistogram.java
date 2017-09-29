@@ -1,8 +1,8 @@
 package cmds.analysis;
 
-import cmds.DynamicOutputSingleChannel;
+import cmds.SingleChannelCommand;
 
-public class ShowSingleHistogram extends DynamicOutputSingleChannel {
+public class ShowSingleHistogram extends SingleChannelCommand {
 
 
 }

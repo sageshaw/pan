@@ -11,11 +11,11 @@ public class CrossLinearNearestNeighbor extends CrossChannelOperation {
     OperablePointContainer data;
 
     public CrossLinearNearestNeighbor(OperablePointContainer op, OperablePointContainer dat) {
-        init(op, dat);
+        setChannel(op, dat);
     }
 
     @Override
-    public void init(OperablePointContainer first, OperablePointContainer second) {
+    public void setChannel(OperablePointContainer first, OperablePointContainer second) {
         operator = first;
         data = second;
     }

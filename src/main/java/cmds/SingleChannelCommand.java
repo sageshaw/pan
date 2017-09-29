@@ -3,9 +3,7 @@ package cmds;
 import analysis.data.MappedPointContainer;
 import analysis.data.PointContainer;
 import cmds.gui.ChannelModuleItem;
-import net.imagej.ops.Initializable;
 import org.apache.commons.math3.exception.NullArgumentException;
-import org.scijava.command.DynamicCommand;
 import org.scijava.log.LogService;
 import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
@@ -16,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class DynamicOutputSingleChannel extends DynamicCommand implements Initializable {
+public abstract class SingleChannelCommand extends AnalysisCommand {
 
     //Grab the instances of classes we need
     @Parameter
@@ -65,6 +63,8 @@ public abstract class DynamicOutputSingleChannel extends DynamicCommand implemen
                 getInfo().addInput(bundledChannelItem.getModuleItem());
             }
         }
+
+        super.initialize();
     }
 
     //Method to grab the module list of all checked items. This supplies a list bundled channel item.

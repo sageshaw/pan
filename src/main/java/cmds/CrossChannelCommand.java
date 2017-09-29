@@ -2,16 +2,14 @@ package cmds;
 
 import analysis.data.MappedPointContainer;
 import analysis.data.OperablePointContainer;
-import net.imagej.ops.Initializable;
 import org.apache.commons.math3.exception.NullArgumentException;
-import org.scijava.command.DynamicCommand;
 import org.scijava.module.MutableModuleItem;
 import org.scijava.plugin.Parameter;
 import plugins.PanContext;
 
 import java.util.ArrayList;
 
-public abstract class DynamicOutputDoubleChannel extends DynamicCommand implements Initializable {
+public abstract class CrossChannelCommand extends AnalysisCommand {
 
     @Parameter
     PanContext ptStore;
@@ -46,6 +44,7 @@ public abstract class DynamicOutputDoubleChannel extends DynamicCommand implemen
         fromItem.setChoices(options);
         toItem.setChoices(options);
 
+        super.initialize();
     }
 
 

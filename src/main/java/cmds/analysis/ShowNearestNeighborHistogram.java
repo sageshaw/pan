@@ -3,7 +3,7 @@ package cmds.analysis;
 import analysis.data.Linear;
 import analysis.data.PointContainer;
 import analysis.ops.LinearNearestNeighbor;
-import cmds.DynamicOutputSingleChannel;
+import cmds.SingleChannelCommand;
 import cmds.gui.HistogramFrame;
 import org.scijava.command.Command;
 import org.scijava.plugin.Parameter;
@@ -20,7 +20,7 @@ import java.util.Set;
  * techniques have been implemented yet.
  */
 @Plugin(type = Command.class, menuPath = "PAN>Display histogram...>Nearest Neighbor")
-public class ShowNearestNeighborHistogram extends DynamicOutputSingleChannel {
+public class ShowNearestNeighborHistogram extends SingleChannelCommand {
 
   //Parameters for histogram
   @Parameter(label = "Number of bins") private int numberOfBins;

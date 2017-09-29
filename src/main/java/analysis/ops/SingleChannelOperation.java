@@ -4,5 +4,5 @@ import analysis.data.OperablePointContainer;
 
 public abstract class SingleChannelOperation extends AnalysisOperation {
 
-    public abstract void init(OperablePointContainer data);
+    public abstract void setChannel(OperablePointContainer data);
 }

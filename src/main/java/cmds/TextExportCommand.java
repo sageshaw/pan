@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-public interface AnalysisTextExporter extends Command {
+public interface TextExportCommand extends Command {
 
     String getOutput();
 

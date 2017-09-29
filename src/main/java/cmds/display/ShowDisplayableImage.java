@@ -1,7 +1,7 @@
 package cmds.display;
 
 import analysis.data.PointContainer;
-import cmds.DynamicOutputSingleChannel;
+import cmds.SingleChannelCommand;
 import display.DisplayImgGenerator;
 import display.Displayable;
 import display.ImgGenerator;
@@ -13,7 +13,7 @@ import org.scijava.plugin.Plugin;
 import java.util.Map;
 
 @Plugin(type = Command.class, menuPath = "PAN>Render image from dataset...")
-public class ShowDisplayableImage extends DynamicOutputSingleChannel {
+public class ShowDisplayableImage extends SingleChannelCommand {
 
     @Parameter(label = "Point Marker Size")
     int markerSize = 10;

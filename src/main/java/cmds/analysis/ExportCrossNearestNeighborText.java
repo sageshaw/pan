@@ -1,20 +1,19 @@
 package cmds.analysis;
 
-import analysis.data.ListPointContainer;
 import analysis.data.OperablePointContainer;
 import analysis.ops.CrossLinearNearestNeighbor;
-import cmds.AnalysisTextExporter;
-import cmds.DynamicOutputDoubleChannel;
+import cmds.CrossChannelCommand;
+import cmds.TextExportCommand;
 import org.scijava.command.Command;
 import org.scijava.plugin.Plugin;
 
 @Plugin(type = Command.class, menuPath = "PAN>Export analysis...>Cross-channel Nearest Neighbor")
-public class ExportCrossNearestNeighborText extends DynamicOutputDoubleChannel implements AnalysisTextExporter {
+public class ExportCrossNearestNeighborText extends CrossChannelCommand implements TextExportCommand {
 
 
     //TODO: Find a better way to resolve this conflict
     public void run() {
-        AnalysisTextExporter.super.run();
+        TextExportCommand.super.run();
     }
 
     @Override
@@ -29,7 +28,7 @@ public class ExportCrossNearestNeighborText extends DynamicOutputDoubleChannel i
         String fromName = getFromName();
         String toName = getToName();
 
-        double[] nearestNeighborResult = new CrossLinearNearestNeighbor((ListPointContainer) from, (ListPointContainer) to).execute();
+        double[] nearestNeighborResult = new CrossLinearNearestNeighbor(from, to).execute();
 
         for (double value : nearestNeighborResult) {
             result += fromName + "->" + toName + "\t" + value + "\r\n";

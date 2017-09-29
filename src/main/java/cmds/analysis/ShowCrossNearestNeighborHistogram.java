@@ -1,9 +1,8 @@
 package cmds.analysis;
 
-import analysis.data.ListPointContainer;
 import analysis.data.OperablePointContainer;
 import analysis.ops.CrossLinearNearestNeighbor;
-import cmds.DynamicOutputDoubleChannel;
+import cmds.CrossChannelCommand;
 import cmds.gui.HistogramFrame;
 import org.scijava.command.Command;
 import org.scijava.plugin.Parameter;
@@ -13,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Plugin(type = Command.class, menuPath = "PAN>Display histogram...>Cross-channel Nearest Neighbor")
-public class ShowCrossNearestNeighborHistogram extends DynamicOutputDoubleChannel {
+public class ShowCrossNearestNeighborHistogram extends CrossChannelCommand {
 
     @Parameter(label = "Number of bins")
     private int numberOfBins;
@@ -31,7 +30,7 @@ public class ShowCrossNearestNeighborHistogram extends DynamicOutputDoubleChanne
         OperablePointContainer fromChannel = getFromChannel();
         OperablePointContainer toChannel = getToChannel();
 
-        double[] nearestNeighborResult = new CrossLinearNearestNeighbor((ListPointContainer) fromChannel, (ListPointContainer) toChannel).execute();
+        double[] nearestNeighborResult = new CrossLinearNearestNeighbor(fromChannel, toChannel).execute();
 
         Map <String, double[]> displayData = new HashMap <>();
         displayData.put(fromChannelName + "->" + toChannelName, nearestNeighborResult);
