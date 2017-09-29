@@ -13,7 +13,7 @@
 
     <groupId>org.honglab</groupId>
     <artifactId>PointsANalysis</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.4-SNAPSHOT</version>
 
     <name>PointsANalysis</name>
     <description>An plugin that will help 3D point cloud analysis.</description>
