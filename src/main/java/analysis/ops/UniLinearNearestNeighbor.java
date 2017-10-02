@@ -7,14 +7,14 @@ import analysis.data.OperablePointContainer;
  * An implementation of a NearestNeighbor search for a Linear container (which means it is a linear search).
  */
 
-@OpScript(type = SingleChannelOperation.class, label = "Nearest Neighbor")
-public class LinearNearestNeighbor extends SingleChannelOperation {
+@OpScript(type = UniOperation.class, label = "Nearest Neighbor")
+public class UniLinearNearestNeighbor extends UniOperation {
 
     OperablePointContainer container;
 
 
 //    //Must pass in a Linear container to operate on
-//    public LinearNearestNeighbor(OperablePointContainer container) {
+//    public UniLinearNearestNeighbor(OperablePointContainer container) {
 //        setChannel(container);
 //    }
 

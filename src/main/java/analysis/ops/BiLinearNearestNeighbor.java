@@ -4,13 +4,13 @@ import analysis.Triple;
 import analysis.data.OperablePointContainer;
 
 
-@OpScript(type = CrossChannelOperation.class, label = "Cross Nearest Neighbor")
-public class CrossLinearNearestNeighbor extends CrossChannelOperation {
+@OpScript(type = BiOperation.class, label = "Cross Nearest Neighbor")
+public class BiLinearNearestNeighbor extends BiOperation {
 
     OperablePointContainer operator;
     OperablePointContainer data;
 
-//    public CrossLinearNearestNeighbor(OperablePointContainer op, OperablePointContainer dat) {
+//    public BiLinearNearestNeighbor(OperablePointContainer op, OperablePointContainer dat) {
 //        setChannel(op, dat);
 //    }
 

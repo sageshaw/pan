@@ -2,9 +2,9 @@ package cmds.analysis;
 
 import analysis.data.OperablePointContainer;
 import analysis.data.PointContainer;
-import analysis.ops.SingleChannelOperation;
-import cmds.SingleChannelCommand;
+import analysis.ops.UniOperation;
 import cmds.TextExportCommand;
+import cmds.UniChannelCommand;
 import org.scijava.command.Command;
 import org.scijava.plugin.Plugin;
 
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Plugin(type = Command.class, menuPath = "PAN>Analysis>Single-Channel Analysis>Export as Text File")
-public class ExportSingleText extends SingleChannelCommand implements TextExportCommand {
+public class UniExportText extends UniChannelCommand implements TextExportCommand {
 
 
     @Override
@@ -24,10 +24,10 @@ public class ExportSingleText extends SingleChannelCommand implements TextExport
 
         OperablePointContainer channel;
         double analysisResult[];
-        SingleChannelOperation operation = null;
+        UniOperation operation = null;
 
         try {
-            operation = (SingleChannelOperation) getChosenAnalysisOp().newInstance();
+            operation = (UniOperation) getChosenAnalysisOp().newInstance();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

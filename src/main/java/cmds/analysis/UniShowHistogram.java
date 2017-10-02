@@ -2,8 +2,8 @@ package cmds.analysis;
 
 import analysis.data.OperablePointContainer;
 import analysis.data.PointContainer;
-import analysis.ops.SingleChannelOperation;
-import cmds.SingleChannelCommand;
+import analysis.ops.UniOperation;
+import cmds.UniChannelCommand;
 import cmds.gui.HistogramFrame;
 import org.scijava.command.Command;
 import org.scijava.plugin.Parameter;
@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Plugin(type = Command.class, menuPath = "PAN>Analysis>Single-Channel Analysis>Show Histogram")
-public class ShowSingleHistogram extends SingleChannelCommand {
+public class UniShowHistogram extends UniChannelCommand {
     //Parameters for histogram
     @Parameter(label = "Number of bins")
     private int numberOfBins;
@@ -39,10 +39,10 @@ public class ShowSingleHistogram extends SingleChannelCommand {
 
         OperablePointContainer channel;
         double analysisResult[];
-        SingleChannelOperation operation = null;
+        UniOperation operation = null;
 
         try {
-            operation = (SingleChannelOperation) getChosenAnalysisOp().newInstance();
+            operation = (UniOperation) getChosenAnalysisOp().newInstance();
         } catch (Exception e) {
             e.printStackTrace();
             return;

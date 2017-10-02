@@ -3,7 +3,7 @@ package cmds;
 import analysis.data.MappedPointContainer;
 import analysis.data.PointContainer;
 import analysis.ops.AnalysisOperation;
-import analysis.ops.SingleChannelOperation;
+import analysis.ops.UniOperation;
 import cmds.gui.ChannelModuleItem;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.log.LogService;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class SingleChannelCommand extends AnalysisCommand {
+public abstract class UniChannelCommand extends AnalysisCommand {
 
     //Grab the instances of classes we need
     @Parameter
@@ -99,6 +99,6 @@ public abstract class SingleChannelCommand extends AnalysisCommand {
 
     @Override
     Class <? extends AnalysisOperation> getOperationType() {
-        return SingleChannelOperation.class;
+        return UniOperation.class;
     }
 }

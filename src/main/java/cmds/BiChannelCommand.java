@@ -3,7 +3,7 @@ package cmds;
 import analysis.data.MappedPointContainer;
 import analysis.data.OperablePointContainer;
 import analysis.ops.AnalysisOperation;
-import analysis.ops.CrossChannelOperation;
+import analysis.ops.BiOperation;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.module.MutableModuleItem;
 import org.scijava.plugin.Parameter;
@@ -11,7 +11,7 @@ import plugins.PanContext;
 
 import java.util.ArrayList;
 
-public abstract class CrossChannelCommand extends AnalysisCommand {
+public abstract class BiChannelCommand extends AnalysisCommand {
 
     @Parameter
     PanContext ptStore;
@@ -95,6 +95,6 @@ public abstract class CrossChannelCommand extends AnalysisCommand {
 
     @Override
     Class <? extends AnalysisOperation> getOperationType() {
-        return CrossChannelOperation.class;
+        return BiOperation.class;
     }
 }

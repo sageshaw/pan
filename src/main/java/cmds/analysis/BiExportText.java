@@ -1,14 +1,14 @@
 package cmds.analysis;
 
 import analysis.data.OperablePointContainer;
-import analysis.ops.CrossChannelOperation;
-import cmds.CrossChannelCommand;
+import analysis.ops.BiOperation;
+import cmds.BiChannelCommand;
 import cmds.TextExportCommand;
 import org.scijava.command.Command;
 import org.scijava.plugin.Plugin;
 
 @Plugin(type = Command.class, menuPath = "PAN>Analysis>Cross-Channel Analysis>Export as Text File")
-public class ExportCrossText extends CrossChannelCommand implements TextExportCommand {
+public class BiExportText extends BiChannelCommand implements TextExportCommand {
 
 
 
@@ -22,10 +22,10 @@ public class ExportCrossText extends CrossChannelCommand implements TextExportCo
         String fromName = getFromName();
         String toName = getToName();
 
-        CrossChannelOperation operation = null;
+        BiOperation operation = null;
 
         try {
-            operation = (CrossChannelOperation) getChosenAnalysisOp().newInstance();
+            operation = (BiOperation) getChosenAnalysisOp().newInstance();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

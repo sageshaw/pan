@@ -1,8 +1,8 @@
 package cmds.analysis;
 
 import analysis.data.OperablePointContainer;
-import analysis.ops.CrossChannelOperation;
-import cmds.CrossChannelCommand;
+import analysis.ops.BiOperation;
+import cmds.BiChannelCommand;
 import cmds.gui.HistogramFrame;
 import org.scijava.command.Command;
 import org.scijava.plugin.Parameter;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Plugin(type = Command.class, menuPath = "PAN>Analysis>Cross-Channel Analysis>Show Histogram")
-public class ShowCrossHistogram extends CrossChannelCommand {
+public class BiShowHistogram extends BiChannelCommand {
     @Parameter(label = "Number of bins")
     private int numberOfBins;
     @Parameter(label = "X Axis Label")
@@ -30,10 +30,10 @@ public class ShowCrossHistogram extends CrossChannelCommand {
         OperablePointContainer toChannel = getToChannel();
 
 
-        CrossChannelOperation operation = null;
+        BiOperation operation = null;
 
         try {
-            operation = (CrossChannelOperation) getChosenAnalysisOp().newInstance();
+            operation = (BiOperation) getChosenAnalysisOp().newInstance();
         } catch (Exception e) {
             e.printStackTrace();
             return;
