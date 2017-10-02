@@ -21,6 +21,16 @@ public class BiShowHistogram extends BiChannelCommand {
     private String yAxisLabel;
     @Parameter(label = "Graph Title")
     private String graphName;
+    @Parameter(label = "Show Mean")
+    private boolean showMean;
+    @Parameter(label = "Show Quartiles (25%, 75%)")
+    private boolean showQuartiles;
+    @Parameter(label = "Show Median")
+    private boolean showMedian;
+    @Parameter(label = "Show Standard Deviation")
+    private boolean showDeviation;
+    @Parameter(label = "Export Histogram")
+    private boolean exportHisto;
 
     public void run() {
         String fromChannelName = getFromName();

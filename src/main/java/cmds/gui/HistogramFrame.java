@@ -31,6 +31,8 @@ public class HistogramFrame extends JFrame {
                         true,
                         true,
                         false);
+
+
         ChartPanel chartPanel = new ChartPanel(chart, false);
         chartPanel.setPreferredSize(new Dimension(500, 270));
         setContentPane(chartPanel);
