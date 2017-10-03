@@ -7,14 +7,11 @@ import analysis.ops.BiOperation;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.module.MutableModuleItem;
 import org.scijava.plugin.Parameter;
-import plugins.PanContext;
 
 import java.util.ArrayList;
 
 public abstract class BiChannelCommand extends AnalysisCommand {
 
-    @Parameter
-    PanContext ptStore;
 
     @Parameter(label = "From", choices = {"a", "b"})
     private String from;
@@ -26,12 +23,12 @@ public abstract class BiChannelCommand extends AnalysisCommand {
 
         ArrayList <String> options = new ArrayList <>();
 
-        String[] channelSetKeys = ptStore.keys();
+        String[] channelSetKeys = panContext.keys();
 
         if (channelSetKeys.length == 0) throw new NullArgumentException();
 
         for (String channelSetKey : channelSetKeys) {
-            MappedPointContainer channelSet = ptStore.get(channelSetKey);
+            MappedPointContainer channelSet = panContext.get(channelSetKey);
             String[] channelKeys = channelSet.keys();
 
             for (String channelKey : channelKeys) {
@@ -51,10 +48,10 @@ public abstract class BiChannelCommand extends AnalysisCommand {
 
 
     protected OperablePointContainer getFromChannel() {
-        String[] channelSetKeys = ptStore.keys();
+        String[] channelSetKeys = panContext.keys();
 
         for (String channelSetKey : channelSetKeys) {
-            MappedPointContainer channelSet = ptStore.get(channelSetKey);
+            MappedPointContainer channelSet = panContext.get(channelSetKey);
             String[] channelKeys = channelSet.keys();
 
             for (String channelKey : channelKeys) {
@@ -68,10 +65,10 @@ public abstract class BiChannelCommand extends AnalysisCommand {
     }
 
     protected OperablePointContainer getToChannel() {
-        String[] channelSetKeys = ptStore.keys();
+        String[] channelSetKeys = panContext.keys();
 
         for (String channelSetKey : channelSetKeys) {
-            MappedPointContainer channelSet = ptStore.get(channelSetKey);
+            MappedPointContainer channelSet = panContext.get(channelSetKey);
             String[] channelKeys = channelSet.keys();
 
             for (String channelKey : channelKeys) {

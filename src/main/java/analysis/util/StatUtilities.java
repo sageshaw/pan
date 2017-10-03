@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class StatUtilities {
 
-    public static double getMean(double[] data) {
+    public static double mean(double[] data) {
         double sum = 0;
         for (double val : data) {
             sum += val;
@@ -13,20 +13,20 @@ public class StatUtilities {
         return sum / data.length;
     }
 
-    public static double getSampleStandardDeviation(double[] data) {
-        double sum = getSquareDifferenceSum(data);
+    public static double sampleStandardDeviation(double[] data) {
+        double sum = squareDifferenceSum(data);
 
         return Math.sqrt(sum / (data.length - 1));
     }
 
-    public static double getPopulationStandardDeviation(double[] data) {
-        double sum = getSquareDifferenceSum(data);
+    public static double populationStandardDeviation(double[] data) {
+        double sum = squareDifferenceSum(data);
 
         return Math.sqrt(sum / (data.length));
     }
 
-    private static double getSquareDifferenceSum(double[] data) {
-        double mean = getMean(data);
+    private static double squareDifferenceSum(double[] data) {
+        double mean = mean(data);
         double sum = 0;
         for (double val : data) {
             sum += Math.pow(val - mean, 2);
@@ -34,46 +34,46 @@ public class StatUtilities {
         return sum;
     }
 
-    public static double getMedian(double[] data) {
+    public static double median(double[] data) {
         double[] copy = Arrays.copyOf(data, data.length);
         Arrays.sort(copy);
         final int len = copy.length;
         if (len % 2 == 0) {
-            return getMean(new double[]{copy[len / 2], copy[len / 2 - 1]});
+            return mean(new double[]{copy[len / 2], copy[len / 2 - 1]});
         }
 
         return copy[len / 2];
     }
 
-    public static double getUpperQuartileInc(double[] data) {
+    public static double upperQuartileInc(double[] data) {
         double[] copy = Arrays.copyOf(data, data.length);
         Arrays.sort(copy);
         final int len = copy.length;
-        return getMedian(Arrays.copyOfRange(copy, len / 2, len));
+        return median(Arrays.copyOfRange(copy, len / 2, len));
     }
 
-    public static double getUpperQuartileExc(double[] data) {
+    public static double upperQuartileExc(double[] data) {
         double[] copy = Arrays.copyOf(data, data.length);
         Arrays.sort(copy);
         final int len = copy.length;
-        if (len % 2 == 1) return getMedian(Arrays.copyOfRange(copy, len / 2 + 1, len));
-        return getMedian(Arrays.copyOfRange(copy, len / 2, len));
+        if (len % 2 == 1) return median(Arrays.copyOfRange(copy, len / 2 + 1, len));
+        return median(Arrays.copyOfRange(copy, len / 2, len));
     }
 
-    public static double getLowerQuartileInc(double[] data) {
+    public static double lowerQuartileInc(double[] data) {
         double[] copy = data;
         Arrays.sort(copy);
         final int len = copy.length;
-        if (len % 2 == 1) return getMedian(Arrays.copyOfRange(copy, 0, len / 2 + 1));
-        return getMedian(Arrays.copyOfRange(copy, 0, len / 2));
+        if (len % 2 == 1) return median(Arrays.copyOfRange(copy, 0, len / 2 + 1));
+        return median(Arrays.copyOfRange(copy, 0, len / 2));
     }
 
-    public static double getLowerQuartileExc(double[] data) {
+    public static double lowerQuartileExc(double[] data) {
 
         double[] copy = Arrays.copyOf(data, data.length);
         Arrays.sort(copy);
         final int len = copy.length;
-        return getMedian(Arrays.copyOfRange(copy, 0, len / 2));
+        return median(Arrays.copyOfRange(copy, 0, len / 2));
     }
 
 

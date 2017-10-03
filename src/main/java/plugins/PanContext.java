@@ -23,9 +23,11 @@ public class PanContext extends AbstractPTService <ImageJService> implements Ima
   // master channel list
   private BiMap <String, MappedPointContainer> channelSets;
 
+    private int numHistos;
 
   public PanContext() {
     channelSets = HashBiMap.create();
+      numHistos = 0;
   }
 
   public List <Class <?>> findOpScripts() {
@@ -103,4 +105,12 @@ public class PanContext extends AbstractPTService <ImageJService> implements Ima
   public void makeRelative() {
     throw new UnsupportedOperationException();
   }
+
+    public int getHistogramNumber() {
+        return numHistos;
+    }
+
+    public void setHistogramNumber(int numHisto) {
+        this.numHistos = numHisto;
+    }
 }

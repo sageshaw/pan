@@ -14,7 +14,7 @@ import java.util.List;
 
 public abstract class AnalysisCommand extends DynamicCommand implements Initializable {
     @Parameter
-    PanContext panContext;
+    protected PanContext panContext;
     @Parameter(label = "Analysis", choices = {"a", "b"})
     String analysisChoice;
 

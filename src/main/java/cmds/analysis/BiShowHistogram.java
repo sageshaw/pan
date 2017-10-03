@@ -2,12 +2,15 @@ package cmds.analysis;
 
 import analysis.data.OperablePointContainer;
 import analysis.ops.BiOperation;
+import analysis.util.StatUtilities;
 import cmds.BiChannelCommand;
 import cmds.gui.HistogramFrame;
 import org.scijava.command.Command;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,16 +24,8 @@ public class BiShowHistogram extends BiChannelCommand {
     private String yAxisLabel;
     @Parameter(label = "Graph Title")
     private String graphName;
-    @Parameter(label = "Show Mean")
-    private boolean showMean;
-    @Parameter(label = "Show Quartiles (25%, 75%)")
-    private boolean showQuartiles;
-    @Parameter(label = "Show Median")
-    private boolean showMedian;
-    @Parameter(label = "Show Standard Deviation")
-    private boolean showDeviation;
-    @Parameter(label = "Export Histogram")
-    private boolean exportHisto;
+    @Parameter(label = "Data statistics")
+    private boolean showStat;
 
     public void run() {
         String fromChannelName = getFromName();
@@ -55,9 +50,36 @@ public class BiShowHistogram extends BiChannelCommand {
         Map <String, double[]> displayData = new HashMap <>();
         displayData.put(fromChannelName + "->" + toChannelName, analysisResult);
 
-        HistogramFrame demo = new HistogramFrame("Cross-channel Nearest Neighbor Histogram",
+        int histoNumber = panContext.getHistogramNumber();
+
+        JFrame statFrame = new JFrame("HistogramStat" + histoNumber);
+        JPanel statPanel = new JPanel();
+        statPanel.setLayout(new BoxLayout(statPanel, BoxLayout.PAGE_AXIS));
+
+        if (showStat) {
+            Font fieldFont = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
+            JTextArea statField = new JTextArea("Mean: " + StatUtilities.mean(analysisResult) + System.getProperty("line.separator") +
+                    "Median: " + StatUtilities.median(analysisResult) + System.getProperty("line.separator") +
+                    "Standard Deviation: " + StatUtilities.sampleStandardDeviation(analysisResult) + System.getProperty("line.separator") +
+                    "Lower quartile (exclusive): " + StatUtilities.lowerQuartileExc(analysisResult) + System.getProperty("line.separator") +
+                    "Upper quartile (exclusive): " + StatUtilities.upperQuartileExc(analysisResult));
+            statField.setFont(fieldFont);
+            statField.setEditable(false);
+            statPanel.add(statField);
+        }
+
+        statFrame.setContentPane(statPanel);
+
+        HistogramFrame histoFrame = new HistogramFrame("Histogram" + histoNumber,
                 graphName, xAxisLabel, yAxisLabel, numberOfBins, displayData);
-        demo.pack();
-        demo.setVisible(true);
+
+
+        statFrame.pack();
+        histoFrame.pack();
+
+        statFrame.setVisible(true);
+        histoFrame.setVisible(true);
+
+        panContext.setHistogramNumber(histoNumber + 1);
     }
 }
