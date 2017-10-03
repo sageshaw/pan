@@ -29,6 +29,7 @@ import java.util.List;
  */
 
 @Deprecated
+//@Plugin(type = Command.class, menuPath = "PAN>Dynamic Loading")
 public class DynamicAddPointSet extends DynamicCommand implements Command, Initializable {
 
 

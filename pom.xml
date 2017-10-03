@@ -13,7 +13,7 @@
 
     <groupId>org.honglab</groupId>
     <artifactId>PointsANalysis</artifactId>
-    <version>1.4-SNAPSHOT</version>
+    <version>ALHPA-1.0</version>
 
     <name>PointsANalysis</name>
     <description>An plugin that will help 3D point cloud analysis.</description>
@@ -93,6 +93,16 @@
         <dependency>
             <groupId>net.imagej</groupId>
             <artifactId>imagej</artifactId>
+        </dependency>
+
+        <!-- NB: For ImageJ 1.x support. -->
+        <dependency>
+            <groupId>net.imagej</groupId>
+            <artifactId>ij</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.imagej</groupId>
+            <artifactId>imagej-legacy</artifactId>
         </dependency>
 
         <dependency>
