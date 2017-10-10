@@ -1,4 +1,4 @@
-# pan
+# pan (PointANalysis)
 ImageJ plugin for 3D point analysis.
 
 ####Build Instructions (Maven must be installed first)
