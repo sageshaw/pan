@@ -57,9 +57,31 @@ public class ClassUtilities {
         List <Class <?>> ret = new ArrayList <>();
         String[] classes = getPackageContent(packageName);
         for (String clazz : classes) {
-            clazz = clazz.replace('/', '.').substring(0, clazz.indexOf(".java"));
-            Class <?> c = Class.forName(clazz);
-            if (c.isAnnotationPresent(annotationClass)) ret.add(c);
+            if (clazz.indexOf(".java") > -1) continue;
+
+            try {
+                clazz = clazz.replace('/', '.').substring(0, clazz.indexOf(".class"));
+            } catch (StringIndexOutOfBoundsException e) {
+                System.out.print("Class name: '" + clazz + "' invalid.");
+            }
+
+            Class <?> c = null;
+            try {
+                c = Class.forName(clazz);
+            } catch (Exception e) {
+                System.out.print("Cannot instantiate class of: '" + clazz + "'");
+                return null;
+            }
+
+            if (c.isAnnotationPresent(annotationClass)) {
+                boolean hasDuplicate = false;
+                for (Class <?> loadedClass : ret) {
+                    if (loadedClass.getName().equals(clazz)) hasDuplicate = true;
+                }
+                if (!hasDuplicate) ret.add(c);
+            }
+
+
         }
 
         return ret;

@@ -14,7 +14,7 @@ Drag jars in `target` folder into `jars` folder in ImageJ.
 * In ImageJ, select PAN>Add point set from text file...
 * Browse for text file export from Nikon Elements
 * Select "Crop Image to fit dataset" to move absolute positioning to relative positioning.
-* Select "Show Image render..." to generate image of your dataset.
+* Select "Show Image render..." to generate image of imported dataset.
 
 ######Displaying image from loaded point set
 * Select PAN>Render Image from dataset
@@ -28,10 +28,12 @@ Drag jars in `target` folder into `jars` folder in ImageJ.
 ######Single-Channel Analysis
 * Select Pan>Analysis>Single-Channel Analysis
 * To export text file, select "Export Text File", to display a histogram, select "Show Histogram"
+* Select desired analysis method, and fill appropriate fields
 
 ######Cross-Channel Analysis
 * Select Pan>Analysis>Cross-Channel Analysis
 * To export text file, select "Export Text File", to display a histogram, select "Show Histogram"
+* Select desired analysis method, and fill appropriate fields
 
 A note on "single-channel" vs. "double-channel" :
 'Single-channel' is the analysis of a single channel performing the operation on itself, while
