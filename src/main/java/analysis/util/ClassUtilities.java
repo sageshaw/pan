@@ -57,7 +57,7 @@ public class ClassUtilities {
         List <Class <?>> ret = new ArrayList <>();
         String[] classes = getPackageContent(packageName);
         for (String clazz : classes) {
-            clazz = clazz.replace('/', '.').substring(0, clazz.indexOf(".class"));
+            clazz = clazz.replace('/', '.').substring(0, clazz.indexOf(".java"));
             Class <?> c = Class.forName(clazz);
             if (c.isAnnotationPresent(annotationClass)) ret.add(c);
         }

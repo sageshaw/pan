@@ -35,7 +35,7 @@ public class PanContext extends AbstractPTService <ImageJService> implements Ima
     try {
       processes = ClassUtilities.findAnnotatedClasses("analysis.ops", OpScript.class);
     } catch (Exception e) {
-      System.out.println("Error loading algorithms.");
+      e.printStackTrace();
     }
 
     return processes;
