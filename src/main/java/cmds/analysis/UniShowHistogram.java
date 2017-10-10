@@ -19,7 +19,7 @@ import java.util.Set;
 /**
  * Command plugin to display single-channel analysis in a histogram.
  */
-@Plugin(type = Command.class, menuPath = "PAN>Analysis>Single-Channel Analysis>Show Histogram")
+@Plugin(type = Command.class, menuPath = "PAN>Analysis>Single-Channel Analysis>Show Single Histogram")
 public class UniShowHistogram extends UniChannelCommand {
     //Parameters for histogram
     @Parameter(label = "Number of bins")
@@ -38,6 +38,7 @@ public class UniShowHistogram extends UniChannelCommand {
 
     @Override
     public void run() {
+
         //Grab checked items
         HashMap <String, double[]> displayData = new HashMap <>();
 

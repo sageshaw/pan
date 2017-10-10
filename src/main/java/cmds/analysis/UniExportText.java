@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * Command plugin to export single-channel analysis data in a .txt file.
  */
-@Plugin(type = Command.class, menuPath = "PAN>Analysis>Single-Channel Analysis>Export as Text File")
+@Plugin(type = Command.class, menuPath = "PAN>Analysis>Single-Channel Analysis>Export Single-Analysis as Text File")
 public class UniExportText extends UniChannelCommand implements TextExportCommand {
 
 

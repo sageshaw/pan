@@ -78,11 +78,12 @@ public class ClassUtilities {
                 for (Class <?> loadedClass : ret) {
                     if (loadedClass.getName().equals(clazz)) hasDuplicate = true;
                 }
-                if (!hasDuplicate) ret.add(c);
+                if (!hasDuplicate)
+                    ret.add(c);
             }
 
-
         }
+
 
         return ret;
     }

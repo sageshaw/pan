@@ -6,6 +6,7 @@ import analysis.util.StatUtilities;
 import cmds.BiChannelCommand;
 import cmds.gui.HistogramFrame;
 import org.scijava.command.Command;
+import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
@@ -18,8 +19,11 @@ import java.util.Map;
  * Class to represent display of cross-channel analysis data in a histogram.
  */
 
-@Plugin(type = Command.class, menuPath = "PAN>Analysis>Cross-Channel Analysis>Show Histogram")
+@Plugin(type = Command.class, menuPath = "PAN>Analysis>Cross-Channel Analysis>Show Cross Histogram")
 public class BiShowHistogram extends BiChannelCommand {
+    @Parameter
+    LogService logService;
+
     @Parameter(label = "Number of bins")
     private int numberOfBins;
     @Parameter(label = "X Axis Label")
@@ -32,6 +36,10 @@ public class BiShowHistogram extends BiChannelCommand {
     private boolean showStat;
 
     public void run() {
+
+
+        logService.info("Bi");
+
         String fromChannelName = getFromName();
         String toChannelName = getToName();
 
