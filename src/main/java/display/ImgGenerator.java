@@ -7,6 +7,9 @@ import net.imglib2.img.ImgFactory;
 import net.imglib2.img.array.ArrayImgFactory;
 import net.imglib2.type.numeric.integer.UnsignedByteType;
 
+/**
+ * Provides basic framework to abstract away Img generation process with ImgLib2.
+ */
 public interface ImgGenerator {
 
     void drawMarker(int x, int y, int z, Img<UnsignedByteType> img);

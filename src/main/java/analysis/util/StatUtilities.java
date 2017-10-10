@@ -2,6 +2,9 @@ package analysis.util;
 
 import java.util.Arrays;
 
+/**
+ * Static method utility class for basic statistic functions too small to implement in OpScript.
+ */
 public class StatUtilities {
 
     public static double mean(double[] data) {

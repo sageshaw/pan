@@ -2,10 +2,11 @@ package analysis.data;
 
 public interface MappedPointContainer<T extends PointContainer> extends PointContainer {
 
-    /*
-    For Point Containers that use a Guava BiMap to store their data
-
+    /**
+     *  For Point Containers that hold other PointContainers (ex : listPointContainer) not hold
+     *  Triples themselves.
      */
+
 
     String key(T value);
 

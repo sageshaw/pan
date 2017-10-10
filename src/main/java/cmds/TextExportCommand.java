@@ -8,6 +8,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+/**
+ * Interface providing basic framework for text output of analysis data.
+ */
 public interface TextExportCommand extends Command {
 
     String getOutput();

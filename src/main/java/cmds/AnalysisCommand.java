@@ -12,6 +12,9 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Provides the basic structure of a command that handles analysis.
+ */
 public abstract class AnalysisCommand extends DynamicCommand implements Initializable {
     @Parameter
     protected PanContext panContext;

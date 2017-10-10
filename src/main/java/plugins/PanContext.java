@@ -13,8 +13,8 @@ import org.scijava.plugin.Plugin;
 import java.util.Iterator;
 import java.util.List;
 
-/*
-Plugin service for all PointsANalysis operation. User interface is given through command plugins.
+/**
+ * Serves as a common context for all command plugins.
  */
 @Plugin(type = ImageJService.class)
 public class PanContext extends AbstractPTService <ImageJService> implements ImageJService, MappedPointContainer {

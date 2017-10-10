@@ -8,13 +8,14 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * analysis.data.Linear object to hold point data. This is abstract to allow for any type of List to be used as the
- * containing object (and other features that clients might extend)
+ * A ListPointContainer object to hold point data in a list. This is mainly accessible by list. Also Displayable (can be
+ * used with ImgGenerator)
  */
 public class Linear<T extends Triple> implements ListPointContainer, Displayable {
 
 
-    protected List <T> points;
+  //List container to store Triple points
+  protected List <T> points;
 
     public Linear() {
         points = new ArrayList <>();
@@ -120,7 +121,8 @@ public class Linear<T extends Triple> implements ListPointContainer, Displayable
     return new Triple(x/numPts, y/numPts, z/numPts);
   }
 
-    @Override
+
+  @Override
     public void add(Triple pt) {
         points.add((T) pt);
     }

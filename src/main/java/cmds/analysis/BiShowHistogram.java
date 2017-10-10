@@ -14,6 +14,10 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class to represent display of cross-channel analysis data in a histogram.
+ */
+
 @Plugin(type = Command.class, menuPath = "PAN>Analysis>Cross-Channel Analysis>Show Histogram")
 public class BiShowHistogram extends BiChannelCommand {
     @Parameter(label = "Number of bins")

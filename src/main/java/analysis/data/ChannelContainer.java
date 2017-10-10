@@ -8,8 +8,8 @@ import display.Displayable;
 import java.util.Iterator;
 
 /**
- * A class meant to hold individual channels. This is used as a way to access information across channels,
- * as well as to compartmentalize sets of channels from the same dataset/image.
+ * A class meant to associate individual channels together. This is used as a way to access information across channels,
+ * as well as to group channels together from the same sample.
  */
 
 public class ChannelContainer<T extends OperablePointContainer> implements OperablePointContainer, MappedPointContainer, Displayable {

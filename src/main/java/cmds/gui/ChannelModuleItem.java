@@ -5,7 +5,10 @@ import org.scijava.module.DefaultMutableModuleItem;
 import org.scijava.module.ModuleInfo;
 import org.scijava.module.ModuleItem;
 
-//Bundles ModuleItems<T> and PointContainers together to easily perform dynamic checklist guis (see ExportNearestNeighborText)
+/**
+ * Bundles ModuleItems<T> and PointContainers together to easily perform dynamic checklist guis
+ * (see ExportNearestNeighborText)
+ */
 public class ChannelModuleItem<T, K extends PointContainer> {
 
   //the ListPointContainer and ModuleItem

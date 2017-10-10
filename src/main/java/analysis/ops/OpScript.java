@@ -6,10 +6,13 @@ import java.lang.annotation.Target;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Annotation used to denote new algorithm plugins.
+ */
+
 @Target(ElementType.TYPE)
 @Retention(RUNTIME)
 public @interface OpScript {
-
 
 
     Class <? extends AnalysisOperation> type();

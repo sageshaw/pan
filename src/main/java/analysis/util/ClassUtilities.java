@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+
+/**
+ * Static method utility class for classpath scanning for plugin OpScripts.
+ */
 public class ClassUtilities {
 
     public static String[] getPackageContent(String packageName) throws IOException {

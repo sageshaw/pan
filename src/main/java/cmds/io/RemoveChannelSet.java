@@ -16,7 +16,9 @@ import plugins.PanContext;
 import java.util.ArrayList;
 import java.util.List;
 
-//Command to remove channelSets from PanContext
+/**
+ * Command plugin to remove a ChannelSet from PanStorage.
+ */
 @Plugin(type = Command.class, menuPath="PAN>Remove channel set...")
 public class RemoveChannelSet extends DynamicCommand implements Initializable{
 

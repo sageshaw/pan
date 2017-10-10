@@ -10,6 +10,10 @@ import org.scijava.plugin.Parameter;
 
 import java.util.ArrayList;
 
+/**
+ * Proves basic structure for a command that provides a basic structure for a command plugin
+ * handling two-channel analysis.
+ */
 public abstract class BiChannelCommand extends AnalysisCommand {
 
 

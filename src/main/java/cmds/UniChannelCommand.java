@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Provides basic framework for class handling single-channel analysis.
+ */
 public abstract class UniChannelCommand extends AnalysisCommand {
 
     //Grab the instances of classes we need

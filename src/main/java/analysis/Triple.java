@@ -4,7 +4,9 @@ import analysis.data.PointContainer;
 
 import java.util.Iterator;
 
-//Because Java doesn't really  have a tuple construct (this one is a triple) to represent a voxel
+/**
+ * Representation of a three-dimensional point, since Java does not natively support tuples.
+ */
 public class Triple implements PointContainer {
 
   public static Triple MAX_TRIPLE() {

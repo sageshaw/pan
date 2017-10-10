@@ -12,6 +12,10 @@ import org.scijava.plugin.Plugin;
 
 import java.util.Map;
 
+
+/**
+ * Command plugin to render an image stack based on channel data
+ */
 @Plugin(type = Command.class, menuPath = "PAN>Render image from dataset...")
 public class ShowDisplayableImage extends UniChannelCommand {
 

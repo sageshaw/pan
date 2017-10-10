@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Command plugin to display single-channel analysis in a histogram.
+ */
 @Plugin(type = Command.class, menuPath = "PAN>Analysis>Single-Channel Analysis>Show Histogram")
 public class UniShowHistogram extends UniChannelCommand {
     //Parameters for histogram

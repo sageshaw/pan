@@ -4,7 +4,7 @@ import analysis.Triple;
 import analysis.data.OperablePointContainer;
 
 /**
- * An implementation of a NearestNeighbor search for a Linear container (which means it is a linear search).
+ * Implementation of linear nearest neighbor search.
  */
 
 @OpScript(type = UniOperation.class, label = "Nearest Neighbor")

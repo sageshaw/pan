@@ -25,7 +25,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Command to handle .txt file input (export from Nikon elements)
+ * Command to handle .txt file input (export from Nikon elements) with specification of proper field columns.
+ * Currently unavailable due to limitations of the SciJava framework.
  */
 
 @Deprecated

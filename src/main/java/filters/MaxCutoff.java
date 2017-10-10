@@ -1,5 +1,6 @@
 package filters;
 
+@Deprecated
 public class MaxCutoff implements PanFilter {
 
     private double max;

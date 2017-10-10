@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Represents a stack of filters - maybe simplify with Streams?
  */
-
+@Deprecated
 public class FilterStack implements PanFilter {
 
     List<PanFilter> filterList = new ArrayList<>();

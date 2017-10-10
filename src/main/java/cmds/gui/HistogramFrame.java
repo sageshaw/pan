@@ -10,7 +10,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
-//No other classes use this, so inner class it is. This represents the Histogram window
+/**
+ * Represents a histogram frame. Abstracts away JFreeChart usage from rest of codebase.
+ */
 public class HistogramFrame extends JFrame {
 
     public HistogramFrame(String title, String graphName, String xAxisLabel, String yAxisLabel, int numberOfBins, Map <String, double[]> data) {

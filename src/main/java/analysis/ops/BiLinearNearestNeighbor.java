@@ -3,6 +3,9 @@ package analysis.ops;
 import analysis.Triple;
 import analysis.data.OperablePointContainer;
 
+/**
+ * Implementation of a Cross-Channel linear nearest neighbor analysis.
+ */
 
 @OpScript(type = BiOperation.class, label = "Cross Nearest Neighbor")
 public class BiLinearNearestNeighbor extends BiOperation {
