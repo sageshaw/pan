@@ -16,12 +16,12 @@
     <version>ALPHA-1.0</version>
 
     <name>PointsANalysis</name>
-    <description>An plugin that will help 3D point cloud analysis.</description>
-    <url>https://github.com/[MY-ORG]/[MY-REPO]</url>
+    <description>ImageJ plugin for 3D point analysis.</description>
+    <url>https://github.com/sageshaw/pan</url>
     <inceptionYear>2017</inceptionYear>
     <organization>
-        <name>[MY-ORGANIZATION-NAME]</name>
-        <url>[MY-ORGANIZATION-WEB-SITE]</url>
+        <name></name>
+        <url></url>
     </organization>
     <licenses>
         <license>
@@ -33,8 +33,8 @@
 
     <developers>
         <developer>
-            <id>[MY-GITHUB-ID]</id>
-            <name>[MY-FULL-NAME]</name>
+            <id>sageshaw</id>
+            <name>Seiji Aaron Shaw</name>
             <url>https://imagej.net/User:[MY-IMAGEJ-WIKI-ACCOUNT]</url>
         </developer>
     </developers>
@@ -52,14 +52,14 @@
     </mailingLists>
 
     <scm>
-        <connection>scm:git:git://github.com/[MY-ORG]/[MY-REPO]</connection>
-        <developerConnection>scm:git:git@github.com:[MY-ORG]/[MY-REPO]</developerConnection>
+        <connection>scm:git:git://github.com/sageshaw/pan</connection>
+        <developerConnection>scm:git:git@github.com:sageshaw/pan</developerConnection>
         <tag>HEAD</tag>
-        <url>https://github.com/[MY-ORG]/[MY-REPO]</url>
+        <url>https://github.com/sageshaw/pan</url>
     </scm>
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>http://github.com/[MY-ORG]/[MY-REPO]/issues</url>
+        <url>http://github.com/sageshaw/pan/issues</url>
     </issueManagement>
     <ciManagement>
         <system>None</system>
