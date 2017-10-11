@@ -27,4 +27,9 @@ public class ShowDisplayableImage extends UniChannelCommand {
         ImgGenerator imgGenerator = new DisplayImgGenerator(DisplayImgGenerator.PointMarker.plus, markerSize);
         ImageJFunctions.show(imgGenerator.generate(checkedChannels.values().toArray(new Displayable[0])));
     }
+
+    @Override
+    protected boolean allowAnalysisSelection() {
+        return false;
+    }
 }

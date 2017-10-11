@@ -104,4 +104,5 @@ public abstract class UniChannelCommand extends AnalysisCommand {
     Class <? extends AnalysisOperation> getOperationType() {
         return UniOperation.class;
     }
+
 }

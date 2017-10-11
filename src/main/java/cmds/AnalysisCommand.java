@@ -3,6 +3,7 @@ package cmds;
 import analysis.ops.AnalysisOperation;
 import analysis.ops.OpScript;
 import net.imagej.ops.Initializable;
+import org.scijava.ItemVisibility;
 import org.scijava.command.DynamicCommand;
 import org.scijava.module.MutableModuleItem;
 import org.scijava.plugin.Parameter;
@@ -35,7 +36,12 @@ public abstract class AnalysisCommand extends DynamicCommand implements Initiali
         }
 
         MutableModuleItem <String> choiceItem = getInfo().getMutableInput("analysisChoice", String.class);
-        choiceItem.setChoices(options);
+
+        if (allowAnalysisSelection()) {
+            choiceItem.setChoices(options);
+        } else {
+            choiceItem.setVisibility(ItemVisibility.INVISIBLE);
+        }
     }
 
     protected Class <?> getChosenAnalysisOp() {
@@ -53,4 +59,9 @@ public abstract class AnalysisCommand extends DynamicCommand implements Initiali
     }
 
     abstract Class <? extends AnalysisOperation> getOperationType();
+
+    //TODO: QUICK HACK FOR QUICK REMOVAL OF ANALYSIS SELECTION WHEN NOT NECESSARY. CHANGE.
+    protected boolean allowAnalysisSelection() {
+        return true;
+    }
 }
