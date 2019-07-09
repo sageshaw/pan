@@ -1,7 +1,7 @@
 package plugins;
 
-import analysis.data.MappedPointContainer;
-import analysis.data.PointContainer;
+import datastructures.MappedPointContainer;
+import datastructures.PointContainer;
 import analysis.ops.OpScript;
 import analysis.util.ClassUtilities;
 import com.google.common.collect.BiMap;

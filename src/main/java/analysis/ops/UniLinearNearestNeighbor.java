@@ -1,7 +1,7 @@
 package analysis.ops;
 
-import analysis.Triple;
-import analysis.data.OperablePointContainer;
+import datastructures.Triple;
+import datastructures.OperablePointContainer;
 
 /**
  * Implementation of linear nearest neighbor search.

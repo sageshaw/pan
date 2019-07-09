@@ -1,10 +1,10 @@
 package cmds.io;
 
-import analysis.Triple;
-import analysis.data.ChannelContainer;
-import analysis.data.Linear;
-import analysis.data.ListPointContainer;
-import analysis.data.OperablePointContainer;
+import datastructures.Triple;
+import datastructures.ChannelContainer;
+import datastructures.Linear;
+import datastructures.ListPointContainer;
+import datastructures.OperablePointContainer;
 import display.DisplayImgGenerator;
 import display.ImgGenerator;
 import net.imagej.ImageJ;

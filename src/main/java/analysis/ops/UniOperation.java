@@ -1,6 +1,6 @@
 package analysis.ops;
 
-import analysis.data.OperablePointContainer;
+import datastructures.OperablePointContainer;
 
 /**
  * Defines behavior of a single-channel operation.

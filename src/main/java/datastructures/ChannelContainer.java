@@ -1,6 +1,5 @@
-package analysis.data;
+package datastructures;
 
-import analysis.Triple;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import display.Displayable;

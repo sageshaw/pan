@@ -1,7 +1,7 @@
 package cmds.io;
 
 
-import analysis.data.PointContainer;
+import datastructures.PointContainer;
 import cmds.gui.ChannelModuleItem;
 import net.imagej.ops.Initializable;
 import org.apache.commons.math3.exception.NullArgumentException;

@@ -1,6 +1,5 @@
-package analysis.data;
+package datastructures;
 
-import analysis.Triple;
 import display.Displayable;
 
 import java.util.ArrayList;

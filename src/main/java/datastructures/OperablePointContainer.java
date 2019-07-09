@@ -1,6 +1,4 @@
-package analysis.data;
-
-import analysis.Triple;
+package datastructures;
 
 /**
  * Defines a PointContainer that can be operated on via the analysis operations in analysis.ops

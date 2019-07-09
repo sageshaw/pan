@@ -1,4 +1,4 @@
-package analysis.data;
+package datastructures;
 
 /**
  * Most basic functional unit in PAN. All point storage structures (Triples included) need to implement this

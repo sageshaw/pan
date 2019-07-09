@@ -1,7 +1,7 @@
 package cmds;
 
-import analysis.data.MappedPointContainer;
-import analysis.data.OperablePointContainer;
+import datastructures.MappedPointContainer;
+import datastructures.OperablePointContainer;
 import analysis.ops.AnalysisOperation;
 import analysis.ops.BiOperation;
 import org.apache.commons.math3.exception.NullArgumentException;

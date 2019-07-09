@@ -1,4 +1,4 @@
-package analysis.data;
+package datastructures;
 
 public interface MappedPointContainer<T extends PointContainer> extends PointContainer {
 

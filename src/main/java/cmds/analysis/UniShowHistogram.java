@@ -1,7 +1,7 @@
 package cmds.analysis;
 
-import analysis.data.OperablePointContainer;
-import analysis.data.PointContainer;
+import datastructures.OperablePointContainer;
+import datastructures.PointContainer;
 import analysis.ops.UniOperation;
 import analysis.util.StatUtilities;
 import cmds.UniChannelCommand;

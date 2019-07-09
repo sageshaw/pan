@@ -1,6 +1,4 @@
-package analysis.data;
-
-import analysis.Triple;
+package datastructures;
 
 /**
  * Defines a basic list container for points (Triple).

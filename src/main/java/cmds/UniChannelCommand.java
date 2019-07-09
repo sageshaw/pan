@@ -1,7 +1,7 @@
 package cmds;
 
-import analysis.data.MappedPointContainer;
-import analysis.data.PointContainer;
+import datastructures.MappedPointContainer;
+import datastructures.PointContainer;
 import analysis.ops.AnalysisOperation;
 import analysis.ops.UniOperation;
 import cmds.gui.ChannelModuleItem;

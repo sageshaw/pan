@@ -1,6 +1,6 @@
 package display;
 
-import analysis.Triple;
+import datastructures.Triple;
 
 /**
  * Defines behavior of class that can be converted into an Img via ImgGenerator.

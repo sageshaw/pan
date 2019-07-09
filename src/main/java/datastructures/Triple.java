@@ -1,6 +1,4 @@
-package analysis;
-
-import analysis.data.PointContainer;
+package datastructures;
 
 import java.util.Iterator;
 
