@@ -1,6 +1,6 @@
 package cmds;
 
-import datastructures.MappedPointContainer;
+import datastructures.SuperPointContainer;
 import datastructures.OperablePointContainer;
 import analysis.ops.AnalysisOperation;
 import analysis.ops.BiOperation;
@@ -32,7 +32,7 @@ public abstract class BiChannelCommand extends AnalysisCommand {
         if (channelSetKeys.length == 0) throw new NullArgumentException();
 
         for (String channelSetKey : channelSetKeys) {
-            MappedPointContainer channelSet = panContext.get(channelSetKey);
+            SuperPointContainer channelSet = panContext.get(channelSetKey);
             String[] channelKeys = channelSet.keys();
 
             for (String channelKey : channelKeys) {
@@ -55,7 +55,7 @@ public abstract class BiChannelCommand extends AnalysisCommand {
         String[] channelSetKeys = panContext.keys();
 
         for (String channelSetKey : channelSetKeys) {
-            MappedPointContainer channelSet = panContext.get(channelSetKey);
+            SuperPointContainer channelSet = panContext.get(channelSetKey);
             String[] channelKeys = channelSet.keys();
 
             for (String channelKey : channelKeys) {
@@ -72,7 +72,7 @@ public abstract class BiChannelCommand extends AnalysisCommand {
         String[] channelSetKeys = panContext.keys();
 
         for (String channelSetKey : channelSetKeys) {
-            MappedPointContainer channelSet = panContext.get(channelSetKey);
+            SuperPointContainer channelSet = panContext.get(channelSetKey);
             String[] channelKeys = channelSet.keys();
 
             for (String channelKey : channelKeys) {

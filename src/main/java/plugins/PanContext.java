@@ -1,6 +1,6 @@
 package plugins;
 
-import datastructures.MappedPointContainer;
+import datastructures.SuperPointContainer;
 import datastructures.PointContainer;
 import analysis.ops.OpScript;
 import analysis.util.ClassUtilities;
@@ -17,11 +17,11 @@ import java.util.List;
  * Serves as a common context for all command plugins.
  */
 @Plugin(type = ImageJService.class)
-public class PanContext extends AbstractPTService <ImageJService> implements ImageJService, MappedPointContainer {
+public class PanContext extends AbstractPTService <ImageJService> implements ImageJService, SuperPointContainer {
 
 
   // master channel list
-  private BiMap <String, MappedPointContainer> channelSets;
+  private BiMap <String, SuperPointContainer> channelSets;
 
     private int numHistos;
 
@@ -54,11 +54,11 @@ public class PanContext extends AbstractPTService <ImageJService> implements Ima
 
   @Override
   public void add(String name, PointContainer container) {
-      channelSets.put(name, (MappedPointContainer) container);
+      channelSets.put(name, (SuperPointContainer) container);
   }
 
   @Override
-  public MappedPointContainer remove(String name) {
+  public SuperPointContainer remove(String name) {
     return channelSets.remove(name);
   }
 
@@ -68,7 +68,7 @@ public class PanContext extends AbstractPTService <ImageJService> implements Ima
   }
 
   @Override
-  public MappedPointContainer get(String name) {
+  public SuperPointContainer get(String name) {
     return channelSets.get(name);
   }
 

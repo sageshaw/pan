@@ -3,7 +3,6 @@ package cmds.io;
 import datastructures.Triple;
 import datastructures.ChannelContainer;
 import datastructures.Linear;
-import datastructures.ListPointContainer;
 import datastructures.OperablePointContainer;
 import display.DisplayImgGenerator;
 import display.ImgGenerator;

@@ -13,7 +13,7 @@ public interface OperablePointContainer extends PointContainer {
 
     Triple getMax();
 
-    Triple[] getPoints();
+    void translate(double xOffset, double yOffset, double zOffset);
 
-
+    void makeRelative();
 }

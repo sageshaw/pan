@@ -1,29 +1,27 @@
 package datastructures;
 
-import java.util.Iterator;
-
 /**
  * Representation of a three-dimensional point, since Java does not natively support tuples.
  */
-public class Triple implements PointContainer {
+public class Triple {
 
   public static Triple MAX_TRIPLE() {
-    return new Triple(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+    return new Triple(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
   }
 
   public static Triple MIN_TRIPLE() {
-    return new Triple(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
+    return new Triple(Double.MIN_VALUE, Double.MIN_VALUE, Double.MIN_VALUE);
   }
 
   public static Triple ZERO_TRIPLE() {
-    return new Triple(0, 0, 0);
+    return new Triple(0.0, 0.0, 0.0);
   }
 
   //coordinate fields
-  private int x, y, z;
+  private double x, y, z;
 
   //assigned on creation, fields should never change (hence final)
-  public Triple(int x, int y, int z) {
+  public Triple(double x, double y, double z) {
 
     this.x = x;
     this.y = y;
@@ -31,29 +29,29 @@ public class Triple implements PointContainer {
   }
 
   //Some getters
-  public int getX() {
+  public double getX() {
     return x;
   }
 
-  public void setX(int xCoord) {
+  public void setX(double xCoord) {
     this.x = xCoord;
   }
 
-  public int getY() {
+  public double getY() {
     return y;
   }
 
   //Some setters (use sparingly, only if you know what you're doing)
 
-  public void setY(int yCoord) {
+  public void setY(double yCoord) {
     this.y = yCoord;
   }
 
-  public int getZ() {
+  public double getZ() {
     return z;
   }
 
-  public void setZ(int zCoord) {
+  public void setZ(double zCoord) {
     this.z = zCoord;
   }
 
@@ -73,29 +71,7 @@ public class Triple implements PointContainer {
   }
 
 
-    @Override
-    public void translate(int xOffset, int yOffset, int zOffset) {
-        throw new UnsupportedOperationException("Use getters/setters instead");
-    }
 
-    @Override
-    public int getSize() {
-        return 1;
-    }
 
-    @Override
-    public void makeRelative() {
-        throw new UnsupportedOperationException("Need another point to relate");
-    }
-
-    /**
-     * Returns an iterator over elements of type {@code T}.
-     *
-     * @return an Iterator.
-     */
-    @Override
-    public Iterator iterator() {
-        throw new UnsupportedOperationException("This is a single point. No need to iterate");
-    }
 
 }

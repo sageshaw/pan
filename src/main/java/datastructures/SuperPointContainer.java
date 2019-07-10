@@ -1,6 +1,6 @@
 package datastructures;
 
-public interface MappedPointContainer<T extends PointContainer> extends PointContainer {
+public interface SuperPointContainer<T>  {
 
     /**
      *  For Point Containers that hold other PointContainers (ex : listPointContainer) not hold

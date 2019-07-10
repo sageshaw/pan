@@ -1,6 +1,6 @@
 package cmds;
 
-import datastructures.MappedPointContainer;
+import datastructures.SuperPointContainer;
 import datastructures.PointContainer;
 import analysis.ops.AnalysisOperation;
 import analysis.ops.UniOperation;
@@ -44,7 +44,7 @@ public abstract class UniChannelCommand extends AnalysisCommand {
 
         //Some variable declarations so we do not have to reinstantiate references every single loop
         //iteration
-        MappedPointContainer channelSet = null;
+        SuperPointContainer channelSet = null;
         String[] channelKeys;
 
         //Using the keys for the channelSets, iterate through the channelSets and grab the keys inside each individual

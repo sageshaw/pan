@@ -9,9 +9,21 @@ package datastructures;
 
 public interface PointContainer<T extends PointContainer> extends Iterable {
 
-    void translate(int xOffset, int yOffset, int zOffset);
-
     int getSize();
 
-    void makeRelative();
+    /**
+     * Adds passed Triple to point list.
+     *
+     * @param pt Triple to add to list.
+     */
+    void add(Triple pt);
+
+    /**
+     * Removes point from passed duplicate Triple point (does not need same reference).
+     * @param pt Duplicate triple passed to remove in list.
+     * @return True if removal successful.
+     */
+    boolean remove(Triple pt);
+
+    Triple[] getPoints();
 }

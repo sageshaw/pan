@@ -10,7 +10,7 @@ import java.util.List;
  * A ListPointContainer object to hold point data in a list. This is mainly accessible by list. Also Displayable (can be
  * used with ImgGenerator)
  */
-public class Linear<T extends Triple> implements ListPointContainer, Displayable {
+public class Linear<T extends Triple> implements OperablePointContainer, Displayable {
 
 
   //List container to store Triple points
@@ -27,9 +27,9 @@ public class Linear<T extends Triple> implements ListPointContainer, Displayable
 
   @Override
   public Triple getMax() {
-    int maxX = Integer.MIN_VALUE;
-    int maxY = Integer.MIN_VALUE;
-    int maxZ = Integer.MIN_VALUE;
+    double maxX = Double.MIN_VALUE;
+    double maxY = Double.MIN_VALUE;
+    double maxZ = Double.MIN_VALUE;
 
       for (T pt : points) {
       maxX = Math.max(pt.getX(), maxX);
@@ -62,9 +62,9 @@ public class Linear<T extends Triple> implements ListPointContainer, Displayable
   //returns a triplet containing the minimum x, y, z values in channel
   //if there are no points in the channel, will return a triple containing -1's
   public Triple getMin() {
-    int minX = Integer.MAX_VALUE;
-    int minY = Integer.MAX_VALUE;
-    int minZ = Integer.MAX_VALUE;
+    double minX = Double.MAX_VALUE;
+    double minY = Double.MAX_VALUE;
+    double minZ = Double.MAX_VALUE;
 
       for (T pt : points) {
       minX = Math.min(pt.getX(), minX);
@@ -86,7 +86,7 @@ public class Linear<T extends Triple> implements ListPointContainer, Displayable
   }
 
   @Override
-  public void translate(int xOffset, int yOffset, int zOffset) {
+  public void translate(double xOffset, double yOffset, double zOffset) {
       for (T pt : points) {
       pt.setX(pt.getX() + xOffset);
       pt.setY(pt.getY() + yOffset);
@@ -99,8 +99,8 @@ public class Linear<T extends Triple> implements ListPointContainer, Displayable
       return points.size();
   }
 
-    @Override
-    public Iterator <T> iterator() {
+  @Override
+  public Iterator <T> iterator() {
     return points.iterator();
   }
 
@@ -127,17 +127,8 @@ public class Linear<T extends Triple> implements ListPointContainer, Displayable
     }
 
     @Override
-    public Triple remove(int i) {
-        return points.remove(i);
-    }
-
-    @Override
     public boolean remove(Triple pt) {
         return points.remove(pt);
     }
 
-    @Override
-    public T get(int i) {
-        return points.get(i);
-    }
 }

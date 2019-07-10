@@ -11,7 +11,7 @@ import java.util.Iterator;
  * as well as to group channels together from the same sample.
  */
 
-public class ChannelContainer<T extends OperablePointContainer> implements OperablePointContainer, MappedPointContainer, Displayable {
+public class ChannelContainer<T extends OperablePointContainer> implements OperablePointContainer, SuperPointContainer, Displayable {
 
     //Use of Guava's BiMap for inverse hashmap functionality
     private BiMap <String, T> channels = HashBiMap.create();
@@ -64,9 +64,9 @@ public class ChannelContainer<T extends OperablePointContainer> implements Opera
     //Returns lowest x, y, z coordinates  across channels
     @Override
     public Triple getMin() {
-        int minX = Integer.MAX_VALUE;
-        int minY = Integer.MAX_VALUE;
-        int minZ = Integer.MAX_VALUE;
+        double minX = Double.MAX_VALUE;
+        double minY = Double.MAX_VALUE;
+        double minZ = Double.MAX_VALUE;
 
         Triple mins;
 
@@ -79,13 +79,13 @@ public class ChannelContainer<T extends OperablePointContainer> implements Opera
 
         return new Triple(minX, minY, minZ);
     }
-
+e
     //Returns maximum x, y, z coordinates across all channels
     @Override
     public Triple getMax() {
-        int maxX = Integer.MIN_VALUE;
-        int maxY = Integer.MIN_VALUE;
-        int maxZ = Integer.MIN_VALUE;
+        double maxX = Double.MIN_VALUE;
+        double maxY = Double.MIN_VALUE;
+        double maxZ = Double.MIN_VALUE;
         Triple maxes;
         for (OperablePointContainer channel : channels.values()) {
             maxes = channel.getMax();
@@ -136,7 +136,7 @@ public class ChannelContainer<T extends OperablePointContainer> implements Opera
 
     //Translate contained containers a specified number of pixels
     @Override
-    public void translate(int xOffset, int yOffset, int zOffset) {
+    public void translate(double xOffset, double yOffset, double zOffset) {
         for (T channel : channels.values()) {
             channel.translate(xOffset, yOffset, zOffset);
         }
@@ -153,10 +153,21 @@ public class ChannelContainer<T extends OperablePointContainer> implements Opera
         return size;
     }
 
+    //TODO: figure out if this is the right action to take
+    @Override
+    public void add(Triple pt) {
+        throw new UnsupportedOperationException("Cannot add a point to a channel set!");
+    }
+
+    @Override
+    public boolean remove(Triple pt) {
+        throw new UnsupportedOperationException("Cannot remove a point from a channel set!");
+    }
+
 
     //Add new container to map (must be a OperablePointContainer)
     @Override
-    public void add(String name, PointContainer container) {
+    public void add(String name, T container) {
         channels.put(name, (T) container);
     }
 
