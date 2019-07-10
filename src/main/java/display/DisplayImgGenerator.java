@@ -37,9 +37,6 @@ public class DisplayImgGenerator implements ImgGenerator {
     }
 
 
-    //TODO: abstract shape creation process with another design pattern?
-    //implement a more efficient shape drawing algorithm
-
     private void drawThickPlus(int x, int y, int z, int length, Img<UnsignedByteType> img) {
         int thickenSize = length/5;
 

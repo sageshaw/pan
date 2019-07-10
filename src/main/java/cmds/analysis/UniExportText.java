@@ -36,7 +36,6 @@ public class UniExportText extends UniChannelCommand implements TextExportComman
             return null;
         }
 
-        //TODO: should not be casting here
         for (String name : channelNames) {
             operation.setChannel((OperablePointContainer) checkedChannels.get(name));
             analysisResult = operation.execute();
