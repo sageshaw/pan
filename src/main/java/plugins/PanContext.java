@@ -43,7 +43,7 @@ public class PanContext extends AbstractPTService <ImageJService> implements Ima
   }
 
 
-  public String key(PointContainer value) {
+  public String key(SuperPointContainer value) {
     return channelSets.inverse().get(value);
   }
 
@@ -53,7 +53,7 @@ public class PanContext extends AbstractPTService <ImageJService> implements Ima
   }
 
 
-  public void add(String name, PointContainer container) {
+  public void add(String name, SuperPointContainer container) {
       channelSets.put(name, (SuperPointContainer) container);
   }
 
@@ -63,7 +63,7 @@ public class PanContext extends AbstractPTService <ImageJService> implements Ima
   }
 
 
-  public boolean remove(PointContainer value) {
+  public boolean remove(SuperPointContainer value) {
     return channelSets.remove(key(value), value);
   }
 

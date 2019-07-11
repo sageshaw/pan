@@ -1,8 +1,10 @@
 package cmds.io;
 
 
+import datastructures.OperablePointContainer;
 import datastructures.PointContainer;
 import cmds.gui.ChannelModuleItem;
+import datastructures.SuperPointContainer;
 import net.imagej.ops.Initializable;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.command.Command;
@@ -28,7 +30,7 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
     @Parameter
     LogService logService;
 
-    List <ChannelModuleItem <Boolean, PointContainer>> checkboxItems = new ArrayList <>();
+    List <ChannelModuleItem <Boolean, SuperPointContainer>> checkboxItems = new ArrayList <>();
 
     @Override
     public void initialize() {
@@ -39,9 +41,9 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
         if (channelSetKeys.length == 0) throw new NullArgumentException();
 
         for (String channelSetKey : channelSetKeys) {
-            PointContainer channelSet = ptStore.get(channelSetKey);
+            SuperPointContainer channelSet = ptStore.get(channelSetKey);
 
-            final ChannelModuleItem <Boolean, PointContainer> bundledChannelItem =
+            final ChannelModuleItem <Boolean, SuperPointContainer> bundledChannelItem =
                     new ChannelModuleItem <>(getInfo(), channelSetKey, boolean.class, channelSet);
 
             bundledChannelItem.getModuleItem().setLabel(channelSetKey);
@@ -56,11 +58,11 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
 
         ModuleItem<Boolean> moduleItem;
 
-        for (ChannelModuleItem <Boolean, PointContainer> bundledChannelItem : checkboxItems) {
+        for (ChannelModuleItem <Boolean, SuperPointContainer> bundledChannelItem : checkboxItems) {
             moduleItem = bundledChannelItem.getModuleItem();
 
             if (moduleItem.getValue(this)) {
-                PointContainer removed = ptStore.remove(ptStore.key(bundledChannelItem.getChannel()));
+                SuperPointContainer removed = ptStore.remove(ptStore.key(bundledChannelItem.getChannel()));
             }
         }
 

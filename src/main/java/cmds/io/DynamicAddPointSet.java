@@ -221,7 +221,7 @@ public class DynamicAddPointSet extends DynamicCommand implements Command, Initi
                     (int)
                             (Double.parseDouble(splitLine[Z]) + 0.5);
 
-            ((ListPointContainer) newChannels.get(channelName)).add(new Triple(x, y, z));
+            ((Linear) newChannels.get(channelName)).add(new Triple(x, y, z));
 
         }
         return newChannels;

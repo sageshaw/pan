@@ -7,8 +7,9 @@ import display.Displayable;
 import java.util.Iterator;
 
 /**
- * A class meant to associate individual channels together. This is used as a way to access information across channels,
- * as well as to group channels together from the same sample.
+ * A class meant to associate individual channels together (presumably from the same ROI). This is used as a way to access information across channels,
+ * as well as to group channels together from the same sample. Because these points will often come from the same molecule,
+ * this class also supports OperablePointContainer behavior.
  */
 
 public class ChannelContainer<T extends OperablePointContainer> implements OperablePointContainer, SuperPointContainer, Displayable {
