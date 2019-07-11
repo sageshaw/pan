@@ -13,34 +13,9 @@ import java.util.Iterator;
 
 public class ChannelContainer<T extends OperablePointContainer> implements OperablePointContainer, SuperPointContainer, Displayable {
 
-    //Use of Guava's BiMap for inverse hashmap functionality
+    //Guava's BiMap to hold channels, using String names as keys
     private BiMap <String, T> channels = HashBiMap.create();
 
-
-
-    //Returns dimensions (in number of pixels) across all channels.
-    @Override
-    public Triple getDimensions() {
-        return getMax();
-    }
-
-    //Returns a List with all contained points (Triple).
-    @Override
-    public Triple[] getPoints() {
-
-        Triple[] result = new Triple[getSize()];
-
-        int i = 0;
-        for (T channel : channels.values()) {
-            Triple[] chnlPts = channel.getPoints();
-            for (Triple pt : chnlPts) {
-                result[i] = pt;
-                i++;
-            }
-
-        }
-        return result;
-    }
 
     @Override
     public Triple getCentroid() {
@@ -79,7 +54,7 @@ public class ChannelContainer<T extends OperablePointContainer> implements Opera
 
         return new Triple(minX, minY, minZ);
     }
-e
+
     //Returns maximum x, y, z coordinates across all channels
     @Override
     public Triple getMax() {
@@ -120,6 +95,12 @@ e
     public boolean remove(PointContainer value) {
         return channels.remove(key(value), value);
     }
+
+    @Override
+    public void add(String name, PointContainer container) {
+        channels.put(name, (T) container);
+    }
+
 
     //Returns a String array of all Keys
     @Override
@@ -165,10 +146,28 @@ e
     }
 
 
-    //Add new container to map (must be a OperablePointContainer)
+    //Returns dimensions (in number of pixels) across all channels.
     @Override
-    public void add(String name, T container) {
-        channels.put(name, (T) container);
+    public Triple getDimensions() {
+        return getMax();
+    }
+
+    //Returns a List with all contained points (Triple).
+    @Override
+    public Triple[] getPoints() {
+
+        Triple[] result = new Triple[getSize()];
+
+        int i = 0;
+        for (T channel : channels.values()) {
+            Triple[] chnlPts = channel.getPoints();
+            for (Triple pt : chnlPts) {
+                result[i] = pt;
+                i++;
+            }
+
+        }
+        return result;
     }
 
     @Override

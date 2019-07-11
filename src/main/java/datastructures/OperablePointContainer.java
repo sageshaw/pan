@@ -1,7 +1,7 @@
 package datastructures;
 
 /**
- * Defines a PointContainer that can be operated on via the analysis operations in analysis.ops
+ * Defines a PointContainer that can be operated on via the analysis operations in analysis.ops, i.e. a single channel.
  */
 
 public interface OperablePointContainer extends PointContainer {

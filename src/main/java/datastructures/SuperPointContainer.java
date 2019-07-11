@@ -1,10 +1,9 @@
 package datastructures;
 
-public interface SuperPointContainer<T>  {
+public interface SuperPointContainer<T extends PointContainer> extends Iterable{
 
     /**
-     *  For Point Containers that hold other PointContainers (ex : listPointContainer) not hold
-     *  Triples themselves.
+     *  For containers that hold other point containers (Pointcontainers that contain triples).
      */
 
 
@@ -19,6 +18,8 @@ public interface SuperPointContainer<T>  {
     boolean remove(T value);
 
     void add(String name, T container);
+
+    int getSize();
 
 
 }
