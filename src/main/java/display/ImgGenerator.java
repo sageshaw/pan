@@ -10,6 +10,7 @@ import net.imglib2.type.numeric.integer.UnsignedByteType;
 /**
  * Provides basic framework to abstract away Img generation process with ImgLib2.
  */
+@Deprecated
 public interface ImgGenerator {
 
     void drawMarker(int x, int y, int z, Img<UnsignedByteType> img);
@@ -34,8 +35,9 @@ public interface ImgGenerator {
         }
 
         Img <UnsignedByteType> img = blankImage(datasets);
+        //TODO: image casting is a quick fix due to change of Triple storage from int to double. Find a better solution
         for (Triple pt : points) {
-            drawMarker(pt.getX(), pt.getY(), pt.getZ(), img);
+            drawMarker((int)pt.getX(), (int)pt.getY(), (int)pt.getZ(), img);
         }
 
         return img;
@@ -52,8 +54,9 @@ public interface ImgGenerator {
             maxDims.setZ(Math.max(maxDims.getZ(), curDims.getZ()));
         }
 
+        //TODO: casting int is a quick fix from Triple change to int to double. Find more permanent change.
         ImgFactory<UnsignedByteType> imgFactory = new ArrayImgFactory<>();
-        int[] dims = new int[]{maxDims.getX() + 1, maxDims.getY() + 1, maxDims.getZ() + 1};
+        int[] dims = new int[]{(int)maxDims.getX() + 1, (int)maxDims.getY() + 1, (int)maxDims.getZ() + 1};
         return imgFactory.create(dims, new UnsignedByteType() );
     }
 

@@ -6,7 +6,7 @@ import net.imglib2.type.numeric.integer.UnsignedByteType;
 /**
  * An implementation of ImgGenerator for client viewing (better than individual pixels
  */
-
+@Deprecated
 public class DisplayImgGenerator implements ImgGenerator {
 
     public enum PointMarker {
