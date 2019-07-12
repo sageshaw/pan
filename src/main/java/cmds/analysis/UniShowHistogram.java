@@ -101,4 +101,9 @@ public class UniShowHistogram extends UniChannelCommand {
 
     }
 
+    @Override
+    protected boolean allowAnalysisSelection() {
+        return true;
+    }
+
 }

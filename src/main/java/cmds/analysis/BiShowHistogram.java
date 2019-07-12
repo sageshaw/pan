@@ -95,4 +95,12 @@ public class BiShowHistogram extends BiChannelCommand {
 
         panContext.setHistogramNumber(histoNumber + 1);
     }
+
+
+    @Override
+    protected boolean allowAnalysisSelection() {
+        return true;
+    }
+
+
 }

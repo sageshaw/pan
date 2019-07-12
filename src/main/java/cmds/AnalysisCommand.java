@@ -61,8 +61,5 @@ public abstract class AnalysisCommand extends DynamicCommand implements Initiali
 
     abstract Class <? extends AnalysisOperation> getOperationType();
 
-    //TODO: QUICK HACK FOR QUICK REMOVAL OF ANALYSIS SELECTION WHEN NOT NECESSARY. CHANGE.
-    protected boolean allowAnalysisSelection() {
-        return true;
-    }
+    protected abstract boolean allowAnalysisSelection();
 }

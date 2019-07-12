@@ -52,4 +52,10 @@ public class UniExportText extends UniChannelCommand implements TextExportComman
     public void run() {
         TextExportCommand.super.run();
     }
+
+    @Override
+    protected boolean allowAnalysisSelection() {
+        return true;
+    }
+
 }

@@ -50,4 +50,9 @@ public class BiExportText extends BiChannelCommand implements TextExportCommand 
         TextExportCommand.super.run();
     }
 
+
+    @Override
+    protected boolean allowAnalysisSelection() {
+        return true;
+    }
 }
