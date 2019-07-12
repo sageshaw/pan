@@ -20,7 +20,7 @@ import java.util.Map;
  */
 
 @Deprecated
-@Plugin(type = Command.class, menuPath = "PAN>Analysis>Cross-Channel Analysis>Show Cross Histogram")
+@Plugin(type = Command.class, menuPath = "PAN>Analysis>Cross-Channel Analysis>Show Cross Histogram (Deprecated)")
 public class BiShowHistogram extends BiChannelCommand {
     @Parameter
     LogService logService;

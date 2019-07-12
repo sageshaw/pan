@@ -20,7 +20,7 @@ import java.util.Set;
  * Command plugin to display single-channel analysis in a histogram.
  */
 @Deprecated
-@Plugin(type = Command.class, menuPath = "PAN>Analysis>Single-Channel Analysis>Show Single Histogram")
+@Plugin(type = Command.class, menuPath = "PAN>Analysis>Single-Channel Analysis>Show Single Histogram (Deprecated)")
 public class UniShowHistogram extends UniChannelCommand {
     //Parameters for histogram
     @Parameter(label = "Number of bins")
