@@ -1,9 +1,9 @@
-package cmds.analysis;
+package plugins.cmds.analysis;
 
 import datastructures.points.OperablePointContainer;
 import analysis.ops.BiOperation;
-import cmds.BiChannelCommand;
-import cmds.TextExportCommand;
+import plugins.cmds.BiChannelCommand;
+import plugins.cmds.TextExportCommand;
 import org.scijava.command.Command;
 import org.scijava.plugin.Plugin;
 

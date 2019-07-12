@@ -1,4 +1,4 @@
-package cmds.gui;
+package plugins.cmds.gui;
 
 import org.scijava.module.DefaultMutableModuleItem;
 import org.scijava.module.ModuleInfo;

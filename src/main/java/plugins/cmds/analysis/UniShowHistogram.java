@@ -1,11 +1,11 @@
-package cmds.analysis;
+package plugins.cmds.analysis;
 
 import datastructures.points.OperablePointContainer;
 import datastructures.points.PointContainer;
 import analysis.ops.UniOperation;
 import analysis.util.StatUtilities;
-import cmds.UniChannelCommand;
-import cmds.gui.HistogramFrame;
+import plugins.cmds.UniChannelCommand;
+import plugins.cmds.gui.HistogramFrame;
 import org.scijava.command.Command;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;

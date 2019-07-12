@@ -1,7 +1,7 @@
-package cmds.io;
+package plugins.cmds.io;
 
 
-import cmds.gui.ChannelModuleItem;
+import plugins.cmds.gui.ChannelModuleItem;
 import datastructures.points.SuperPointContainer;
 import net.imagej.ops.Initializable;
 import org.apache.commons.math3.exception.NullArgumentException;

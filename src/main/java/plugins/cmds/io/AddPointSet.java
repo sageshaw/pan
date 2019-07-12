@@ -1,4 +1,4 @@
-package cmds.io;
+package plugins.cmds.io;
 
 import datastructures.points.Triple;
 import datastructures.points.ChannelContainer;

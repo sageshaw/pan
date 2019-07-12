@@ -1,4 +1,4 @@
-package cmds;
+package plugins.cmds;
 
 import ij.io.SaveDialog;
 import org.scijava.command.Command;

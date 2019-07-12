@@ -1,10 +1,10 @@
-package cmds.analysis;
+package plugins.cmds.analysis;
 
 import datastructures.points.OperablePointContainer;
 import analysis.ops.BiOperation;
 import analysis.util.StatUtilities;
-import cmds.BiChannelCommand;
-import cmds.gui.HistogramFrame;
+import plugins.cmds.BiChannelCommand;
+import plugins.cmds.gui.HistogramFrame;
 import org.scijava.command.Command;
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;

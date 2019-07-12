@@ -1,10 +1,10 @@
-package cmds.analysis;
+package plugins.cmds.analysis;
 
 import datastructures.points.OperablePointContainer;
 import datastructures.points.PointContainer;
 import analysis.ops.UniOperation;
-import cmds.TextExportCommand;
-import cmds.UniChannelCommand;
+import plugins.cmds.TextExportCommand;
+import plugins.cmds.UniChannelCommand;
 import org.scijava.command.Command;
 import org.scijava.plugin.Plugin;
 

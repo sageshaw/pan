@@ -1,4 +1,4 @@
-package cmds;
+package plugins.cmds;
 
 import analysis.ops.AnalysisOperation;
 import analysis.ops.OpScript;

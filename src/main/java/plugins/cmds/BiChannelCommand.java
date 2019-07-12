@@ -1,4 +1,4 @@
-package cmds;
+package plugins.cmds;
 
 import datastructures.points.SuperPointContainer;
 import datastructures.points.OperablePointContainer;

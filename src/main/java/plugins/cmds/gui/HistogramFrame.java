@@ -1,4 +1,4 @@
-package cmds.gui;
+package plugins.cmds.gui;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
