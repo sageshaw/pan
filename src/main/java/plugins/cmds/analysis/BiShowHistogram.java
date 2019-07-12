@@ -4,7 +4,7 @@ import datastructures.points.OperablePointContainer;
 import analysis.ops.BiOperation;
 import analysis.util.StatUtilities;
 import plugins.cmds.BiChannelCommand;
-import plugins.cmds.gui.HistogramFrame;
+import datastructures.gui.HistogramFrame;
 import org.scijava.command.Command;
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;

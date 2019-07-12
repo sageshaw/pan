@@ -1,4 +1,4 @@
-package plugins.cmds.gui;
+package datastructures.gui;
 
 import org.scijava.module.DefaultMutableModuleItem;
 import org.scijava.module.ModuleInfo;

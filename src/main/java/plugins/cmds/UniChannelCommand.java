@@ -4,7 +4,7 @@ import datastructures.points.SuperPointContainer;
 import datastructures.points.PointContainer;
 import analysis.ops.AnalysisOperation;
 import analysis.ops.UniOperation;
-import plugins.cmds.gui.ChannelModuleItem;
+import datastructures.gui.ChannelModuleItem;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.log.LogService;
 import org.scijava.module.ModuleItem;

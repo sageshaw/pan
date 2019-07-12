@@ -1,4 +1,4 @@
-package plugins.cmds.gui;
+package datastructures.gui;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
