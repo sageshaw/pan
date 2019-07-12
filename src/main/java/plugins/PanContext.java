@@ -49,39 +49,40 @@ public class PanContext extends AbstractPTService<ImageJService> implements Imag
         return channelSets.inverse().get(value);
     }
 
-
     public String[] channelSetKeys() {
         return channelSets.keySet().toArray(new String[0]);
     }
 
-
-    public void addChannelSet(String name, SuperPointContainer container) {
-        channelSets.put(name, (SuperPointContainer) container);
-    }
-
+    public void addChannelSet(String name, SuperPointContainer container) { channelSets.put(name, container); }
 
     public SuperPointContainer removeChannelSet(String name) {
         return channelSets.remove(name);
     }
 
+    public boolean removeChannelSet(SuperPointContainer value) { return channelSets.remove(channelSetKey(value), value); }
 
-    public boolean removeChannelSet(SuperPointContainer value) {
-        return channelSets.remove(channelSetKey(value), value);
+    public SuperPointContainer getChannelSet(String name) { return channelSets.get(name); }
+
+    public int getNumChannelSets() { return channelSets.size(); }
+
+
+
+    public String analysisResultKey(AnalysisContainer value) { return results.inverse().get(value);}
+
+    public String[] analysisResultKeys() { return results.keySet().toArray(new String[0]); }
+
+    public void addAnalysisResult(String name, AnalysisContainer result) { results.put(name, result); }
+
+    public AnalysisContainer removeAnalysisResult(String name) {return results.remove(name); }
+
+    public boolean removeAnalysisResult(AnalysisContainer value) {return results.remove(analysisResultKey(value), value); }
+
+    public AnalysisContainer getAnalysisResult (String name) { return results.get(name); }
+
+    public int getNumAnalysisResults() {
+        return results.size();
     }
 
-
-    public SuperPointContainer getChannelSet(String name) {
-        return channelSets.get(name);
-    }
-
-    public int channelSetSize() {
-        return channelSets.size();
-    }
-
-
-    public int getNumChannelSets() {
-        return channelSets.size();
-    }
 
 
     /**
