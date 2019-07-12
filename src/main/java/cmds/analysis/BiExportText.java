@@ -10,7 +10,7 @@ import org.scijava.plugin.Plugin;
 /**
  * Command plugin to export cross-channel analysis.
  */
-
+@Deprecated
 @Plugin(type = Command.class, menuPath = "PAN>Analysis>Cross-Channel Analysis>Export Cross-Analysis as Text File")
 public class BiExportText extends BiChannelCommand implements TextExportCommand {
 
@@ -25,7 +25,7 @@ public class BiExportText extends BiChannelCommand implements TextExportCommand 
         String fromName = getFromName();
         String toName = getToName();
 
-        BiOperation operation = null;
+        BiOperation operation;
 
         try {
             operation = (BiOperation) getChosenAnalysisOp().newInstance();

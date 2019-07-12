@@ -19,6 +19,7 @@ import java.util.Map;
  * Class to represent display of cross-channel analysis data in a histogram.
  */
 
+@Deprecated
 @Plugin(type = Command.class, menuPath = "PAN>Analysis>Cross-Channel Analysis>Show Cross Histogram")
 public class BiShowHistogram extends BiChannelCommand {
     @Parameter
