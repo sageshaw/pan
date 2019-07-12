@@ -1,4 +1,4 @@
-package datastructures;
+package datastructures.points;
 
 public interface SuperPointContainer<T extends PointContainer> extends Iterable{
 

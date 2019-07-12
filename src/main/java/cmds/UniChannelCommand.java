@@ -1,7 +1,7 @@
 package cmds;
 
-import datastructures.SuperPointContainer;
-import datastructures.PointContainer;
+import datastructures.points.SuperPointContainer;
+import datastructures.points.PointContainer;
 import analysis.ops.AnalysisOperation;
 import analysis.ops.UniOperation;
 import cmds.gui.ChannelModuleItem;
@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Provides basic framework for class handling single-channel analysis.
+ * Provides basic framework for single-channel analysis. This class will automatically grab current loaded
+ * ChannelSets to display them to the gui, and will return the selected ChannelSets to the command extending this one.
  */
 public abstract class UniChannelCommand extends AnalysisCommand {
 
@@ -35,7 +36,7 @@ public abstract class UniChannelCommand extends AnalysisCommand {
     public void initialize() {
         //Grab names of all channelSets to iterate (normally, we'd use the iterator, but we need to know the names
         //as well
-        String[] channelSetKeys = ptStore.keys();
+        String[] channelSetKeys = ptStore.channelSetKeys();
 
         //If there are none, throw an exception
         if (channelSetKeys.length == 0) {
@@ -44,17 +45,17 @@ public abstract class UniChannelCommand extends AnalysisCommand {
 
         //Some variable declarations so we do not have to reinstantiate references every single loop
         //iteration
-        SuperPointContainer channelSet = null;
+        SuperPointContainer channelSet;
         String[] channelKeys;
 
-        //Using the keys for the channelSets, iterate through the channelSets and grab the keys inside each individual
+        //Using the channelSetKeys for the channelSets, iterate through the channelSets and grab the channelSetKeys inside each individual
         //channelSet to iterate through channels
         for (String channelSetKey : channelSetKeys) {
             //Grab a channelSet from PanContext to iterate through its channels
-            channelSet = ptStore.get(channelSetKey);
+            channelSet = ptStore.getChannelSet(channelSetKey);
             channelKeys = channelSet.keys();
-            //Using keys, grab channel and create a ChannelModuleItem (bundled channel and ModuleItem) and
-            //add to a List for a checkBoxList to generate dynamic GUI
+            //Using channelSetKeys, grab channel and create a ChannelModuleItem (bundled channel and ModuleItem) and
+            //addChannelSet to a List for a checkBoxList to generate dynamic GUI
             for (String channelKey : channelKeys) {
                 //Grab channel
                 PointContainer channel = channelSet.get(channelKey);
@@ -62,7 +63,7 @@ public abstract class UniChannelCommand extends AnalysisCommand {
                 final ChannelModuleItem <Boolean, PointContainer> bundledChannelItem =
                         new ChannelModuleItem <>(getInfo(), channelKey, boolean.class, channel);
 
-                //setup up post-instantiation properties for ModuleItem and add to dynamic list
+                //setup up post-instantiation properties for ModuleItem and addChannelSet to dynamic list
                 bundledChannelItem.getModuleItem().setLabel(channelKey + "(" + channelSetKey + ")");
                 checkboxItems.add(bundledChannelItem);
                 getInfo().addInput(bundledChannelItem.getModuleItem());
@@ -73,12 +74,12 @@ public abstract class UniChannelCommand extends AnalysisCommand {
     }
 
     //Method to grab the module list of all checked items. This supplies a list bundled channel item.
-    protected List <ChannelModuleItem <Boolean, PointContainer>> getCheckedModules() {
+    private List <ChannelModuleItem <Boolean, PointContainer>> getCheckedModules() {
         //Instantiate a list for the result
         ArrayList <ChannelModuleItem <Boolean, PointContainer>> checkItems = new ArrayList <>();
         //Preinstantiation of reference so we don't have to throw it away
         ModuleItem <Boolean> moduleItem;
-        //Iterate through checkBoxItems, add to checkItems if the item was checked in GUI
+        //Iterate through checkBoxItems, addChannelSet to checkItems if the item was checked in GUI
         for (ChannelModuleItem <Boolean, PointContainer> bundledChannelItem : checkboxItems) {
             moduleItem = bundledChannelItem.getModuleItem();
             if (moduleItem.getValue(this)) {

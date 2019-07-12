@@ -1,4 +1,4 @@
-package datastructures;
+package datastructures.points;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -14,7 +14,7 @@ import java.util.Iterator;
 
 public class ChannelContainer<T extends OperablePointContainer> implements OperablePointContainer, SuperPointContainer, Displayable {
 
-    //Guava's BiMap to hold channels, using String names as keys
+    //Guava's BiMap to hold channels, using String names as channelSetKeys
     private BiMap <String, T> channels = HashBiMap.create();
 
 
@@ -73,7 +73,7 @@ public class ChannelContainer<T extends OperablePointContainer> implements Opera
     }
 
 
-    //Return channel key based on OperablePointContainer object (equals method is default object signature comparison)
+    //Return channel channelSetKey based on OperablePointContainer object (equals method is default object signature comparison)
     public String key(PointContainer value) {
         return channels.inverse().get(value);
     }
@@ -138,12 +138,12 @@ public class ChannelContainer<T extends OperablePointContainer> implements Opera
     //TODO: figure out if this is the right action to take
     @Override
     public void add(Triple pt) {
-        throw new UnsupportedOperationException("Cannot add a point to a channel set!");
+        throw new UnsupportedOperationException("Cannot addChannelSet a point to a channel set!");
     }
 
     @Override
     public boolean remove(Triple pt) {
-        throw new UnsupportedOperationException("Cannot remove a point from a channel set!");
+        throw new UnsupportedOperationException("Cannot removeChannelSet a point from a channel set!");
     }
 
 

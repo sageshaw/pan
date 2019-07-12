@@ -1,11 +1,11 @@
 package plugins;
 
-import datastructures.SuperPointContainer;
-import datastructures.PointContainer;
+import datastructures.points.SuperPointContainer;
 import analysis.ops.OpScript;
 import analysis.util.ClassUtilities;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import datastructures.postanalysis.AnalysisContainer;
 import net.imagej.ImageJService;
 import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;
@@ -17,84 +17,82 @@ import java.util.List;
  * Serves as a common context for all command plugins.
  */
 @Plugin(type = ImageJService.class)
-public class PanContext extends AbstractPTService <ImageJService> implements ImageJService, Iterable {
+public class PanContext extends AbstractPTService<ImageJService> implements ImageJService, Iterable {
 
 
-  // master channel list
-  private BiMap <String, SuperPointContainer> channelSets;
+    // master channel list
+    private BiMap<String, SuperPointContainer> channelSets;
+    private BiMap<String, AnalysisContainer> results;
 
     private int numHistos;
 
-  public PanContext() {
-    channelSets = HashBiMap.create();
-      numHistos = 0;
-  }
 
-  public List <Class <?>> findOpScripts() {
-    List <Class <?>> processes = null;
-    try {
-      processes = ClassUtilities.findAnnotatedClasses("analysis.ops", OpScript.class);
-    } catch (Exception e) {
-      e.printStackTrace();
+    public PanContext() {
+        channelSets = HashBiMap.create();
+        numHistos = 0;
     }
 
-    return processes;
+    public List<Class<?>> findOpScripts() {
+        List<Class<?>> processes = null;
+        try {
+            processes = ClassUtilities.findAnnotatedClasses("analysis.ops", OpScript.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-  }
+        return processes;
 
-
-  public String key(SuperPointContainer value) {
-    return channelSets.inverse().get(value);
-  }
-
-
-  public String[] keys() {
-    return channelSets.keySet().toArray(new String[0]);
-  }
+    }
 
 
-  public void add(String name, SuperPointContainer container) {
-      channelSets.put(name, (SuperPointContainer) container);
-  }
+    public String channelSetKey(SuperPointContainer value) {
+        return channelSets.inverse().get(value);
+    }
 
 
-  public SuperPointContainer remove(String name) {
-    return channelSets.remove(name);
-  }
+    public String[] channelSetKeys() {
+        return channelSets.keySet().toArray(new String[0]);
+    }
 
 
-  public boolean remove(SuperPointContainer value) {
-    return channelSets.remove(key(value), value);
-  }
+    public void addChannelSet(String name, SuperPointContainer container) {
+        channelSets.put(name, (SuperPointContainer) container);
+    }
 
 
-  public SuperPointContainer get(String name) {
-    return channelSets.get(name);
-  }
-
-  public int channelSetSize() {
-    return channelSets.size();
-  }
+    public SuperPointContainer removeChannelSet(String name) {
+        return channelSets.remove(name);
+    }
 
 
-    public Class<ImageJService> getPluginType() {
-    return ImageJService.class;
-  }
+    public boolean removeChannelSet(SuperPointContainer value) {
+        return channelSets.remove(channelSetKey(value), value);
+    }
 
-    public int getSize() {
+
+    public SuperPointContainer getChannelSet(String name) {
+        return channelSets.get(name);
+    }
+
+    public int channelSetSize() {
+        return channelSets.size();
+    }
+
+
+    public int getNumChannelSets() {
         return channelSets.size();
     }
 
 
     /**
-   * Returns an iterator over elements of type {@code T}.
-   *
-   * @return an Iterator.
-   */
+     * Returns an iterator over elements of type {@code T}.
+     *
+     * @return an Iterator.
+     */
     @Override
     public Iterator iterator() {
-    return channelSets.values().iterator();
-  }
+        return channelSets.values().iterator();
+    }
 
     public int getHistogramNumber() {
         return numHistos;
@@ -103,4 +101,9 @@ public class PanContext extends AbstractPTService <ImageJService> implements Ima
     public void setHistogramNumber(int numHisto) {
         this.numHistos = numHisto;
     }
+
+    public Class<ImageJService> getPluginType() {
+        return ImageJService.class;
+    }
+
 }

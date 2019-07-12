@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Provides the basic structure of a command that handles analysis.
+ * Provides the basic structure of a command that handles analysis via OpScript. Since all analysis commands (even ones
+ * that do not require OpScripts will extend this class, the use of OpScript can be arbitrarily specified.
  */
 public abstract class AnalysisCommand extends DynamicCommand implements Initializable {
     @Parameter

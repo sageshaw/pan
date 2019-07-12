@@ -1,10 +1,8 @@
 package cmds.io;
 
 
-import datastructures.OperablePointContainer;
-import datastructures.PointContainer;
 import cmds.gui.ChannelModuleItem;
-import datastructures.SuperPointContainer;
+import datastructures.points.SuperPointContainer;
 import net.imagej.ops.Initializable;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.command.Command;
@@ -19,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Command plugin to remove a ChannelSet from PanStorage.
+ * Command plugin to removeChannelSet a ChannelSet from PanStorage.
  */
 @Plugin(type = Command.class, menuPath="PAN>Remove channel set...")
 public class RemoveChannelSet extends DynamicCommand implements Initializable{
@@ -35,13 +33,13 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
     @Override
     public void initialize() {
 
-        String[] channelSetKeys = ptStore.keys();
+        String[] channelSetKeys = ptStore.channelSetKeys();
 
 
         if (channelSetKeys.length == 0) throw new NullArgumentException();
 
         for (String channelSetKey : channelSetKeys) {
-            SuperPointContainer channelSet = ptStore.get(channelSetKey);
+            SuperPointContainer channelSet = ptStore.getChannelSet(channelSetKey);
 
             final ChannelModuleItem <Boolean, SuperPointContainer> bundledChannelItem =
                     new ChannelModuleItem <>(getInfo(), channelSetKey, boolean.class, channelSet);
@@ -62,7 +60,7 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
             moduleItem = bundledChannelItem.getModuleItem();
 
             if (moduleItem.getValue(this)) {
-                SuperPointContainer removed = ptStore.remove(ptStore.key(bundledChannelItem.getChannel()));
+                SuperPointContainer removed = ptStore.removeChannelSet(ptStore.channelSetKey(bundledChannelItem.getChannel()));
             }
         }
 

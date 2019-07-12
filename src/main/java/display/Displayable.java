@@ -1,6 +1,6 @@
 package display;
 
-import datastructures.Triple;
+import datastructures.points.Triple;
 
 /**
  * Defines behavior of class that can be converted into an Img via ImgGenerator.

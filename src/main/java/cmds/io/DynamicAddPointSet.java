@@ -1,9 +1,9 @@
 package cmds.io;
 
-import datastructures.Triple;
-import datastructures.ChannelContainer;
-import datastructures.Linear;
-import datastructures.OperablePointContainer;
+import datastructures.points.Triple;
+import datastructures.points.ChannelContainer;
+import datastructures.points.Linear;
+import datastructures.points.OperablePointContainer;
 import display.DisplayImgGenerator;
 import display.ImgGenerator;
 import net.imagej.ImageJ;
@@ -144,14 +144,14 @@ public class DynamicAddPointSet extends DynamicCommand implements Command, Initi
                 ImageJFunctions.show(imgGenerator.generate(newData));
             }
 
-            if (newData != null) ptStore.add(channelSetName, newData);
+            if (newData != null) ptStore.addChannelSet(channelSetName, newData);
         }
     }
 
     private String addPostDuplicateString(String name) {
         int duplNum = 1;
         boolean hasDuplicate = false;
-        for (String loadedName : ptStore.keys()) {
+        for (String loadedName : ptStore.channelSetKeys()) {
             if (loadedName.contains(name)) {
                 hasDuplicate = true;
                 if (!loadedName.equals(name)) {

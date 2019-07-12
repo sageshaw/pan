@@ -1,4 +1,4 @@
-package datastructures;
+package datastructures.points;
 
 import display.Displayable;
 

@@ -1,4 +1,4 @@
-package datastructures;
+package datastructures.points;
 
 /**
  * Representation of a three-dimensional point, since Java does not natively support tuples.

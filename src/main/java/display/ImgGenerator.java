@@ -1,6 +1,6 @@
 package display;
 
-import datastructures.Triple;
+import datastructures.points.Triple;
 import net.imglib2.RandomAccess;
 import net.imglib2.img.Img;
 import net.imglib2.img.ImgFactory;

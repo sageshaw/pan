@@ -1,6 +1,6 @@
 package cmds.analysis;
 
-import datastructures.OperablePointContainer;
+import datastructures.points.OperablePointContainer;
 import analysis.ops.BiOperation;
 import analysis.util.StatUtilities;
 import cmds.BiChannelCommand;

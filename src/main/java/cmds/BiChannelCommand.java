@@ -1,7 +1,7 @@
 package cmds;
 
-import datastructures.SuperPointContainer;
-import datastructures.OperablePointContainer;
+import datastructures.points.SuperPointContainer;
+import datastructures.points.OperablePointContainer;
 import analysis.ops.AnalysisOperation;
 import analysis.ops.BiOperation;
 import org.apache.commons.math3.exception.NullArgumentException;
@@ -27,12 +27,12 @@ public abstract class BiChannelCommand extends AnalysisCommand {
 
         ArrayList <String> options = new ArrayList <>();
 
-        String[] channelSetKeys = panContext.keys();
+        String[] channelSetKeys = panContext.channelSetKeys();
 
         if (channelSetKeys.length == 0) throw new NullArgumentException();
 
         for (String channelSetKey : channelSetKeys) {
-            SuperPointContainer channelSet = panContext.get(channelSetKey);
+            SuperPointContainer channelSet = panContext.getChannelSet(channelSetKey);
             String[] channelKeys = channelSet.keys();
 
             for (String channelKey : channelKeys) {
@@ -52,10 +52,10 @@ public abstract class BiChannelCommand extends AnalysisCommand {
 
 
     protected OperablePointContainer getFromChannel() {
-        String[] channelSetKeys = panContext.keys();
+        String[] channelSetKeys = panContext.channelSetKeys();
 
         for (String channelSetKey : channelSetKeys) {
-            SuperPointContainer channelSet = panContext.get(channelSetKey);
+            SuperPointContainer channelSet = panContext.getChannelSet(channelSetKey);
             String[] channelKeys = channelSet.keys();
 
             for (String channelKey : channelKeys) {
@@ -69,10 +69,10 @@ public abstract class BiChannelCommand extends AnalysisCommand {
     }
 
     protected OperablePointContainer getToChannel() {
-        String[] channelSetKeys = panContext.keys();
+        String[] channelSetKeys = panContext.channelSetKeys();
 
         for (String channelSetKey : channelSetKeys) {
-            SuperPointContainer channelSet = panContext.get(channelSetKey);
+            SuperPointContainer channelSet = panContext.getChannelSet(channelSetKey);
             String[] channelKeys = channelSet.keys();
 
             for (String channelKey : channelKeys) {

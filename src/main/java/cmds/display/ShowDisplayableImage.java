@@ -1,6 +1,6 @@
 package cmds.display;
 
-import datastructures.PointContainer;
+import datastructures.points.PointContainer;
 import cmds.UniChannelCommand;
 import display.DisplayImgGenerator;
 import display.Displayable;
