@@ -1,13 +1,26 @@
 package datastructures.postanalysis;
 
+import java.util.List;
+
 /**
  *  Defines behavior for an object that contains analysis result data.
  */
 
-public interface AnalysisContainer {
+public interface AnalysisContainer extends Iterable {
 
-    public String getName();
 
-    public double[] getResults();
+    String key(double[] value);
+
+    String[] keys();
+
+    double[] get(String name);
+
+    double[] remove(String name);
+
+    boolean remove(double[] value);
+
+    void add(String name, double[] data);
+
+    int getSize();
 
 }
