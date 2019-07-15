@@ -18,8 +18,6 @@ import java.util.Set;
 @Plugin(type = Command.class, menuPath = "PAN>Analysis>Single-Channel Analysis>Nearest Neighbor")
 public class SingleChannelNearestNeighbor extends UniChannelCommand {
 
-    @Parameter
-    PanContext ptStore;
 
     @Override
     public void run() {
@@ -40,7 +38,7 @@ public class SingleChannelNearestNeighbor extends UniChannelCommand {
             resultName += " " + name;
         }
 
-        ptStore.addAnalysisResult(resultName, results);
+        panContext.addAnalysisResult(resultName, results);
 
     }
 

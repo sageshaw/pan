@@ -29,6 +29,7 @@ public class PanContext extends AbstractPTService<ImageJService> implements Imag
 
     public PanContext() {
         channelSets = HashBiMap.create();
+        results = HashBiMap.create();
         numHistos = 0;
     }
 
