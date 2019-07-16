@@ -3,7 +3,7 @@ package plugins.cmds.analysis;
 import datastructures.points.OperablePointContainer;
 import datastructures.points.PointContainer;
 import analysis.ops.UniOperation;
-import plugins.cmds.TextExportCommand;
+import plugins.cmds.io.TextExportCommand;
 import plugins.cmds.UniChannelCommand;
 import org.scijava.command.Command;
 import org.scijava.plugin.Plugin;
