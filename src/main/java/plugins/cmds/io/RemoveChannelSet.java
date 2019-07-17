@@ -65,20 +65,42 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
                 SuperPointContainer channelSet = bundledChannelItem.getChannel();
                 String name = ptStore.channelSetKey(channelSet);
 
-                // check if item is in a batch, and break batch if user says so
+                // check if item is in a batch, and break/delete batch if user says so
                 if (ptStore.isInBatch(name)) {
-                    GenericDialog gd = new GenericDialog("Split batch...");
-                    gd.addMessage("'" + name + "' is in a batch. To remove the channel set, you must split the batch. Would you like to split it? This action cannot be undone.");
-                    gd.setOKLabel("Yes");
-                    gd.setCancelLabel("No");
+                    //build dialogue for user choice
+                    GenericDialog gd = new GenericDialog("Batched channel");
+                    gd.addChoice("'" + name + "' is in a batch. What would you like to do?", BATCH_CHOICES, CHOICE_DELETE_BATCH);
                     gd.showDialog();
-                    if(gd.wasCanceled()) return;
 
-                    ptStore.removeBatchNames(ptStore.getBatch(name));
+                    if (gd.wasCanceled()) {
+                        return;
+                    }
+
+                    String choice = gd.getNextChoice();
+
+                    if (choice.equals(CHOICE_DELETE_BATCH)) {                   // if user wants to delete batch...
+                        ArrayList<String> batchNames = ptStore.getBatch(name);
+                        for (String chanName : batchNames) {
+                            ptStore.removeChannelSet(chanName);
+                        }
+                        ptStore.removeBatchNames(batchNames);
+                        return;
+
+                    } else if (choice.equals(CHOICE_DELETE_CHANNEL)) {           // if user wants to break batch and delete individual channel...
+                        ptStore.removeBatchNames(ptStore.getBatch(name));
+                        ptStore.removeChannelSet(name);
+                        return;
+                    }
+
                 }
-                SuperPointContainer removed = ptStore.removeChannelSet(ptStore.channelSetKey(bundledChannelItem.getChannel()));
+
+                ptStore.removeChannelSet(name);
             }
         }
 
     }
+
+    private static final String CHOICE_DELETE_BATCH = "Delete entire batch";
+    private static final String CHOICE_DELETE_CHANNEL = "Split up batch and delete individual channel set";
+    private static final String[] BATCH_CHOICES = new String[]{CHOICE_DELETE_BATCH, CHOICE_DELETE_CHANNEL};
 }
