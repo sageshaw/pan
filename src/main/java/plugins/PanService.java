@@ -17,7 +17,7 @@ import java.util.List;
  * Serves as a common context for all command plugins.
  */
 @Plugin(type = ImageJService.class)
-public class PanContext extends AbstractPTService<ImageJService> implements ImageJService, Iterable {
+public class PanService extends AbstractPTService<ImageJService> implements ImageJService, Iterable {
 
 
     // master channel list
@@ -27,7 +27,7 @@ public class PanContext extends AbstractPTService<ImageJService> implements Imag
     private int numHistos;
 
 
-    public PanContext() {
+    public PanService() {
         channelSets = HashBiMap.create();
         results = HashBiMap.create();
         numHistos = 0;

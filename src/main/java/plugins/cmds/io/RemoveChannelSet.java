@@ -11,7 +11,7 @@ import org.scijava.log.LogService;
 import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
-import plugins.PanContext;
+import plugins.PanService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
 public class RemoveChannelSet extends DynamicCommand implements Initializable{
 
     @Parameter
-    PanContext ptStore;
+    PanService ptStore;
 
     @Parameter
     LogService logService;

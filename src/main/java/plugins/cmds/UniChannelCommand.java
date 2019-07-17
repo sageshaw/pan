@@ -9,7 +9,7 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.log.LogService;
 import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
-import plugins.PanContext;
+import plugins.PanService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ public abstract class UniChannelCommand extends AnalysisCommand {
 
     //Grab the instances of classes we need
     @Parameter
-    protected PanContext ptStore;
+    protected PanService ptStore;
 
     List <ChannelModuleItem <Boolean, PointContainer>> checkboxItems = new ArrayList <>();
     @Parameter
@@ -51,7 +51,7 @@ public abstract class UniChannelCommand extends AnalysisCommand {
         //Using the channelSetKeys for the channelSets, iterate through the channelSets and grab the channelSetKeys inside each individual
         //channelSet to iterate through channels
         for (String channelSetKey : channelSetKeys) {
-            //Grab a channelSet from PanContext to iterate through its channels
+            //Grab a channelSet from PanService to iterate through its channels
             channelSet = ptStore.getChannelSet(channelSetKey);
             channelKeys = channelSet.keys();
             //Using channelSetKeys, grab channel and create a ChannelModuleItem (bundled channel and ModuleItem) and

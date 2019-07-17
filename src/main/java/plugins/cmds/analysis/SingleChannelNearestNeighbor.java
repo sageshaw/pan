@@ -7,9 +7,7 @@ import datastructures.points.PointContainer;
 import datastructures.postanalysis.AnalysisContainer;
 import datastructures.postanalysis.LinearData;
 import org.scijava.command.Command;
-import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
-import plugins.PanContext;
 import plugins.cmds.UniChannelCommand;
 
 import java.util.Map;
@@ -38,7 +36,7 @@ public class SingleChannelNearestNeighbor extends UniChannelCommand {
             resultName += " " + name;
         }
 
-        panContext.addAnalysisResult(resultName, results);
+        panService.addAnalysisResult(resultName, results);
 
     }
 

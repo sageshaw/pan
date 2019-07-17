@@ -46,7 +46,7 @@ public class UniShowHistogram extends UniChannelCommand {
         Map <String, PointContainer> checkedChannels = getCheckedChannels();
         Set <String> channelNames = checkedChannels.keySet();
 
-        int histoNumber = panContext.getHistogramNumber();
+        int histoNumber = panService.getHistogramNumber();
         JFrame statFrame = new JFrame("HistogramStat" + histoNumber);
         JPanel statPanel = new JPanel();
         statPanel.setLayout(new BoxLayout(statPanel, BoxLayout.PAGE_AXIS));
@@ -96,7 +96,7 @@ public class UniShowHistogram extends UniChannelCommand {
         statFrame.setVisible(true);
         demo.setVisible(true);
 
-        panContext.setHistogramNumber(histoNumber + 1);
+        panService.setHistogramNumber(histoNumber + 1);
 
 
     }

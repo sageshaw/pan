@@ -67,7 +67,7 @@ public class AddPointSet extends TextImportCommand {
         ImageJFunctions.show(imgGenerator.generate(newData));
       }
 
-      if (newData != null) ptStore.addChannelSet(channelSetName, newData);
+      if (newData != null) panService.addChannelSet(channelSetName, newData);
     }
   }
 

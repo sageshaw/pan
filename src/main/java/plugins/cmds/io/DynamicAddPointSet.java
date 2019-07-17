@@ -14,7 +14,7 @@ import org.scijava.command.DynamicCommand;
 import org.scijava.log.LogService;
 import org.scijava.module.MutableModuleItem;
 import org.scijava.plugin.Parameter;
-import plugins.PanContext;
+import plugins.PanService;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,7 +66,7 @@ public class DynamicAddPointSet extends DynamicCommand implements Command, Initi
     private boolean display;
 
     @Parameter
-    private PanContext ptStore;
+    private PanService ptStore;
 
     private boolean failedInit = false;
 

@@ -1,11 +1,8 @@
 package plugins.cmds.io;
 
 import datastructures.points.ChannelContainer;
-import org.scijava.ItemIO;
 import org.scijava.ItemVisibility;
 import org.scijava.command.Command;
-import org.scijava.log.LogService;
-import org.scijava.module.MethodCallException;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
@@ -13,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
-import java.util.ArrayList;
 
 @Plugin(type = Command.class,menuPath = "PAN>Add point set batch from text file")
 public class AddPointSetBatch extends TextImportCommand {
@@ -66,22 +62,22 @@ public class AddPointSetBatch extends TextImportCommand {
 
     @Override
     public void run() {
-        //Find files that match the search expression, extract ChannelSet, then give to PanContext
+        //Find files that match the search expression, extract ChannelSet, then give to PanService
         String pattern = "**" + searchExpression + "*";
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
 
         for (File file : dummySet.getParentFile().listFiles()) {
-            if(matcher.matches(file.toPath())) {
+            if(matcher.matches(file.toPath())) { //Check if file matches the expression
                 ChannelContainer newData = null;
                 try {
-                    newData = loadFile(file);
+                    newData = loadFile(file);    //Load the file
                 } catch (IOException e) {
                     logService.error(e);
 
                 } finally {
-                    String channelSetName = addPostDuplicateString(file.getName());
+                    String channelSetName = addPostDuplicateString(file.getName()); //Extract data and store in PanService
                     if(isRelative) newData.makeRelative();
-                    ptStore.addChannelSet(channelSetName, newData);
+                    panService.addChannelSet(channelSetName, newData);
 
                 }
 

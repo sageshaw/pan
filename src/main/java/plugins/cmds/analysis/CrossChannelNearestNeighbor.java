@@ -9,10 +9,7 @@ import org.scijava.command.Command;
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
-import plugins.PanContext;
 import plugins.cmds.BiChannelCommand;
-
-import java.util.Map;
 
 @Plugin(type = Command.class, menuPath = "PAN>Analysis>Cross-Channel Analysis>Cross Nearest Neighbor")
 public class CrossChannelNearestNeighbor extends BiChannelCommand {
@@ -41,7 +38,7 @@ public class CrossChannelNearestNeighbor extends BiChannelCommand {
         result.add(operableName, operation.execute());
 
         String resultName = "CrossNearestNeighbor " + operableName;
-        panContext.addAnalysisResult(resultName, result);
+        panService.addAnalysisResult(resultName, result);
 
     }
 

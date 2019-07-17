@@ -27,12 +27,12 @@ public abstract class BiChannelCommand extends AnalysisCommand {
 
         ArrayList <String> options = new ArrayList <>();
 
-        String[] channelSetKeys = panContext.channelSetKeys();
+        String[] channelSetKeys = panService.channelSetKeys();
 
         if (channelSetKeys.length == 0) throw new NullArgumentException();
 
         for (String channelSetKey : channelSetKeys) {
-            SuperPointContainer channelSet = panContext.getChannelSet(channelSetKey);
+            SuperPointContainer channelSet = panService.getChannelSet(channelSetKey);
             String[] channelKeys = channelSet.keys();
 
             for (String channelKey : channelKeys) {
@@ -52,10 +52,10 @@ public abstract class BiChannelCommand extends AnalysisCommand {
 
 
     protected OperablePointContainer getFromChannel() {
-        String[] channelSetKeys = panContext.channelSetKeys();
+        String[] channelSetKeys = panService.channelSetKeys();
 
         for (String channelSetKey : channelSetKeys) {
-            SuperPointContainer channelSet = panContext.getChannelSet(channelSetKey);
+            SuperPointContainer channelSet = panService.getChannelSet(channelSetKey);
             String[] channelKeys = channelSet.keys();
 
             for (String channelKey : channelKeys) {
@@ -69,10 +69,10 @@ public abstract class BiChannelCommand extends AnalysisCommand {
     }
 
     protected OperablePointContainer getToChannel() {
-        String[] channelSetKeys = panContext.channelSetKeys();
+        String[] channelSetKeys = panService.channelSetKeys();
 
         for (String channelSetKey : channelSetKeys) {
-            SuperPointContainer channelSet = panContext.getChannelSet(channelSetKey);
+            SuperPointContainer channelSet = panService.getChannelSet(channelSetKey);
             String[] channelKeys = channelSet.keys();
 
             for (String channelKey : channelKeys) {

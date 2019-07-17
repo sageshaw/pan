@@ -7,7 +7,7 @@ import datastructures.points.Triple;
 import org.scijava.command.Command;
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
-import plugins.PanContext;
+import plugins.PanService;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +28,7 @@ public abstract class TextImportCommand implements Command {
     @Parameter
     protected LogService logService;
     @Parameter
-    protected PanContext ptStore;
+    protected PanService panService;
     private int X;
     private int Y;
     private int Z;
@@ -36,7 +36,7 @@ public abstract class TextImportCommand implements Command {
     protected String addPostDuplicateString(String name) {
       int duplNum = 1;
       boolean hasDuplicate = false;
-      for (String loadedName : ptStore.channelSetKeys()) {
+      for (String loadedName : panService.channelSetKeys()) {
         if (loadedName.contains(name)) {
           hasDuplicate = true;
           if (!loadedName.equals(name)) {

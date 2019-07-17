@@ -7,7 +7,7 @@ import org.scijava.ItemVisibility;
 import org.scijava.command.DynamicCommand;
 import org.scijava.module.MutableModuleItem;
 import org.scijava.plugin.Parameter;
-import plugins.PanContext;
+import plugins.PanService;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -19,14 +19,14 @@ import java.util.List;
  */
 public abstract class AnalysisCommand extends DynamicCommand implements Initializable {
     @Parameter
-    protected PanContext panContext;
+    protected PanService panService;
 
     @Parameter(label = "Analysis", choices = {"a", "b"})
     String analysisChoice;
 
     public void initialize() {
         ArrayList <String> options = new ArrayList <>();
-        List <Class <?>> analysisClasses = panContext.findOpScripts();
+        List <Class <?>> analysisClasses = panService.findOpScripts();
         if (analysisClasses == null) throw new IllegalStateException("Cannot find OpScripts.");
 
         for (Class <?> c : analysisClasses) {
@@ -47,7 +47,7 @@ public abstract class AnalysisCommand extends DynamicCommand implements Initiali
     }
 
     protected Class <?> getChosenAnalysisOp() {
-        List <Class <?>> analysisClasses = panContext.findOpScripts();
+        List <Class <?>> analysisClasses = panService.findOpScripts();
 
         for (Class <?> c : analysisClasses) {
             for (Annotation a : c.getAnnotations()) {

@@ -63,7 +63,7 @@ public class BiShowHistogram extends BiChannelCommand {
         Map <String, double[]> displayData = new HashMap <>();
         displayData.put(fromChannelName + "->" + toChannelName, analysisResult);
 
-        int histoNumber = panContext.getHistogramNumber();
+        int histoNumber = panService.getHistogramNumber();
 
         JFrame statFrame = new JFrame("HistogramStat" + histoNumber);
         JPanel statPanel = new JPanel();
@@ -93,7 +93,7 @@ public class BiShowHistogram extends BiChannelCommand {
         statFrame.setVisible(true);
         histoFrame.setVisible(true);
 
-        panContext.setHistogramNumber(histoNumber + 1);
+        panService.setHistogramNumber(histoNumber + 1);
     }
 
 
