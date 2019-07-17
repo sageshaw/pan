@@ -10,6 +10,7 @@ import net.imagej.ImageJService;
 import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
     // master channel list
     private BiMap<String, SuperPointContainer> channelSets;
     private BiMap<String, AnalysisContainer> results;
+    private ArrayList<ArrayList<String>> batchNamesSets;
 
     private int numHistos;
 
@@ -30,6 +32,7 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
     public PanService() {
         channelSets = HashBiMap.create();
         results = HashBiMap.create();
+        batchNamesSets = new ArrayList<>();
         numHistos = 0;
     }
 
@@ -65,6 +68,35 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
     public SuperPointContainer getChannelSet(String name) { return channelSets.get(name); }
 
     public int getNumChannelSets() { return channelSets.size(); }
+
+
+
+    public void addBatchNames(ArrayList<String> batchNames) { batchNamesSets.add(batchNames); }
+
+    public boolean removeBatchNames(ArrayList<String> batchNames) { return batchNamesSets.removeAll(batchNamesSets); }
+
+    public boolean isInBatch(String name) {
+        for (ArrayList<String> batchNames : batchNamesSets) {
+            for (String batchName : batchNames) {
+                if (batchName.equals(name)) return true;
+            }
+        }
+
+        return false;
+    }
+
+    public ArrayList<String> getBatch(String name) {
+        for (ArrayList<String> batchNames : batchNamesSets) {
+            for (String batchName : batchNames) {
+                if (batchName.equals(name)) return batchNames;
+            }
+        }
+
+        return null;
+    }
+
+
+
 
 
 

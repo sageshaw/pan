@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
+import java.util.ArrayList;
 
 @Plugin(type = Command.class,menuPath = "PAN>Add point set batch from text file")
 public class AddPointSetBatch extends TextImportCommand {
@@ -66,6 +67,8 @@ public class AddPointSetBatch extends TextImportCommand {
         String pattern = "**" + searchExpression + "*";
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
 
+        ArrayList<String> batchNames = new ArrayList<>(); //List to store String names for batch association in PanContext
+
         for (File file : dummySet.getParentFile().listFiles()) {
             if(matcher.matches(file.toPath())) { //Check if file matches the expression
                 ChannelContainer newData = null;
@@ -76,6 +79,7 @@ public class AddPointSetBatch extends TextImportCommand {
 
                 } finally {
                     String channelSetName = addPostDuplicateString(file.getName()); //Extract data and store in PanService
+                    batchNames.add(channelSetName);
                     if(isRelative) newData.makeRelative();
                     panService.addChannelSet(channelSetName, newData);
 
@@ -86,6 +90,8 @@ public class AddPointSetBatch extends TextImportCommand {
             }
         }
 
+
+        panService.addBatchNames(batchNames); //Add batchNames for batch association
 
 
     }
