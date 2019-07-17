@@ -20,13 +20,13 @@ public class AddPointSetBatch extends TextImportCommand {
     private boolean isRelative;
 
 
-    @Parameter(label="Exported .txt file from Nikon Elements", callback = "updateExpression")
+    @Parameter(label = "Exported .txt file from Nikon Elements", callback = "updateExpression", persist = false)
     private File dummySet;
 
     @Parameter(label="File format", initializer = "initExpression", callback="updateFilesFound", persist = false)
     String searchExpression;
 
-    @Parameter(label="Files found", visibility = ItemVisibility.MESSAGE)
+    @Parameter(label = "Files found", visibility = ItemVisibility.MESSAGE, persist = false)
     int filesFound;
 
 
