@@ -65,10 +65,10 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
                 SuperPointContainer channelSet = bundledChannelItem.getChannel();
                 String name = ptStore.channelSetKey(channelSet);
 
-                // check if item is in a batch
+                // check if item is in a batch, and break batch if user says so
                 if (ptStore.isInBatch(name)) {
                     GenericDialog gd = new GenericDialog("Split batch...");
-                    gd.addMessage("'" + name + "' is in a batch. Would you like to split the batch? This action cannot be undone." );
+                    gd.addMessage("'" + name + "' is in a batch. To remove the channel set, you must split the batch. Would you like to split it? This action cannot be undone.");
                     gd.setOKLabel("Yes");
                     gd.setCancelLabel("No");
                     gd.showDialog();
