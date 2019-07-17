@@ -2,7 +2,9 @@ package plugins.cmds.io;
 
 
 import datastructures.gui.ChannelModuleItem;
+import datastructures.points.ChannelContainer;
 import datastructures.points.SuperPointContainer;
+import ij.gui.GenericDialog;
 import net.imagej.ops.Initializable;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.command.Command;
@@ -60,6 +62,20 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
             moduleItem = bundledChannelItem.getModuleItem();
 
             if (moduleItem.getValue(this)) {
+                SuperPointContainer channelSet = bundledChannelItem.getChannel();
+                String name = ptStore.channelSetKey(channelSet);
+
+                // check if item is in a batch
+                if (ptStore.isInBatch(name)) {
+                    GenericDialog gd = new GenericDialog("Split batch...");
+                    gd.addMessage("'" + name + "' is in a batch. Would you like to split the batch? This action cannot be undone." );
+                    gd.setOKLabel("Yes");
+                    gd.setCancelLabel("No");
+                    gd.showDialog();
+                    if(gd.wasCanceled()) return;
+
+                    ptStore.removeBatchNames(ptStore.getBatch(name));
+                }
                 SuperPointContainer removed = ptStore.removeChannelSet(ptStore.channelSetKey(bundledChannelItem.getChannel()));
             }
         }
