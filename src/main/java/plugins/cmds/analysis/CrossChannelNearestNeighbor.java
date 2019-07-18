@@ -31,17 +31,15 @@ public class CrossChannelNearestNeighbor extends BiChannelCommand {
         BiOperation operation = new BiLinearNearestNeighbor();
 
         for (ChannelContainer channelSet : channelSets) {
-            AnalysisContainer result = new LinearData();
 
             operation.setChannel(channelSet.get(from), channelSet.get(to));
 
             String operableName = from + "->" + to;
-            result.add(operableName, operation.execute());
+            AnalysisContainer result = new LinearData(operableName, operation.execute());
 
             if (channelSet.isBatched()) {
                 result.setBatchKey(channelSet.getBatchKey());
             }
-            //TODO: should AnalysisContainer be the result of a single analysis or of an entire batch?
             String resultName = "CrossNearestNeighbor " + operableName;
             panService.addAnalysisResult(resultName, result);
         }

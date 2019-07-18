@@ -35,11 +35,10 @@ public class SingleChannelNearestNeighbor extends UniChannelCommand {
         BiOperation operation = new BiLinearNearestNeighbor();
 
         for (ChannelContainer channelSet : channelSets) {
-            AnalysisContainer result = new LinearData();
 
             operation.setChannel(channelSet.get(channelName), channelSet.get(channelName));
 
-            result.add(channelName, operation.execute());
+            AnalysisContainer result = new LinearData(channelName, operation.execute());
 
             if (channelSet.isBatched()) {
                 result.setBatchKey(channelSet.getBatchKey());

@@ -12,49 +12,30 @@ import java.util.Iterator;
  */
 public class LinearData implements AnalysisContainer {
 
-
-    private BiMap<String, double[]> channels = HashBiMap.create();
-
+    String name;
+    double[] data;
     private String batchKey;
 
+
+    public LinearData(String name, double[] data) {
+        this.name = name;
+        this.data = data;
+    }
+
+
     @Override
-    public String key(double[] value) {
-        return channels.inverse().get(value);
+    public String getName() {
+        return name;
     }
 
     @Override
-    public String[] keys() {
-        return channels.keySet().toArray(new String[0]);
-    }
-
-    @Override
-    public double[] get(String name) {
-        return channels.get(name);
-    }
-
-    @Override
-    public double[] remove(String name) {
-        return channels.remove(name);
-    }
-
-    @Override
-    public boolean remove(double[] value) {
-        return channels.remove(key(value), value);
-    }
-
-    @Override
-    public void add(String name, double[] data) {
-        channels.put(name, data);
+    public double[] getData() {
+        return data;
     }
 
     @Override
     public int getSize() {
-        return channels.size();
-    }
-
-    @Override
-    public Iterator iterator() {
-        return channels.values().iterator();
+        return data.length;
     }
 
     @Override
