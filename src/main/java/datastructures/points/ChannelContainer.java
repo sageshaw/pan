@@ -2,6 +2,7 @@ package datastructures.points;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import datastructures.Batchable;
 import display.Displayable;
 
 import java.util.Iterator;
@@ -12,11 +13,12 @@ import java.util.Iterator;
  * this class also supports OperablePointContainer behavior.
  */
 
-public class ChannelContainer<T extends OperablePointContainer> implements OperablePointContainer, SuperPointContainer, Displayable {
+public class ChannelContainer<T extends OperablePointContainer> implements OperablePointContainer, SuperPointContainer, Batchable, Displayable {
 
     //Guava's BiMap to hold channels, using String names as channelSetKeys
     private BiMap <String, T> channels = HashBiMap.create();
 
+    private String batchKey;
 
     @Override
     public Triple getCentroid() {
@@ -177,6 +179,26 @@ public class ChannelContainer<T extends OperablePointContainer> implements Opera
     }
 
 
+    @Override
+    public void setBatchKey(String key) {
+        this.batchKey = key;
+    }
+
+    @Override
+    public String getBatchKey() {
+        return batchKey;
+    }
+
+    @Override
+    public boolean isBatched() {
+        return batchKey != null;
+    }
+
+    @Override
+    public void removeFromBatch() {
+        batchKey = null;
+
+    }
 }
 
 

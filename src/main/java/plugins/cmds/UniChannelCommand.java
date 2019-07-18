@@ -24,7 +24,7 @@ public abstract class UniChannelCommand extends AnalysisCommand {
 
     //Grab the instances of classes we need
     @Parameter
-    protected PanService ptStore;
+    protected PanService panContext;
 
     List <ChannelModuleItem <Boolean, PointContainer>> checkboxItems = new ArrayList <>();
     @Parameter
@@ -36,7 +36,7 @@ public abstract class UniChannelCommand extends AnalysisCommand {
     public void initialize() {
         //Grab names of all channelSets to iterate (normally, we'd use the iterator, but we need to know the names
         //as well
-        String[] channelSetKeys = ptStore.channelSetKeys();
+        String[] channelSetKeys = panContext.channelSetKeys();
 
         //If there are none, throw an exception
         if (channelSetKeys.length == 0) {
@@ -52,7 +52,7 @@ public abstract class UniChannelCommand extends AnalysisCommand {
         //channelSet to iterate through channels
         for (String channelSetKey : channelSetKeys) {
             //Grab a channelSet from PanService to iterate through its channels
-            channelSet = ptStore.getChannelSet(channelSetKey);
+            channelSet = panContext.getChannelSet(channelSetKey);
             channelKeys = channelSet.keys();
             //Using channelSetKeys, grab channel and create a ChannelModuleItem (bundled channel and ModuleItem) and
             //addChannelSet to a List for a checkBoxList to generate dynamic GUI
@@ -100,6 +100,8 @@ public abstract class UniChannelCommand extends AnalysisCommand {
 
         return result;
     }
+
+    //TODO: turn list into single drop-down/radio buttons, and implement batch analysis
 
     @Override
     Class <? extends AnalysisOperation> getOperationType() {

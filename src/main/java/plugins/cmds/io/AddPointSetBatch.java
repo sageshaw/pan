@@ -67,7 +67,6 @@ public class AddPointSetBatch extends TextImportCommand {
         String pattern = "**" + searchExpression + "*";
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
 
-        ArrayList<String> batchNames = new ArrayList<>(); //List to store String names for batch association in PanContext
 
         for (File file : dummySet.getParentFile().listFiles()) {
             if(matcher.matches(file.toPath())) { //Check if file matches the expression
@@ -78,9 +77,9 @@ public class AddPointSetBatch extends TextImportCommand {
                     logService.error(e);
 
                 } finally {
-                    String channelSetName = addPostDuplicateString(file.getName()); //Extract data and store in PanService
-                    batchNames.add(channelSetName);
+                    String channelSetName = addPostDuplicateString(searchExpression.trim() + " - " + file.getName().trim()); //Extract data and store in PanService
                     if(isRelative) newData.makeRelative();
+                    newData.setBatchKey(searchExpression);
                     panService.addChannelSet(channelSetName, newData);
 
                 }
@@ -91,7 +90,6 @@ public class AddPointSetBatch extends TextImportCommand {
         }
 
 
-        panService.addBatchNames(batchNames); //Add batchNames for batch association
 
 
     }

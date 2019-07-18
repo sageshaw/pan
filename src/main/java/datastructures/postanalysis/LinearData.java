@@ -3,16 +3,19 @@ package datastructures.postanalysis;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import datastructures.Batchable;
+
 import java.util.Iterator;
 
 /**
  *  Simple AnalysisContainer data storage class that represents data as double array.
  */
-public class LinearData implements AnalysisContainer {
+public class LinearData implements AnalysisContainer, Batchable {
 
 
     private BiMap<String, double[]> channels = HashBiMap.create();
 
+    private String batchKey;
 
     @Override
     public String key(double[] value) {
@@ -52,5 +55,25 @@ public class LinearData implements AnalysisContainer {
     @Override
     public Iterator iterator() {
         return channels.values().iterator();
+    }
+
+    @Override
+    public void setBatchKey(String key) {
+        batchKey = key;
+    }
+
+    @Override
+    public String getBatchKey() {
+        return batchKey;
+    }
+
+    @Override
+    public boolean isBatched() {
+        return batchKey != null;
+    }
+
+    @Override
+    public void removeFromBatch() {
+        batchKey = null;
     }
 }

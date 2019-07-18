@@ -1,8 +1,8 @@
 package plugins.cmds.io;
 
+import datastructures.points.Linear;
 import datastructures.points.Triple;
 import datastructures.points.ChannelContainer;
-import datastructures.points.Linear;
 import datastructures.points.OperablePointContainer;
 import display.DisplayImgGenerator;
 import display.ImgGenerator;
@@ -207,7 +207,7 @@ public class DynamicAddPointSet extends DynamicCommand implements Command, Initi
             channelName = splitLine[0];
             // check if we have a channel named 'channelName' already in 'channelSets', if not, create
             if (newChannels.get(channelName) == null) {
-                newChannels.add(channelName, new Linear <Triple>());
+                newChannels.add(channelName, new Linear<Triple>());
             }
             // Find x,y,z value based on tab delimitation
             // Note: this may work for now, but these hardcoded values may need to be more flexible

@@ -1,5 +1,6 @@
 package plugins;
 
+import datastructures.points.ChannelContainer;
 import datastructures.points.SuperPointContainer;
 import analysis.ops.OpScript;
 import analysis.util.ClassUtilities;
@@ -10,6 +11,7 @@ import net.imagej.ImageJService;
 import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;
 
+import java.nio.channels.Channel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,13 +20,12 @@ import java.util.List;
  * Serves as a common context for all command plugins.
  */
 @Plugin(type = ImageJService.class)
-public class PanService extends AbstractPTService<ImageJService> implements ImageJService, Iterable {
+public class PanService extends AbstractPTService<ImageJService> implements ImageJService {
 
 
     // master channel list
-    private BiMap<String, SuperPointContainer> channelSets;
+    private BiMap<String, ChannelContainer> channelSets;
     private BiMap<String, AnalysisContainer> results;
-    private ArrayList<ArrayList<String>> batchNamesSets;
 
     private int numHistos;
 
@@ -32,7 +33,6 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
     public PanService() {
         channelSets = HashBiMap.create();
         results = HashBiMap.create();
-        batchNamesSets = new ArrayList<>();
         numHistos = 0;
     }
 
@@ -49,7 +49,7 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
     }
 
 
-    public String channelSetKey(SuperPointContainer value) {
+    public String channelSetKey(ChannelContainer value) {
         return channelSets.inverse().get(value);
     }
 
@@ -57,45 +57,36 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
         return channelSets.keySet().toArray(new String[0]);
     }
 
-    public void addChannelSet(String name, SuperPointContainer container) { channelSets.put(name, container); }
+    public void addChannelSet(String name, ChannelContainer container) {
+        channelSets.put(name, container);
+    }
 
-    public SuperPointContainer removeChannelSet(String name) {
+    public ChannelContainer removeChannelSet(String name) {
         return channelSets.remove(name);
     }
 
-    public boolean removeChannelSet(SuperPointContainer value) { return channelSets.remove(channelSetKey(value), value); }
+    public boolean removeChannelSet(ChannelContainer value) {
+        return channelSets.remove(channelSetKey(value), value);
+    }
 
-    public SuperPointContainer getChannelSet(String name) { return channelSets.get(name); }
+    public ChannelContainer getChannelSet(String name) {
+        return channelSets.get(name);
+    }
 
     public int getNumChannelSets() { return channelSets.size(); }
 
+    public List<ChannelContainer> getBatch(String batchKey) {
 
+        List<ChannelContainer> batch = new ArrayList<>();
 
-    public void addBatchNames(ArrayList<String> batchNames) { batchNamesSets.add(batchNames); }
+        for (ChannelContainer channelSet : channelSets.values()) {
+            if (batchKey.equals(channelSet.getBatchKey()))
+                batch.add(channelSet);
 
-    public boolean removeBatchNames(ArrayList<String> batchNames) { return batchNamesSets.removeAll(batchNamesSets); }
-
-    public boolean isInBatch(String name) {
-        for (ArrayList<String> batchNames : batchNamesSets) {
-            for (String batchName : batchNames) {
-                if (batchName.equals(name)) return true;
-            }
         }
 
-        return false;
+        return batch;
     }
-
-    public ArrayList<String> getBatch(String name) {
-        for (ArrayList<String> batchNames : batchNamesSets) {
-            for (String batchName : batchNames) {
-                if (batchName.equals(name)) return batchNames;
-            }
-        }
-
-        return null;
-    }
-
-
 
 
 
@@ -118,15 +109,6 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
 
 
 
-    /**
-     * Returns an iterator over elements of type {@code T}.
-     *
-     * @return an Iterator.
-     */
-    @Override
-    public Iterator iterator() {
-        return channelSets.values().iterator();
-    }
 
     public int getHistogramNumber() {
         return numHistos;

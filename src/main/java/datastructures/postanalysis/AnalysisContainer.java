@@ -1,5 +1,8 @@
 package datastructures.postanalysis;
 
+
+import datastructures.Batchable;
+
 import java.util.List;
 
 /**

@@ -52,23 +52,14 @@ public abstract class BiChannelCommand extends AnalysisCommand {
 
 
     protected OperablePointContainer getFromChannel() {
-        String[] channelSetKeys = panService.channelSetKeys();
-
-        for (String channelSetKey : channelSetKeys) {
-            SuperPointContainer channelSet = panService.getChannelSet(channelSetKey);
-            String[] channelKeys = channelSet.keys();
-
-            for (String channelKey : channelKeys) {
-                if (from.equals(channelKey + "(" + channelSetKey + ")"))
-                    return (OperablePointContainer) channelSet.get(channelKey);
-            }
-
-        }
-
-        return null;
+        return getChannel(from);
     }
 
     protected OperablePointContainer getToChannel() {
+        return getChannel(to);
+    }
+
+    private OperablePointContainer getChannel(String channelName) {
         String[] channelSetKeys = panService.channelSetKeys();
 
         for (String channelSetKey : channelSetKeys) {
@@ -76,7 +67,7 @@ public abstract class BiChannelCommand extends AnalysisCommand {
             String[] channelKeys = channelSet.keys();
 
             for (String channelKey : channelKeys) {
-                if (to.equals(channelKey + "(" + channelSetKey + ")")) {
+                if (channelName.equals(channelKey + "(" + channelSetKey + ")")) {
                     return (OperablePointContainer) channelSet.get(channelKey);
                 }
             }
@@ -84,6 +75,8 @@ public abstract class BiChannelCommand extends AnalysisCommand {
         }
 
         return null;
+
+
     }
 
     protected String getFromName() {

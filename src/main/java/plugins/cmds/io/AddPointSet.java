@@ -54,7 +54,7 @@ public class AddPointSet extends TextImportCommand {
     } finally {
 
       //Grab name, and label duplicate if necessary
-      String channelSetName = addPostDuplicateString(pointSet.getName());
+        String channelSetName = addPostDuplicateString(pointSet.getName().trim());
 
 
 
