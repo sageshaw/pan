@@ -5,8 +5,11 @@ import datastructures.points.OperablePointContainer;
 import analysis.ops.AnalysisOperation;
 import analysis.ops.BiOperation;
 import org.apache.commons.math3.exception.NullArgumentException;
+import org.scijava.Initializable;
+import org.scijava.command.DynamicCommand;
 import org.scijava.module.MutableModuleItem;
 import org.scijava.plugin.Parameter;
+import plugins.PanService;
 
 import java.util.ArrayList;
 
@@ -14,8 +17,10 @@ import java.util.ArrayList;
  * Proves basic structure for a command that provides a basic structure for a command plugin
  * handling two-channel analysis.
  */
-public abstract class BiChannelCommand extends AnalysisCommand {
+public abstract class BiChannelCommand extends DynamicCommand implements Initializable {
 
+    @Parameter
+    PanService panService;
 
     @Parameter(label = "From", choices = {"a", "b"})
     private String from;
@@ -47,7 +52,6 @@ public abstract class BiChannelCommand extends AnalysisCommand {
         fromItem.setChoices(options);
         toItem.setChoices(options);
 
-        super.initialize();
     }
 
 
@@ -87,8 +91,4 @@ public abstract class BiChannelCommand extends AnalysisCommand {
         return to;
     }
 
-    @Override
-    Class <? extends AnalysisOperation> getOperationType() {
-        return BiOperation.class;
-    }
 }

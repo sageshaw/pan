@@ -6,6 +6,8 @@ import analysis.ops.AnalysisOperation;
 import analysis.ops.UniOperation;
 import datastructures.gui.ChannelModuleItem;
 import org.apache.commons.math3.exception.NullArgumentException;
+import org.scijava.Initializable;
+import org.scijava.command.DynamicCommand;
 import org.scijava.log.LogService;
 import org.scijava.module.ModuleItem;
 import org.scijava.plugin.Parameter;
@@ -20,7 +22,7 @@ import java.util.Map;
  * Provides basic framework for single-channel analysis. This class will automatically grab current loaded
  * ChannelSets to display them to the gui, and will return the selected ChannelSets to the command extending this one.
  */
-public abstract class UniChannelCommand extends AnalysisCommand {
+public abstract class UniChannelCommand extends DynamicCommand implements Initializable {
 
     //Grab the instances of classes we need
     @Parameter
@@ -70,7 +72,6 @@ public abstract class UniChannelCommand extends AnalysisCommand {
             }
         }
 
-        super.initialize();
     }
 
     //Method to grab the module list of all checked items. This supplies a list bundled channel item.
@@ -103,9 +104,5 @@ public abstract class UniChannelCommand extends AnalysisCommand {
 
     //TODO: turn list into single drop-down/radio buttons, and implement batch analysis
 
-    @Override
-    Class <? extends AnalysisOperation> getOperationType() {
-        return UniOperation.class;
-    }
 
 }

@@ -36,6 +36,7 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
         numHistos = 0;
     }
 
+    @Deprecated
     public List<Class<?>> findOpScripts() {
         List<Class<?>> processes = null;
         try {
