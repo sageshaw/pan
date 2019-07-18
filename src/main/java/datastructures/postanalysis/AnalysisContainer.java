@@ -9,7 +9,7 @@ import java.util.List;
  *  Defines behavior for an object that contains analysis result data.
  */
 
-public interface AnalysisContainer extends Iterable {
+public interface AnalysisContainer extends Iterable, Batchable {
 
 
     String key(double[] value);

@@ -1,9 +1,9 @@
 package plugins.cmds;
 
+import datastructures.points.ChannelContainer;
 import datastructures.points.SuperPointContainer;
 import datastructures.points.OperablePointContainer;
-import analysis.ops.AnalysisOperation;
-import analysis.ops.BiOperation;
+import ij.gui.GenericDialog;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.Initializable;
 import org.scijava.command.DynamicCommand;
@@ -12,6 +12,7 @@ import org.scijava.plugin.Parameter;
 import plugins.PanService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Proves basic structure for a command that provides a basic structure for a command plugin
@@ -20,12 +21,14 @@ import java.util.ArrayList;
 public abstract class BiChannelCommand extends DynamicCommand implements Initializable {
 
     @Parameter
-    PanService panService;
+    private PanService panService;
 
-    @Parameter(label = "From", choices = {"a", "b"})
+    @Parameter(label = "Channel File", choices = {"a", "b"})
+    private String channelSetName;
+
+
     private String from;
 
-    @Parameter(label = "To", choices = {"c", "d"})
     private String to;
 
     public void initialize() {
@@ -36,59 +39,56 @@ public abstract class BiChannelCommand extends DynamicCommand implements Initial
 
         if (channelSetKeys.length == 0) throw new NullArgumentException();
 
-        for (String channelSetKey : channelSetKeys) {
-            SuperPointContainer channelSet = panService.getChannelSet(channelSetKey);
-            String[] channelKeys = channelSet.keys();
+        for (String channelSetKey : channelSetKeys)
+            options.add(channelSetKey);
 
-            for (String channelKey : channelKeys) {
-                options.add(channelKey + "(" + channelSetKey + ")");
+
+        MutableModuleItem<String> selectSetItem = getInfo().getMutableInput("Channel File", String.class);
+
+        selectSetItem.setChoices(options);
+
+    }
+
+    @Override
+    public void run() {
+
+        ChannelContainer channelSet = panService.getChannelSet(channelSetName);
+        String[] keys = channelSet.keys();
+
+        GenericDialog selectChannelDialogue = new GenericDialog("Set target channels...");
+        selectChannelDialogue.addMessage("Select target channels on which to operate: ");
+        selectChannelDialogue.addChoice("From channel id", keys, keys[0]);
+        selectChannelDialogue.addChoice("To channel id", keys, keys[0]);
+        selectChannelDialogue.showDialog();
+
+        if (selectChannelDialogue.wasCanceled()) return;
+
+        List<ChannelContainer> containers = new ArrayList<ChannelContainer>();
+
+        if (channelSet.isBatched()) {
+            GenericDialog batchDialogue = new GenericDialog("Found batch...");
+            batchDialogue.addMessage("'" + channelSetName + "' was found to be in a batch. Run operation on entire batch?");
+            batchDialogue.setOKLabel("Yes");
+            batchDialogue.setCancelLabel("No");
+            batchDialogue.showDialog();
+
+            if (batchDialogue.wasOKed()) {
+                containers = panService.getBatch(channelSet.getBatchKey());
+            } else {
+                containers.add(channelSet);
             }
 
+        } else {
+            containers.add(channelSet);
         }
 
-        MutableModuleItem <String> fromItem = getInfo().getMutableInput("from", String.class);
-        MutableModuleItem <String> toItem = getInfo().getMutableInput("to", String.class);
+        String from = selectChannelDialogue.getNextChoice();
+        String to = selectChannelDialogue.getNextChoice();
 
-        fromItem.setChoices(options);
-        toItem.setChoices(options);
 
+        doOnRun(containers, from, to);
     }
 
-
-    protected OperablePointContainer getFromChannel() {
-        return getChannel(from);
-    }
-
-    protected OperablePointContainer getToChannel() {
-        return getChannel(to);
-    }
-
-    private OperablePointContainer getChannel(String channelName) {
-        String[] channelSetKeys = panService.channelSetKeys();
-
-        for (String channelSetKey : channelSetKeys) {
-            SuperPointContainer channelSet = panService.getChannelSet(channelSetKey);
-            String[] channelKeys = channelSet.keys();
-
-            for (String channelKey : channelKeys) {
-                if (channelName.equals(channelKey + "(" + channelSetKey + ")")) {
-                    return (OperablePointContainer) channelSet.get(channelKey);
-                }
-            }
-
-        }
-
-        return null;
-
-
-    }
-
-    protected String getFromName() {
-        return from;
-    }
-
-    protected String getToName() {
-        return to;
-    }
+    protected abstract void doOnRun(List<ChannelContainer> channelContainers, String fromChannelName, String toChannelName);
 
 }

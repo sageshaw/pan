@@ -10,7 +10,7 @@ import java.util.Iterator;
 /**
  *  Simple AnalysisContainer data storage class that represents data as double array.
  */
-public class LinearData implements AnalysisContainer, Batchable {
+public class LinearData implements AnalysisContainer {
 
 
     private BiMap<String, double[]> channels = HashBiMap.create();

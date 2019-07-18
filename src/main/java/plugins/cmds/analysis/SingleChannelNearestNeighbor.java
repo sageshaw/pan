@@ -2,47 +2,54 @@ package plugins.cmds.analysis;
 
 import analysis.ops.BiLinearNearestNeighbor;
 import analysis.ops.BiOperation;
+import datastructures.points.ChannelContainer;
 import datastructures.points.OperablePointContainer;
 import datastructures.points.PointContainer;
 import datastructures.postanalysis.AnalysisContainer;
 import datastructures.postanalysis.LinearData;
 import org.scijava.command.Command;
+import org.scijava.log.LogService;
+import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
+import plugins.PanService;
 import plugins.cmds.UniChannelCommand;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @Plugin(type = Command.class, menuPath = "PAN>Analysis>Single-Channel Analysis>Nearest Neighbor")
 public class SingleChannelNearestNeighbor extends UniChannelCommand {
 
+    @Parameter
+    PanService panService;
+
+    @Parameter
+    LogService logService;
+
 
     @Override
-    public void run() {
+    protected void doOnRun(List<ChannelContainer> channelSets, String channelName) {
+        logService.info("Running nearest-neighbor...");
 
         BiOperation operation = new BiLinearNearestNeighbor();
-        //TODO: this should be OperablePointContainer, FIX
-        Map<String, PointContainer> checkedChannels = getCheckedChannels();
-        Set<String> channelNames = checkedChannels.keySet();
 
-        AnalysisContainer results = new LinearData();
-        String resultName = "SingleNearestNeighbor";
+        for (ChannelContainer channelSet : channelSets) {
+            AnalysisContainer result = new LinearData();
 
-        for (String name : channelNames) {
-            OperablePointContainer channel = (OperablePointContainer) checkedChannels.get(name);
-            operation.setChannel(channel, channel);
+            operation.setChannel(channelSet.get(channelName), channelSet.get(channelName));
 
-            results.add(name, operation.execute());
-            resultName += " " + name;
+            result.add(channelName, operation.execute());
+
+            if (channelSet.isBatched()) {
+                result.setBatchKey(channelSet.getBatchKey());
+            }
+
+            String resultName = "SingleNearestNeighbor " + channelName;
+            panService.addAnalysisResult(resultName, result);
         }
 
-        panService.addAnalysisResult(resultName, results);
-
     }
 
 
-    @Override
-    protected boolean allowAnalysisSelection() {
-        return false;
-    }
 }

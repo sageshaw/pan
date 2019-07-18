@@ -1,108 +1,89 @@
 package plugins.cmds;
 
-import datastructures.points.SuperPointContainer;
-import datastructures.points.PointContainer;
-import analysis.ops.AnalysisOperation;
-import analysis.ops.UniOperation;
-import datastructures.gui.ChannelModuleItem;
+import datastructures.points.ChannelContainer;
+import ij.gui.GenericDialog;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.Initializable;
 import org.scijava.command.DynamicCommand;
-import org.scijava.log.LogService;
-import org.scijava.module.ModuleItem;
+import org.scijava.module.MutableModuleItem;
 import org.scijava.plugin.Parameter;
 import plugins.PanService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Provides basic framework for single-channel analysis. This class will automatically grab current loaded
  * ChannelSets to display them to the gui, and will return the selected ChannelSets to the command extending this one.
  */
+
 public abstract class UniChannelCommand extends DynamicCommand implements Initializable {
 
-    //Grab the instances of classes we need
     @Parameter
-    protected PanService panContext;
+    protected PanService panService;
 
-    List <ChannelModuleItem <Boolean, PointContainer>> checkboxItems = new ArrayList <>();
-    @Parameter
-    private LogService logService;
+    @Parameter(label = "Channel File", choices = {"a", "b"})
+    private String channelSetName;
 
-
-    //Sets up dynamic list of channel options to output on histogram
     @Override
     public void initialize() {
-        //Grab names of all channelSets to iterate (normally, we'd use the iterator, but we need to know the names
-        //as well
-        String[] channelSetKeys = panContext.channelSetKeys();
 
-        //If there are none, throw an exception
-        if (channelSetKeys.length == 0) {
-            throw new NullArgumentException();
-        }
+        ArrayList<String> options = new ArrayList<>();
 
-        //Some variable declarations so we do not have to reinstantiate references every single loop
-        //iteration
-        SuperPointContainer channelSet;
-        String[] channelKeys;
+        String[] channelSetKeys = panService.channelSetKeys();
 
-        //Using the channelSetKeys for the channelSets, iterate through the channelSets and grab the channelSetKeys inside each individual
-        //channelSet to iterate through channels
-        for (String channelSetKey : channelSetKeys) {
-            //Grab a channelSet from PanService to iterate through its channels
-            channelSet = panContext.getChannelSet(channelSetKey);
-            channelKeys = channelSet.keys();
-            //Using channelSetKeys, grab channel and create a ChannelModuleItem (bundled channel and ModuleItem) and
-            //addChannelSet to a List for a checkBoxList to generate dynamic GUI
-            for (String channelKey : channelKeys) {
-                //Grab channel
-                PointContainer channel = channelSet.get(channelKey);
-                //Create bundled ChannelModuleItem
-                final ChannelModuleItem <Boolean, PointContainer> bundledChannelItem =
-                        new ChannelModuleItem <>(getInfo(), channelKey, boolean.class, channel);
+        if (channelSetKeys.length == 0) throw new NullArgumentException();
 
-                //setup up post-instantiation properties for ModuleItem and addChannelSet to dynamic list
-                bundledChannelItem.getModuleItem().setLabel(channelKey + "(" + channelSetKey + ")");
-                checkboxItems.add(bundledChannelItem);
-                getInfo().addInput(bundledChannelItem.getModuleItem());
+        for (String channelSetKey : channelSetKeys)
+            options.add(channelSetKey);
+
+        MutableModuleItem<String> selectSetItem = getInfo().getMutableInput("Channel File", String.class);
+
+        selectSetItem.setChoices(options);
+    }
+
+    public void run() {
+
+        ChannelContainer channelSet = panService.getChannelSet(channelSetName);
+        String[] keys = channelSet.keys();
+
+        GenericDialog selectChannelDialogue = new GenericDialog("Set target channels...");
+        selectChannelDialogue.addMessage("Select target channels on which to operate: ");
+        selectChannelDialogue.addChoice("Channel id", keys, keys[0]);
+        selectChannelDialogue.showDialog();
+
+        if (selectChannelDialogue.wasCanceled()) return;
+
+        List<ChannelContainer> containers = new ArrayList<ChannelContainer>();
+
+        if (channelSet.isBatched()) {
+            GenericDialog batchDialogue = new GenericDialog("Found batch...");
+            batchDialogue.addMessage("'" + channelSetName + "' was found to be in a batch. Run operation on entire batch?");
+            batchDialogue.setOKLabel("Yes");
+            batchDialogue.setCancelLabel("No");
+            batchDialogue.showDialog();
+
+            if (batchDialogue.wasOKed()) {
+                containers = panService.getBatch(channelSet.getBatchKey());
+            } else {
+                containers.add(channelSet);
             }
+
+        } else {
+            containers.add(channelSet);
         }
+
+        String channelID = selectChannelDialogue.getNextChoice();
+
+        doOnRun(containers, channelID);
+
 
     }
 
-    //Method to grab the module list of all checked items. This supplies a list bundled channel item.
-    private List <ChannelModuleItem <Boolean, PointContainer>> getCheckedModules() {
-        //Instantiate a list for the result
-        ArrayList <ChannelModuleItem <Boolean, PointContainer>> checkItems = new ArrayList <>();
-        //Preinstantiation of reference so we don't have to throw it away
-        ModuleItem <Boolean> moduleItem;
-        //Iterate through checkBoxItems, addChannelSet to checkItems if the item was checked in GUI
-        for (ChannelModuleItem <Boolean, PointContainer> bundledChannelItem : checkboxItems) {
-            moduleItem = bundledChannelItem.getModuleItem();
-            if (moduleItem.getValue(this)) {
-                checkItems.add(bundledChannelItem);
-            }
-        }
+    protected abstract void doOnRun(List<ChannelContainer> channelContainers, String channelName);
 
-        return checkItems;
-    }
 
-    protected Map <String, PointContainer> getCheckedChannels() {
-        Map <String, PointContainer> result = new HashMap <String, PointContainer>();
-        List <ChannelModuleItem <Boolean, PointContainer>> checkedItems = getCheckedModules();
 
-        for (ChannelModuleItem <Boolean, PointContainer> bundledChannelItem : checkedItems) {
-            result.put(bundledChannelItem.getModuleItem().getName(), bundledChannelItem.getChannel());
-        }
-
-        return result;
-    }
-
-    //TODO: turn list into single drop-down/radio buttons, and implement batch analysis
 
 
 }
