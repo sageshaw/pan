@@ -9,7 +9,6 @@ import org.scijava.command.Command;
 import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
-import plugins.cmds.BiChannelCommand;
 
 import java.util.List;
 

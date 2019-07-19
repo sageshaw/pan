@@ -4,7 +4,7 @@
 //import datastructures.points.PointContainer;
 //import analysis.ops.UniOperation;
 //import analysis.util.StatUtilities;
-//import plugins.cmds.UniChannelCommand;
+//import plugins.cmds.analysis.UniChannelCommand;
 //import datastructures.gui.HistogramFrame;
 //import org.scijava.command.Command;
 //import org.scijava.plugin.Parameter;

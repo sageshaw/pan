@@ -4,7 +4,7 @@
 //import datastructures.points.PointContainer;
 //import analysis.ops.UniOperation;
 //import plugins.cmds.io.TextExportCommand;
-//import plugins.cmds.UniChannelCommand;
+//import plugins.cmds.analysis.UniChannelCommand;
 //import org.scijava.command.Command;
 //import org.scijava.plugin.Plugin;
 //

@@ -1,4 +1,4 @@
-package plugins.cmds;
+package plugins.cmds.analysis;
 
 import datastructures.points.ChannelContainer;
 import ij.gui.GenericDialog;
@@ -13,25 +13,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Proves basic structure for a command that provides a basic structure for a command plugin
- * handling two-channel analysis.
+ * Provides basic framework for single-channel analysis. This class will automatically grab current loaded
+ * ChannelSets to display them to the gui, and will return the selected ChannelSets to the command extending this one.
  */
-public abstract class BiChannelCommand extends DynamicCommand implements Initializable {
+
+public abstract class UniChannelCommand extends DynamicCommand implements Initializable {
 
     @Parameter
     protected PanService panService;
 
-    @Parameter(label = "Channel File", choices = {"a", "b"})
+    @Parameter(label = "Channel", choices = {"a", "b"})
     private String channelSetName;
 
-
-    private String from;
-
-    private String to;
-
+    @Override
     public void initialize() {
 
-        ArrayList <String> options = new ArrayList <>();
+        ArrayList<String> options = new ArrayList<>();
 
         String[] channelSetKeys = panService.channelSetKeys();
 
@@ -40,14 +37,11 @@ public abstract class BiChannelCommand extends DynamicCommand implements Initial
         for (String channelSetKey : channelSetKeys)
             options.add(channelSetKey);
 
-
-        MutableModuleItem<String> selectSetItem = getInfo().getMutableInput("channelSetNamez", String.class);
+        MutableModuleItem<String> selectSetItem = getInfo().getMutableInput("channelSetName", String.class);
 
         selectSetItem.setChoices(options);
-
     }
 
-    @Override
     public void run() {
 
         ChannelContainer channelSet = panService.getChannelSet(channelSetName);
@@ -55,8 +49,7 @@ public abstract class BiChannelCommand extends DynamicCommand implements Initial
 
         GenericDialog selectChannelDialogue = new GenericDialog("Set target channels...");
         selectChannelDialogue.addMessage("Select target channels on which to operate: ");
-        selectChannelDialogue.addChoice("From channel id", keys, keys[0]);
-        selectChannelDialogue.addChoice("To channel id", keys, keys[0]);
+        selectChannelDialogue.addChoice("Channel id", keys, keys[0]);
         selectChannelDialogue.showDialog();
 
         if (selectChannelDialogue.wasCanceled()) return;
@@ -71,7 +64,7 @@ public abstract class BiChannelCommand extends DynamicCommand implements Initial
             batchDialogue.showDialog();
 
             if (batchDialogue.wasOKed()) {
-                containers = panService.getDataBatch(channelSet.getBatchKey());
+                containers = panService.getChannelSetBatch(channelSet.getBatchKey());
             } else {
                 containers.add(channelSet);
             }
@@ -80,13 +73,17 @@ public abstract class BiChannelCommand extends DynamicCommand implements Initial
             containers.add(channelSet);
         }
 
-        String from = selectChannelDialogue.getNextChoice();
-        String to = selectChannelDialogue.getNextChoice();
+        String channelID = selectChannelDialogue.getNextChoice();
+
+        doOnRun(containers, channelID);
 
 
-        doOnRun(containers, from, to);
     }
 
-    protected abstract void doOnRun(List<ChannelContainer> channelContainers, String fromChannelName, String toChannelName);
+    protected abstract void doOnRun(List<ChannelContainer> channelContainers, String channelName);
+
+
+
+
 
 }

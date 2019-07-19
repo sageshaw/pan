@@ -2,7 +2,7 @@
 //
 //import datastructures.points.OperablePointContainer;
 //import analysis.ops.BiOperation;
-//import plugins.cmds.BiChannelCommand;
+//import plugins.cmds.analysis.BiChannelCommand;
 //import plugins.cmds.io.TextExportCommand;
 //import org.scijava.command.Command;
 //import org.scijava.plugin.Plugin;

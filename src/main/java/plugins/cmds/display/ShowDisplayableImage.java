@@ -1,7 +1,7 @@
 //package plugins.cmds.display;
 //
 //import datastructures.points.PointContainer;
-//import plugins.cmds.UniChannelCommand;
+//import plugins.cmds.analysis.UniChannelCommand;
 //import display.DisplayImgGenerator;
 //import display.Displayable;
 //import display.ImgGenerator;
