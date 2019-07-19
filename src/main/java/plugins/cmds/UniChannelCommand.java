@@ -22,7 +22,7 @@ public abstract class UniChannelCommand extends DynamicCommand implements Initia
     @Parameter
     protected PanService panService;
 
-    @Parameter(label = "Channel File", choices = {"a", "b"})
+    @Parameter(label = "Channel", choices = {"a", "b"})
     private String channelSetName;
 
     @Override
@@ -37,7 +37,7 @@ public abstract class UniChannelCommand extends DynamicCommand implements Initia
         for (String channelSetKey : channelSetKeys)
             options.add(channelSetKey);
 
-        MutableModuleItem<String> selectSetItem = getInfo().getMutableInput("Channel File", String.class);
+        MutableModuleItem<String> selectSetItem = getInfo().getMutableInput("channelSetName", String.class);
 
         selectSetItem.setChoices(options);
     }
@@ -64,7 +64,7 @@ public abstract class UniChannelCommand extends DynamicCommand implements Initia
             batchDialogue.showDialog();
 
             if (batchDialogue.wasOKed()) {
-                containers = panService.getBatch(channelSet.getBatchKey());
+                containers = panService.getDataBatch(channelSet.getBatchKey());
             } else {
                 containers.add(channelSet);
             }

@@ -1,8 +1,6 @@
 package plugins.cmds;
 
 import datastructures.points.ChannelContainer;
-import datastructures.points.SuperPointContainer;
-import datastructures.points.OperablePointContainer;
 import ij.gui.GenericDialog;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.Initializable;
@@ -21,7 +19,7 @@ import java.util.List;
 public abstract class BiChannelCommand extends DynamicCommand implements Initializable {
 
     @Parameter
-    private PanService panService;
+    protected PanService panService;
 
     @Parameter(label = "Channel File", choices = {"a", "b"})
     private String channelSetName;
@@ -43,7 +41,7 @@ public abstract class BiChannelCommand extends DynamicCommand implements Initial
             options.add(channelSetKey);
 
 
-        MutableModuleItem<String> selectSetItem = getInfo().getMutableInput("Channel File", String.class);
+        MutableModuleItem<String> selectSetItem = getInfo().getMutableInput("channelSetNamez", String.class);
 
         selectSetItem.setChoices(options);
 
@@ -73,7 +71,7 @@ public abstract class BiChannelCommand extends DynamicCommand implements Initial
             batchDialogue.showDialog();
 
             if (batchDialogue.wasOKed()) {
-                containers = panService.getBatch(channelSet.getBatchKey());
+                containers = panService.getDataBatch(channelSet.getBatchKey());
             } else {
                 containers.add(channelSet);
             }

@@ -1,19 +1,18 @@
 package plugins;
 
+import datastructures.Batchable;
+import datastructures.graphs.BatchableHistogramDataset;
 import datastructures.points.ChannelContainer;
-import datastructures.points.SuperPointContainer;
 import analysis.ops.OpScript;
 import analysis.util.ClassUtilities;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import datastructures.postanalysis.AnalysisContainer;
+import datastructures.analysis.DataContainer;
 import net.imagej.ImageJService;
 import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;
 
-import java.nio.channels.Channel;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -25,7 +24,8 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
 
     // master channel list
     private BiMap<String, ChannelContainer> channelSets;
-    private BiMap<String, AnalysisContainer> results;
+    private BiMap<String, DataContainer> results;
+    private BiMap<String, BatchableHistogramDataset> histoSets;
 
     private int numHistos;
 
@@ -76,7 +76,7 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
 
     public int getNumChannelSets() { return channelSets.size(); }
 
-    public List<ChannelContainer> getBatch(String batchKey) {
+    public List<ChannelContainer> getChannelSetBatch(String batchKey) {
 
         List<ChannelContainer> batch = new ArrayList<>();
 
@@ -90,31 +90,94 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
     }
 
 
-
-
-    public String analysisResultKey(AnalysisContainer value) { return results.inverse().get(value);}
+    public String analysisResultKey(DataContainer value) {
+        return results.inverse().get(value);
+    }
 
     public String[] analysisResultKeys() { return results.keySet().toArray(new String[0]); }
 
-    public void addAnalysisResult(String name, AnalysisContainer result) { results.put(name, result); }
+    public void addAnalysisResult(String name, DataContainer result) {
+        results.put(name, result);
+    }
 
-    public AnalysisContainer removeAnalysisResult(String name) {return results.remove(name); }
+    public DataContainer removeAnalysisResult(String name) {
+        return results.remove(name);
+    }
 
-    public boolean removeAnalysisResult(AnalysisContainer value) {return results.remove(analysisResultKey(value), value); }
+    public boolean removeAnalysisResult(DataContainer value) {
+        return results.remove(analysisResultKey(value), value);
+    }
 
-    public AnalysisContainer getAnalysisResult (String name) { return results.get(name); }
+    public DataContainer getAnalysisResult(String name) {
+        return results.get(name);
+    }
 
     public int getNumAnalysisResults() {
         return results.size();
     }
 
+    public List<DataContainer> getAnalysisBatch(String batchKey) {
+
+        List<DataContainer> batch = new ArrayList<>();
+
+        for (DataContainer dataset : results.values()) {
+            if (batchKey.equals(dataset.getBatchKey()))
+                batch.add(dataset);
+
+        }
+
+        return batch;
+    }
 
 
+    public String histoKey(BatchableHistogramDataset value) {
+        return histoSets.inverse().get(value);
+    }
 
+    public String[] histoKeys() {
+        return histoSets.keySet().toArray(new String[0]);
+    }
+
+    public void addHistoSet(String name, BatchableHistogramDataset result) {
+        histoSets.put(name, result);
+    }
+
+    public BatchableHistogramDataset removeHistoSet(String name) {
+        return histoSets.remove(name);
+    }
+
+    public boolean removeHistoSet(BatchableHistogramDataset value) {
+        return histoSets.remove(histoKey(value), value);
+    }
+
+    public BatchableHistogramDataset getHistoSet(String name) {
+        return histoSets.get(name);
+    }
+
+    public int getNumHistoSets() {
+        return histoSets.size();
+    }
+
+    public List<BatchableHistogramDataset> getHistoBatch(String batchKey) {
+
+        List<BatchableHistogramDataset> batch = new ArrayList<>();
+
+        for (BatchableHistogramDataset histoset : histoSets.values()) {
+            if (batchKey.equals(histoset.getBatchKey()))
+                batch.add(histoset);
+
+        }
+
+        return batch;
+    }
+
+
+    @Deprecated
     public int getHistogramNumber() {
         return numHistos;
     }
 
+    @Deprecated
     public void setHistogramNumber(int numHisto) {
         this.numHistos = numHisto;
     }

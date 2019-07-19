@@ -1,16 +1,10 @@
-package datastructures.postanalysis;
+package datastructures.analysis;
 
-
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import datastructures.Batchable;
-
-import java.util.Iterator;
 
 /**
- *  Simple AnalysisContainer data storage class that represents data as double array.
+ *  Simple DataContainer data storage class that represents data as double array.
  */
-public class LinearData implements AnalysisContainer {
+public class LinearData implements DataContainer {
 
     String name;
     double[] data;
