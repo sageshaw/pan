@@ -7,6 +7,10 @@ public class BatchableHistogramDataset extends HistogramDataset implements Batch
 
     private String batchKey;
 
+    public BatchableHistogramDataset() {
+        super();
+    }
+
     @Override
     public void setBatchKey(String key) {
         batchKey = key;
