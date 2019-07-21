@@ -1,14 +1,22 @@
 package datastructures.graphs;
 
+import datastructures.Annotatable;
 import datastructures.Batchable;
 import org.jfree.data.statistics.HistogramDataset;
 
-public class BatchableHistogramDataset extends HistogramDataset implements Batchable {
+import java.util.HashMap;
+import java.util.Map;
+
+public class BatchableHistogramDataset extends HistogramDataset implements Batchable, Annotatable {
 
     private String batchKey;
 
+    private Map<String, Double> annotations;
+
+
     public BatchableHistogramDataset() {
         super();
+        annotations = new HashMap<>();
     }
 
     @Override
@@ -29,5 +37,20 @@ public class BatchableHistogramDataset extends HistogramDataset implements Batch
     @Override
     public void removeFromBatch() {
         batchKey = null;
+    }
+
+    @Override
+    public void addEntry(String entryName, double val) {
+        annotations.put(entryName, val);
+    }
+
+    @Override
+    public String[] getEntryNames() {
+        return annotations.keySet().toArray(new String[0]);
+    }
+
+    @Override
+    public double value(String entryName) {
+        return annotations.get(entryName);
     }
 }

@@ -33,6 +33,7 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
     public PanService() {
         channelSets = HashBiMap.create();
         results = HashBiMap.create();
+        histoSets = HashBiMap.create();
         numHistos = 0;
     }
 
