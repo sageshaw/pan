@@ -79,7 +79,7 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
                     String batchKey = channelSet.getBatchKey();
 
                     if (choice.equals(CHOICE_DELETE_BATCH)) {                   // if user wants to delete batch...
-                        List<ChannelContainer> batch = ptStore.getDataBatch(batchKey);
+                        List<ChannelContainer> batch = ptStore.getChannelSetBatch(batchKey);
                         for (ChannelContainer batchedChannel : batch) {
                             ptStore.removeChannelSet(batchedChannel);
                         }
@@ -88,7 +88,7 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
 
 
                     } else if (choice.equals(CHOICE_BREAK_BATCH)) {           // if user wants to break batch and delete individual channel...
-                        List<ChannelContainer> batch = ptStore.getDataBatch(batchKey);
+                        List<ChannelContainer> batch = ptStore.getChannelSetBatch(batchKey);
                         for (ChannelContainer batchedChannel : batch)
                             batchedChannel.removeFromBatch(); // Remove from batch, catchall statement at bottom will remove channel
                     }
