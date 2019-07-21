@@ -1,7 +1,6 @@
 package plugins;
 
-import datastructures.Batchable;
-import datastructures.graphs.BatchableHistogramDataset;
+import datastructures.graphs.HistogramDatasetPlus;
 import datastructures.points.ChannelContainer;
 import analysis.ops.OpScript;
 import analysis.util.ClassUtilities;
@@ -25,7 +24,7 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
     // master channel list
     private BiMap<String, ChannelContainer> channelSets;
     private BiMap<String, DataContainer> results;
-    private BiMap<String, BatchableHistogramDataset> histoSets;
+    private BiMap<String, HistogramDatasetPlus> histoSets;
 
     private int numHistos;
 
@@ -131,7 +130,7 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
     }
 
 
-    public String histoKey(BatchableHistogramDataset value) {
+    public String histoKey(HistogramDatasetPlus value) {
         return histoSets.inverse().get(value);
     }
 
@@ -139,19 +138,19 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
         return histoSets.keySet().toArray(new String[0]);
     }
 
-    public void addHistoSet(String name, BatchableHistogramDataset result) {
+    public void addHistoSet(String name, HistogramDatasetPlus result) {
         histoSets.put(name, result);
     }
 
-    public BatchableHistogramDataset removeHistoSet(String name) {
+    public HistogramDatasetPlus removeHistoSet(String name) {
         return histoSets.remove(name);
     }
 
-    public boolean removeHistoSet(BatchableHistogramDataset value) {
+    public boolean removeHistoSet(HistogramDatasetPlus value) {
         return histoSets.remove(histoKey(value), value);
     }
 
-    public BatchableHistogramDataset getHistoSet(String name) {
+    public HistogramDatasetPlus getHistoSet(String name) {
         return histoSets.get(name);
     }
 
@@ -159,11 +158,11 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
         return histoSets.size();
     }
 
-    public List<BatchableHistogramDataset> getHistoBatch(String batchKey) {
+    public List<HistogramDatasetPlus> getHistoBatch(String batchKey) {
 
-        List<BatchableHistogramDataset> batch = new ArrayList<>();
+        List<HistogramDatasetPlus> batch = new ArrayList<>();
 
-        for (BatchableHistogramDataset histoset : histoSets.values()) {
+        for (HistogramDatasetPlus histoset : histoSets.values()) {
             if (batchKey.equals(histoset.getBatchKey()))
                 batch.add(histoset);
 

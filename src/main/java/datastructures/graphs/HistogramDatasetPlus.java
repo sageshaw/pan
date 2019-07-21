@@ -7,14 +7,14 @@ import org.jfree.data.statistics.HistogramDataset;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BatchableHistogramDataset extends HistogramDataset implements Batchable, Annotatable {
+public class HistogramDatasetPlus extends HistogramDataset implements Batchable, Annotatable {
 
     private String batchKey;
 
     private Map<String, Double> annotations;
 
 
-    public BatchableHistogramDataset() {
+    public HistogramDatasetPlus() {
         super();
         annotations = new HashMap<>();
     }

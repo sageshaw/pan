@@ -1,8 +1,7 @@
 package plugins.cmds.charts;
 
-import datastructures.Batchable;
 import datastructures.analysis.DataContainer;
-import datastructures.graphs.BatchableHistogramDataset;
+import datastructures.graphs.HistogramDatasetPlus;
 import ij.gui.DialogListener;
 import ij.gui.GenericDialog;
 import org.apache.commons.math3.exception.NullArgumentException;
@@ -11,7 +10,6 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.statistics.HistogramType;
-import org.ojalgo.netio.Batch;
 import org.scijava.Initializable;
 import org.scijava.command.Command;
 import org.scijava.command.DynamicCommand;
@@ -100,7 +98,7 @@ public class MakeHistogram extends DynamicCommand implements Initializable {
                     List<DataContainer> datasets = panService.getAnalysisBatch(dataset.getBatchKey());
 
                     for (DataContainer dataset : datasets) {
-                        BatchableHistogramDataset histoData = new BatchableHistogramDataset();
+                        HistogramDatasetPlus histoData = new HistogramDatasetPlus();
                         histoData.addSeries(dataName, dataset.getData(), numBins);
                         if (histoDialogue.getNextBoolean())
                             histoData.setType(HistogramType.SCALE_AREA_TO_1);
@@ -114,7 +112,7 @@ public class MakeHistogram extends DynamicCommand implements Initializable {
                 }
             }
 
-            BatchableHistogramDataset histoData = new BatchableHistogramDataset();
+            HistogramDatasetPlus histoData = new HistogramDatasetPlus();
             histoData.addSeries(dataName, dataset.getData(), numBins);
             if (histoDialogue.getNextBoolean())
                 histoData.setType(HistogramType.SCALE_AREA_TO_1);
@@ -140,7 +138,7 @@ public class MakeHistogram extends DynamicCommand implements Initializable {
 
             if (numBins <= 0 || numBins > BIN_LIMIT) return false;
 
-            BatchableHistogramDataset previewHistoData = new BatchableHistogramDataset();
+            HistogramDatasetPlus previewHistoData = new HistogramDatasetPlus();
             previewHistoData.addSeries(dataName, dataset.getData(), numBins);
 
             if (gd.getNextBoolean())
@@ -151,7 +149,7 @@ public class MakeHistogram extends DynamicCommand implements Initializable {
             JFreeChart chart = ChartFactory.createHistogram("Preview", "", "", previewHistoData,
                     PlotOrientation.VERTICAL, false, false, false);
             ChartPanel chartPanel = new ChartPanel(chart, false);
-            chartPanel.setPreferredSize(new Dimension(300, 200));
+            chartPanel.setPreferredSize(HistoUtil.PREVIEW_DIMENSIONS);
 
             setContentPane(chartPanel);
             setSize(new Dimension(300, 200));
