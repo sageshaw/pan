@@ -72,4 +72,20 @@ public class LinearData implements DataContainer {
     public double value(String entryName) {
         return annotations.get(entryName);
     }
+
+    @Override
+    public String header() {
+        return "Value";
+    }
+
+    @Override
+    public String body() {
+        String result = "";
+
+        for (double val : data) {
+            result += val + "\t";
+        }
+
+        return result;
+    }
 }
