@@ -13,6 +13,7 @@ import java.util.Map;
 /**
  * Represents a histogram frame. Abstracts away JFreeChart usage from rest of codebase.
  */
+
 @Deprecated
 public class HistogramFrame extends JFrame {
 
