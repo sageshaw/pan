@@ -75,12 +75,22 @@ public class LinearData implements DataContainer {
 
     @Override
     public String header() {
-        return "Value";
+
+        String result = "Annotations\n";
+
+        for (String key : annotations.keySet()) {
+            result += key + "\t" + annotations.get(key) + "\n";
+        }
+
+        result += "Value";
+
+        return result;
     }
 
     @Override
     public String body() {
         String result = "";
+
 
         for (double val : data) {
             result += val + "\t";

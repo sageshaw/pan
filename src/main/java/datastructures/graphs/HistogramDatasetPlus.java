@@ -57,7 +57,16 @@ public class HistogramDatasetPlus extends HistogramDataset implements Batchable,
 
     @Override
     public String header() {
-        return "X(range)\tY(value)";
+
+        String result = "Annotations\n";
+
+        for (String key : annotations.keySet()) {
+            result += key + "\t" + annotations.get(key) + "\n";
+        }
+
+        result += "X(range)\tY(value)";
+
+        return result;
     }
 
     @Override
