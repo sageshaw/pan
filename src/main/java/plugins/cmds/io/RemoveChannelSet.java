@@ -20,6 +20,8 @@ import java.util.List;
 /**
  * Command plugin to removeChannelSet a ChannelSet from PanService.
  */
+
+//
 @Plugin(type = Command.class, menuPath="PAN>Remove channel set...")
 public class RemoveChannelSet extends DynamicCommand implements Initializable{
 

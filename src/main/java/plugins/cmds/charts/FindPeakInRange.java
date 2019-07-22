@@ -14,57 +14,36 @@ import org.scijava.module.MutableModuleItem;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import plugins.PanService;
+import plugins.cmds.HistogramCommand;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
 @Plugin(type = Command.class, menuPath = "PAN>Charts>Find peak in range")
-public class FindPeakInRange extends DynamicCommand implements Initializable {
+public class FindPeakInRange extends HistogramCommand {
 
-    @Parameter
-    PanService panService;
+    JFrame previewFrame;
+    GenericDialog rangeDialog;
 
-    @Parameter(label = "Histogram data", choices = {"a", "b"})
-    private String histoName;
-
-    private HistogramDatasetPlus histoData;
+    JFrame statFrame;
+    JPanel statPanel;
 
     @Override
-    public void initialize() {
-        ArrayList<String> options = new ArrayList<>();
-
-        String[] histoKeys = panService.histoKeys();
-
-        if (histoKeys.length == 0) throw new NullArgumentException();
-
-        for (String histoKey : histoKeys)
-            options.add(histoKey);
-
-        MutableModuleItem<String> selectHistoItem = getInfo().getMutableInput("histoName", String.class);
-
-        selectHistoItem.setChoices(options);
-
-    }
-
-    @Override
-    public void run() {
-        //Grab histogram data
-        histoData = panService.getHistoSet(histoName);
-
+    protected void setup(String histoName, HistogramDatasetPlus histoData) {
         //Show preview reference histogram
         JFreeChart chart = ChartFactory.createHistogram("Preview", "", "", histoData,
                 PlotOrientation.VERTICAL, false, false, false);
         ChartPanel chartPanel = new ChartPanel(chart, false);
         chartPanel.setPreferredSize(HistoUtil.PREVIEW_DIMENSIONS);
 
-        JFrame previewFrame = new JFrame();
+        previewFrame = new JFrame();
         previewFrame.setContentPane(chartPanel);
         previewFrame.setSize(HistoUtil.PREVIEW_DIMENSIONS);
         previewFrame.pack();
         previewFrame.setVisible(true);
 
         //Build range selection dialogue box
-        GenericDialog rangeDialog = new GenericDialog("Select range...");
+        rangeDialog = new GenericDialog("Select range...");
         rangeDialog.addMessage("Specify range in which to find peak:");
 
         //Find min and max X values to set as defaults for peak-finding
@@ -77,6 +56,12 @@ public class FindPeakInRange extends DynamicCommand implements Initializable {
         rangeDialog.addNumericField("To", max, NUM_RANGE_DECIMALS);
         rangeDialog.showDialog();
 
+        statFrame.setContentPane(statPanel);
+        statFrame.pack();
+    }
+
+    @Override
+    protected void forEveryHistoDo(String histoName, HistogramDatasetPlus histoData, boolean isBatched) {
         //If user OKs, find peak value in specified range
         if (rangeDialog.wasOKed()) {
             double lowBound = rangeDialog.getNextNumber();
@@ -107,8 +92,8 @@ public class FindPeakInRange extends DynamicCommand implements Initializable {
             histoData.addEntry(index_entryName, maxIndex);
 
             // Display calculated information
-            JFrame statFrame = new JFrame();
-            JPanel statPanel = new JPanel();
+            statFrame = new JFrame();
+            statPanel = new JPanel();
 
             JLabel dataLabel = new JLabel("Peak Analysis: " + histoName);
             dataLabel.setFont(HistoUtil.HEADER_FONT);
@@ -120,18 +105,19 @@ public class FindPeakInRange extends DynamicCommand implements Initializable {
             dataText.setEditable(false);
             statPanel.add(dataText);
 
-            statFrame.setContentPane(statPanel);
             statFrame.pack();
-
+            statFrame.repaint();
             statFrame.setVisible(true);
 
         }
 
 
+    }
+
+    @Override
+    protected void end() {
         previewFrame.setVisible(false);
         previewFrame.dispose();
-
-
     }
 
 

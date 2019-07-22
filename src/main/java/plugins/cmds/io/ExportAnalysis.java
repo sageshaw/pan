@@ -12,37 +12,12 @@ import plugins.PanService;
 import java.util.ArrayList;
 
 @Plugin(type = Command.class, menuPath = "PAN>Analysis>Export analysis result as text file")
-public class ExportAnalysis extends TextExportCommand implements Initializable {
-
-    @Parameter
-    PanService panService;
-
-    @Parameter(label = "Analysis result", choices = {"a", "b"})
-    private String dataName;
+public class ExportAnalysis extends DATATextExportCommand {
 
 
     @Override
-    public void initialize() {
+    public String getOutput(String dataName, DataContainer dataset) {
 
-        ArrayList<String> options = new ArrayList<>();
-
-        String[] analysisResultKeys = panService.analysisResultKeys();
-
-        if (analysisResultKeys.length == 0) throw new NullArgumentException();
-
-        for (String analysisResultKey : analysisResultKeys)
-            options.add(analysisResultKey);
-
-        MutableModuleItem<String> selectDataItem = getInfo().getMutableInput("dataName", String.class);
-
-        selectDataItem.setChoices(options);
-
-    }
-
-    @Override
-    public String getOutput() {
-
-        DataContainer dataset = panService.getAnalysisResult(dataName);
         return dataset.header() + "\n" + dataset.body();
 
     }

@@ -1,8 +1,10 @@
 package plugins.cmds.io;
 
+import datastructures.analysis.DataContainer;
+import datastructures.graphs.HistogramDatasetPlus;
 import ij.io.SaveDialog;
-import org.scijava.command.Command;
-import org.scijava.command.DynamicCommand;
+import plugins.cmds.DataCommand;
+import plugins.cmds.HistogramCommand;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,17 +14,35 @@ import java.nio.file.Files;
 /**
  * Interface providing basic framework for text output of analysis data.
  */
-public abstract class TextExportCommand extends DynamicCommand {
+//TODO: generalize the container choice system, and reunify textexport
+public abstract class DATATextExportCommand extends DataCommand {
 
-    abstract String getOutput();
+    protected abstract String getOutput(String dataName, DataContainer dataset);
 
-    public void run() {
+    private File export;
+
+    private String content;
+
+    @Override
+    protected void setup(String dataName, DataContainer dataset) {
+
         //Get file directory to use, if user hits cancel, getFile will return null, and the command will
         //exit
-        File export = getFile("");
+        export = getFile("");
         if (export == null) return;
 
-        String content = getOutput();
+        content = "";
+    }
+
+
+    @Override
+    protected void forEveryDatasetDo(String dataName, DataContainer dataset, boolean isBatched) {
+        content += getOutput(dataName, dataset);
+
+    }
+
+    @Override
+    protected void end() {
 
         try (BufferedWriter writer = Files.newBufferedWriter(export.toPath())) {
             writer.write(content);

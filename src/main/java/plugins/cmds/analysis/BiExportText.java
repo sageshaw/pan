@@ -3,7 +3,7 @@
 //import datastructures.points.OperablePointContainer;
 //import analysis.ops.BiOperation;
 //import plugins.cmds.analysis.BiChannelCommand;
-//import plugins.cmds.io.TextExportCommand;
+//import plugins.cmds.io.HISTOTextExportCommand;
 //import org.scijava.command.Command;
 //import org.scijava.plugin.Plugin;
 //
@@ -12,7 +12,7 @@
 // */
 //@Deprecated
 //@Plugin(type = Command.class, menuPath = "PAN>Analysis>Cross-Channel Analysis>Export Cross-Analysis as Text File (Deprecated)")
-//public class BiExportText extends BiChannelCommand implements TextExportCommand {
+//public class BiExportText extends BiChannelCommand implements HISTOTextExportCommand {
 //
 //
 //    @Override
@@ -47,7 +47,7 @@
 //    }
 //
 //    public void run() {
-//        TextExportCommand.super.run();
+//        HISTOTextExportCommand.super.run();
 //    }
 //
 //

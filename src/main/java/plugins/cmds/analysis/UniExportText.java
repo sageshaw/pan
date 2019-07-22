@@ -3,7 +3,7 @@
 //import datastructures.points.OperablePointContainer;
 //import datastructures.points.PointContainer;
 //import analysis.ops.UniOperation;
-//import plugins.cmds.io.TextExportCommand;
+//import plugins.cmds.io.HISTOTextExportCommand;
 //import plugins.cmds.analysis.UniChannelCommand;
 //import org.scijava.command.Command;
 //import org.scijava.plugin.Plugin;
@@ -16,7 +16,7 @@
 // */
 //@Deprecated
 //@Plugin(type = Command.class, menuPath = "PAN>Analysis>Single-Channel Analysis>Export Single-Analysis as Text File (Deprecated)")
-//public class UniExportText extends UniChannelCommand implements TextExportCommand {
+//public class UniExportText extends UniChannelCommand implements HISTOTextExportCommand {
 //
 //
 //    @Override
@@ -50,7 +50,7 @@
 //
 //    @Override
 //    public void run() {
-//        TextExportCommand.super.run();
+//        HISTOTextExportCommand.super.run();
 //    }
 //
 //    @Override

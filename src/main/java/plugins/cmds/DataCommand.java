@@ -54,7 +54,7 @@ public abstract class DataCommand extends DynamicCommand implements Initializabl
             if (batchDialogue.wasOKed()) {
                 List<DataContainer> datasets = panService.getAnalysisBatch(dataset.getBatchKey());
                 for (DataContainer d : datasets) {
-                    forEveryDataset(panService.analysisResultKey(d), d, true);
+                    forEveryDatasetDo(panService.analysisResultKey(d), d, true);
 
                 }
                 return;
@@ -62,7 +62,7 @@ public abstract class DataCommand extends DynamicCommand implements Initializabl
 
         }
 
-        forEveryDataset(dataName, dataset, false);
+        forEveryDatasetDo(dataName, dataset, false);
 
         end();
     }
@@ -70,7 +70,7 @@ public abstract class DataCommand extends DynamicCommand implements Initializabl
 
     protected abstract void setup(String dataName, DataContainer dataset);
 
-    protected abstract void forEveryDataset(String dataName, DataContainer dataset, boolean isBatched);
+    protected abstract void forEveryDatasetDo(String dataName, DataContainer dataset, boolean isBatched);
 
     protected abstract void end();
 
