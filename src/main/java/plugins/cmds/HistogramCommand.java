@@ -61,12 +61,14 @@ public abstract class HistogramCommand extends DynamicCommand implements Initial
 
         forEveryHistoDo(histoName, histoData, false);
 
-
+        end();
     }
+
 
     protected abstract void setup(String histoName, HistogramDatasetPlus histoData);
 
     protected abstract void forEveryHistoDo(String histoName, HistogramDatasetPlus histoData, boolean isBatched);
 
+    protected abstract void end();
 
 }

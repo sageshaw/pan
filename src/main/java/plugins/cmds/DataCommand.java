@@ -63,6 +63,8 @@ public abstract class DataCommand extends DynamicCommand implements Initializabl
         }
 
         forEveryDataset(dataName, dataset, false);
+
+        end();
     }
 
 
@@ -70,5 +72,6 @@ public abstract class DataCommand extends DynamicCommand implements Initializabl
 
     protected abstract void forEveryDataset(String dataName, DataContainer dataset, boolean isBatched);
 
+    protected abstract void end();
 
 }
