@@ -2,6 +2,7 @@ package plugins.cmds.io;
 
 import ij.io.SaveDialog;
 import org.scijava.command.Command;
+import org.scijava.command.DynamicCommand;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,11 +12,11 @@ import java.nio.file.Files;
 /**
  * Interface providing basic framework for text output of analysis data.
  */
-public interface TextExportCommand extends Command {
+public abstract class TextExportCommand extends DynamicCommand {
 
-    String getOutput();
+    abstract String getOutput();
 
-    default void run() {
+    public void run() {
         //Get file directory to use, if user hits cancel, getFile will return null, and the command will
         //exit
         File export = getFile("");
@@ -30,27 +31,20 @@ public interface TextExportCommand extends Command {
         }
     }
 
-    default String getPath(String defaultName) {
+    private File getFile(String defaultName) {
+        String path = getPath(defaultName);
+        if (path == null) return null;
+        File export = new File(path);
+
+
+        return export;
+    }
+
+    private String getPath(String defaultName) {
         SaveDialog sd = new SaveDialog("Export Nearest Neighbor Analysis", defaultName, ".txt");
         String path = sd.getDirectory() + sd.getFileName();
         if (path.equals("nullnull")) return null;
         return path;
     }
 
-    default File getFile(String defaultName) {
-        String path = getPath(defaultName);
-        if (path == null) return null;
-        File export = new File(path);
-//        if (export.exists()) {
-//            GenericDialog gd = new GenericDialog("Confirm Save");
-//            gd.addMessage("'" + export.getName() + "' already exists. Would you like to replace it?");
-//            gd.setOKLabel("Replace");
-//            gd.showDialog();
-//            if (gd.wasCanceled()) {
-//                return getFile(defaultName);
-//            }
-//        }
-
-        return export;
-    }
 }
