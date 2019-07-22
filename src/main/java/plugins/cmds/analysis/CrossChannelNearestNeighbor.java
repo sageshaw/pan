@@ -35,7 +35,7 @@ public class CrossChannelNearestNeighbor extends BiChannelCommand {
             if (channelSet.isBatched()) {
                 result.setBatchKey(channelSet.getBatchKey());
             }
-            String resultName = "CrossNearestNeighbor " + operableName;
+            String resultName = "CrossNearestNeighbor " + operableName + "(" + panService.channelSetKey(channelSet) + ")";
             panService.addAnalysisResult(resultName, result);
         }
 

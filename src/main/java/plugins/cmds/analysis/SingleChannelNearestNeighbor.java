@@ -36,7 +36,7 @@ public class SingleChannelNearestNeighbor extends UniChannelCommand {
                 result.setBatchKey(channelSet.getBatchKey());
             }
 
-            String resultName = "SingleNearestNeighbor " + channelName;
+            String resultName = "SingleNearestNeighbor " + channelName + "(" + panService.channelSetKey(channelSet) + ")";
             panService.addAnalysisResult(resultName, result);
         }
 
