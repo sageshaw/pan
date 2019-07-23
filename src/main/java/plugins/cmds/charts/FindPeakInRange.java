@@ -19,14 +19,16 @@ import plugins.cmds.HistogramCommand;
 import javax.swing.*;
 import java.util.ArrayList;
 
-@Plugin(type = Command.class, menuPath = "PAN>Charts>Find peak in range")
+@Plugin(type = Command.class, menuPath = "PAN>Histogram>Find peak in range")
 public class FindPeakInRange extends HistogramCommand {
+    private JPanel statPanel;
 
-    JFrame previewFrame;
-    GenericDialog rangeDialog;
+    private JFrame previewFrame;
 
-    JFrame statFrame;
-    JPanel statPanel;
+    private GenericDialog rangeDialog;
+    private double lowBound;
+    private double upBound;
+
 
     @Override
     protected void setup(String histoName, HistogramDatasetPlus histoData) {
@@ -35,6 +37,9 @@ public class FindPeakInRange extends HistogramCommand {
                 PlotOrientation.VERTICAL, false, false, false);
         ChartPanel chartPanel = new ChartPanel(chart, false);
         chartPanel.setPreferredSize(HistoUtil.PREVIEW_DIMENSIONS);
+
+        statPanel = new JPanel();
+        statPanel.setLayout(new BoxLayout(statPanel, BoxLayout.PAGE_AXIS));
 
         previewFrame = new JFrame();
         previewFrame.setContentPane(chartPanel);
@@ -54,18 +59,20 @@ public class FindPeakInRange extends HistogramCommand {
 
         rangeDialog.addNumericField("From", min, NUM_RANGE_DECIMALS);
         rangeDialog.addNumericField("To", max, NUM_RANGE_DECIMALS);
+        rangeDialog.addCheckbox("Display data after processing", false);
         rangeDialog.showDialog();
 
-        statFrame.setContentPane(statPanel);
-        statFrame.pack();
+        if (rangeDialog.wasOKed()) {
+            lowBound = rangeDialog.getNextNumber();
+            upBound = rangeDialog.getNextNumber();
+        }
+
     }
 
     @Override
     protected void forEveryHistoDo(String histoName, HistogramDatasetPlus histoData, boolean isBatched) {
         //If user OKs, find peak value in specified range
         if (rangeDialog.wasOKed()) {
-            double lowBound = rangeDialog.getNextNumber();
-            double upBound = rangeDialog.getNextNumber();
 
             double maxVal = -1.0;
             int maxIndex = -1;
@@ -91,10 +98,6 @@ public class FindPeakInRange extends HistogramCommand {
             histoData.addEntry(val_entryName, maxVal);
             histoData.addEntry(index_entryName, maxIndex);
 
-            // Display calculated information
-            statFrame = new JFrame();
-            statPanel = new JPanel();
-
             JLabel dataLabel = new JLabel("Peak Analysis: " + histoName);
             dataLabel.setFont(HistoUtil.HEADER_FONT);
             statPanel.add(dataLabel);
@@ -105,10 +108,6 @@ public class FindPeakInRange extends HistogramCommand {
             dataText.setEditable(false);
             statPanel.add(dataText);
 
-            statFrame.pack();
-            statFrame.repaint();
-            statFrame.setVisible(true);
-
         }
 
 
@@ -118,6 +117,14 @@ public class FindPeakInRange extends HistogramCommand {
     protected void end() {
         previewFrame.setVisible(false);
         previewFrame.dispose();
+
+        if (rangeDialog.getNextBoolean()) {
+            JFrame statFrame = new JFrame();
+            statFrame.setContentPane(statPanel);
+            statFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            statFrame.pack();
+            statFrame.setVisible(true);
+        }
     }
 
 

@@ -77,7 +77,7 @@ public class AddPointSetBatch extends TextImportCommand {
                     logService.error(e);
 
                 } finally {
-                    String channelSetName = addPostDuplicateString(searchExpression.trim() + " - " + file.getName().trim()); //Extract data and store in PanService
+                    String channelSetName = addPostDuplicateString(searchExpression.trim() + "-" + file.getName().trim()); //Extract data and store in PanService
                     if(isRelative) newData.makeRelative();
                     newData.setBatchKey(searchExpression);
                     panService.addChannelSet(channelSetName, newData);

@@ -15,7 +15,7 @@ import java.util.List;
 public abstract class DataCommand extends DynamicCommand implements Initializable {
 
     @Parameter
-    private PanService panService;
+    protected PanService panService;
 
     @Parameter(label = "Analysis result", choices = {"a", "b"})
     private String dataName;
