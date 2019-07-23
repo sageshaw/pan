@@ -90,10 +90,9 @@ public abstract class TextImportCommand implements Command {
       String line;
       String channelName = null;
 
-      int x;
-      int y;
-      int z;
-
+        double x;
+        double y;
+        double z;
       // parse the rest of the file and load points into channelSets list
       for (int i = 1; i < rawInput.size(); i++) {
         // grab line, take channel name
@@ -108,15 +107,9 @@ public abstract class TextImportCommand implements Command {
         }
         // Find x,y,z value based on tab delimitation
         // Note: this may work for now, but these hardcoded values may need to be more flexible
-        x =
-                (int)
-                        (Double.parseDouble(splitLine[X]) + 0.5);
-        y =
-                (int)
-                        (Double.parseDouble(splitLine[Y]) + 0.5);
-        z =
-                (int)
-                        (Double.parseDouble(splitLine[Z]) + 0.5);
+          x = Double.parseDouble(splitLine[X]);
+          y = Double.parseDouble(splitLine[Y]);
+          z = Double.parseDouble(splitLine[Z]);
 
         ((Linear) newChannels.get(channelName)).add(new Triple(x, y, z));
 

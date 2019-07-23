@@ -41,7 +41,7 @@ public abstract class BiChannelCommand extends DynamicCommand implements Initial
             options.add(channelSetKey);
 
 
-        MutableModuleItem<String> selectSetItem = getInfo().getMutableInput("channelSetNamez", String.class);
+        MutableModuleItem<String> selectSetItem = getInfo().getMutableInput("channelSetName", String.class);
 
         selectSetItem.setChoices(options);
 

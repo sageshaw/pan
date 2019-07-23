@@ -93,7 +93,7 @@ public class LinearData implements DataContainer {
 
 
         for (double val : data) {
-            result += val + "\t";
+            result += val + "\n";
         }
 
         return result;

@@ -37,7 +37,7 @@ public abstract class HISTOTextExportCommand extends HistogramCommand {
 
     @Override
     protected void forEveryHistoDo(String histoName, HistogramDatasetPlus histoData, boolean isBatched) {
-        content += getOutput(histoName, histoData);
+        content += histoName + "\n" + getOutput(histoName, histoData);
 
     }
 

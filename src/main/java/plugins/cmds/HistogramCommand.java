@@ -55,6 +55,9 @@ public abstract class HistogramCommand extends DynamicCommand implements Initial
                 for (HistogramDatasetPlus h : histos) {
                     forEveryHistoDo(panService.histoKey(h), h, true);
                 }
+
+                end();
+
                 return;
             }
         }

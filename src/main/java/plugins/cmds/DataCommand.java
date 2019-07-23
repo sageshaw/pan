@@ -57,6 +57,9 @@ public abstract class DataCommand extends DynamicCommand implements Initializabl
                     forEveryDatasetDo(panService.analysisResultKey(d), d, true);
 
                 }
+
+                end();
+
                 return;
             }
 
