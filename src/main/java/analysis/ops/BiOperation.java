@@ -1,6 +1,6 @@
 package analysis.ops;
 
-import analysis.data.OperablePointContainer;
+import datastructures.points.OperablePointContainer;
 
 /**
  * Defines behavior of a cross-channel operation.

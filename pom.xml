@@ -13,7 +13,7 @@
 
     <groupId>org.honglab</groupId>
     <artifactId>PointsANalysis</artifactId>
-    <version>ALPHA-1.1.2</version>
+    <version>ALPHA-1.2</version>
 
     <name>PointsANalysis</name>
     <description>ImageJ plugin for 3D point analysis.</description>
@@ -67,7 +67,7 @@
 
 
     <properties>
-        <main-class>cmds.io.AddPointSet</main-class>
+        <main-class>plugins.cmds.io.AddPointSet</main-class>
         <license.licenseName>None</license.licenseName>
         <license.copyrightOwners>N/A</license.copyrightOwners>
         <license.projectName>ImageJ software for 3D point cloud analysis and processing.</license.projectName>
@@ -145,6 +145,13 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>23.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.8</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

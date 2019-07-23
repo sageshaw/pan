@@ -1,7 +1,7 @@
 package analysis.ops;
 
-import analysis.Triple;
-import analysis.data.OperablePointContainer;
+import datastructures.points.Triple;
+import datastructures.points.OperablePointContainer;
 
 /**
  * Implementation of a Cross-Channel linear nearest neighbor analysis.
