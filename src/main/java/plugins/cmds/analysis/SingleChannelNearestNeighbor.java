@@ -12,7 +12,7 @@ import org.scijava.plugin.Plugin;
 
 import java.util.List;
 
-@Plugin(type = Command.class, menuPath = "PAN>Analysis>Single-Channel Analysis>Nearest Neighbor")
+@Plugin(type = Command.class, menuPath = "PAN>Analysis>Single-Channel Nearest Neighbor")
 public class SingleChannelNearestNeighbor extends UniChannelCommand {
 
 
