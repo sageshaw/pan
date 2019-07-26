@@ -24,11 +24,6 @@ public abstract class BiChannelCommand extends DynamicCommand implements Initial
     @Parameter(label = "Channel File", choices = {"a", "b"})
     private String channelSetName;
 
-
-    private String from;
-
-    private String to;
-
     public void initialize() {
 
         ArrayList <String> options = new ArrayList <>();
@@ -61,7 +56,11 @@ public abstract class BiChannelCommand extends DynamicCommand implements Initial
 
         if (selectChannelDialogue.wasCanceled()) return;
 
-        List<ChannelContainer> containers = new ArrayList<ChannelContainer>();
+        String from = selectChannelDialogue.getNextChoice();
+        String to = selectChannelDialogue.getNextChoice();
+
+        if (!setup(channelSetName, channelSet, from, to)) return;
+
 
         if (channelSet.isBatched()) {
             GenericDialog batchDialogue = new GenericDialog("Found batch...");
@@ -71,22 +70,33 @@ public abstract class BiChannelCommand extends DynamicCommand implements Initial
             batchDialogue.showDialog();
 
             if (batchDialogue.wasOKed()) {
-                containers = panService.getChannelSetBatch(channelSet.getBatchKey());
-            } else {
-                containers.add(channelSet);
+
+                List<ChannelContainer> containers = panService.getChannelSetBatch(channelSet.getBatchKey());
+
+                for (ChannelContainer container : containers) {
+                    forEveryChannelSetDo(panService.channelSetKey(container), container, from, to, true);
+                }
+
+                end();
+
+                return;
             }
 
-        } else {
-            containers.add(channelSet);
         }
 
-        String from = selectChannelDialogue.getNextChoice();
-        String to = selectChannelDialogue.getNextChoice();
+        forEveryChannelSetDo(channelSetName, channelSet, from, to, false);
+        end();
 
-
-        doOnRun(containers, from, to);
+        return;
     }
 
-    protected abstract void doOnRun(List<ChannelContainer> channelContainers, String fromChannelName, String toChannelName);
+    protected abstract boolean setup(String channelSetName, ChannelContainer channels, String fromChannelName, String toChannelName);
+
+    //TODO: implement boolean stopper for other command types as well (if necessary)
+    protected abstract void forEveryChannelSetDo(String channelSetName, ChannelContainer channels, String fromChannelName, String toChannelName, boolean isBatched);
+
+    protected abstract void end();
+
+
 
 }

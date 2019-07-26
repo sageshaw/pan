@@ -19,27 +19,29 @@ public class CrossChannelNearestNeighbor extends BiChannelCommand {
     @Parameter
     LogService logService;
 
+
     @Override
-    public void doOnRun(List<ChannelContainer> channelSets, String from, String to) {
+    protected boolean setup(String channelSetName, ChannelContainer channels, String fromChannelName, String toChannelName) {
         logService.info("Running cross nearest-neighbor...");
+        return true;
+    }
 
-        BiOperation operation = new BiLinearNearestNeighbor();
+    @Override
+    protected void forEveryChannelSetDo(String channelSetName, ChannelContainer channels, String fromChannelName, String toChannelName, boolean isBatched) {
+        BiOperation biNN = new BiLinearNearestNeighbor();
+        biNN.setChannel(channels.get(fromChannelName), channels.get(toChannelName));
 
-        for (ChannelContainer channelSet : channelSets) {
+        String operableName = fromChannelName + "->" + toChannelName;
+        DataContainer result = new LinearData(operableName, biNN.execute());
 
-            operation.setChannel(channelSet.get(from), channelSet.get(to));
-
-            String operableName = from + "->" + to;
-            DataContainer result = new LinearData(operableName, operation.execute());
-
-            if (channelSet.isBatched()) {
-                result.setBatchKey(channelSet.getBatchKey());
-            }
-            String resultName = "CrossNearestNeighbor " + operableName + "(" + panService.channelSetKey(channelSet) + ")";
-            panService.addAnalysisResult(resultName, result);
-        }
+        if (isBatched) result.setBatchKey(channels.getBatchKey());
+        String resultName = "CrossNearestNeighbor " + operableName + "(" + panService.channelSetKey(channels) + ")";
+        panService.addAnalysisResult(resultName, result);
 
     }
 
+    @Override
+    protected void end() {
+    }
 
 }

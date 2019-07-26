@@ -93,17 +93,18 @@ public class FindPeakInRange extends HistogramCommand {
 
             //Annotate corresponding histogram
             String val_entryName = "Peak Value @ " + lowBound + "-" + upBound;
-            String index_entryName = "Peak Index @ " + lowBound + "-" + upBound;
+            String midbox_entryName = "Peak Box Midpoint @ " + lowBound + "-" + upBound;
 
             histoData.addEntry(val_entryName, maxVal);
-            histoData.addEntry(index_entryName, maxIndex);
+            histoData.addEntry(midbox_entryName, 0.5 * (histoData.getStartXValue(0, maxIndex)
+                    + histoData.getEndXValue(0, maxIndex)));
 
             JLabel dataLabel = new JLabel("Peak Analysis: " + histoName);
             dataLabel.setFont(HistoUtil.HEADER_FONT);
             statPanel.add(dataLabel);
 
             JTextArea dataText = new JTextArea(val_entryName + ":\t" + maxVal + System.getProperty("line.separator") +
-                    index_entryName + ":\t" + maxIndex + System.getProperty("line.separator"));
+                    midbox_entryName + ":\t" + maxIndex + System.getProperty("line.separator"));
             dataText.setFont(HistoUtil.PARAGRAPH_FONT);
             dataText.setEditable(false);
             statPanel.add(dataText);
