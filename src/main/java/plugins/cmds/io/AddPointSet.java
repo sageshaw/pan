@@ -14,7 +14,7 @@ import java.io.File;
 /**
  * Command to handle .txt file input (export from Nikon elements)
  */
-@Plugin(type = Command.class, menuPath = "PAN>Add point set from text file...")
+@Plugin(type = Command.class, menuPath = "PAN>Import>Add point set from text file...")
 public class AddPointSet extends TextImportCommand {
 
 

@@ -12,8 +12,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
 import java.util.ArrayList;
 
-@Plugin(type = Command.class,menuPath = "PAN>Add point set batch from text file")
-public class AddPointSetBatch extends TextImportCommand {
+@Plugin(type = Command.class, menuPath = "PAN>Import>Add point set batch from text file")
+public class AddPointSetBatchGlob extends TextImportCommand {
 
 
     @Parameter(label = "Crop images to fit dataset")
@@ -77,7 +77,7 @@ public class AddPointSetBatch extends TextImportCommand {
                     logService.error(e);
 
                 } finally {
-                    String channelSetName = addPostDuplicateString(searchExpression.trim() + "-" + file.getName().trim()); //Extract data and store in PanService
+                    String channelSetName = addPostDuplicateString(file.getName().trim()); //Extract data and store in PanService
                     if(isRelative) newData.makeRelative();
                     newData.setBatchKey(searchExpression);
                     panService.addChannelSet(channelSetName, newData);
