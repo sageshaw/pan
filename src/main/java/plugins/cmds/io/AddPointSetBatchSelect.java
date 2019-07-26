@@ -25,6 +25,8 @@ public class AddPointSetBatchSelect extends TextImportCommand {
             //Ask to make data relative
             GenericDialog relativeDialog = new GenericDialog("Crop data...");
             relativeDialog.addMessage("Crop images to fit dataset?");
+            relativeDialog.setOKLabel("Yes");
+            relativeDialog.setCancelLabel("No");
             relativeDialog.showDialog();
 
             File[] files = chooser.getSelectedFiles();
