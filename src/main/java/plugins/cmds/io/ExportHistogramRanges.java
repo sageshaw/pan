@@ -11,8 +11,8 @@ import plugins.cmds.HistogramCommand;
 
 import java.util.ArrayList;
 
-@Plugin(type = Command.class, menuPath = "PAN>Histogram>Export histogram as text file")
-public class ExportHistogram extends HISTOTextExportCommand {
+@Plugin(type = Command.class, menuPath = "PAN>Export>Histogram ranges")
+public class ExportHistogramRanges extends HISTOTextExportCommand {
 
     @Override
     public String getOutput(String histoName, HistogramDatasetPlus histoData) {

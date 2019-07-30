@@ -12,7 +12,7 @@ import org.scijava.plugin.Plugin;
 
 import java.util.List;
 
-@Plugin(type = Command.class, menuPath = "PAN>Analysis>Cross-channel nearest neighbor")
+@Plugin(type = Command.class /*, menuPath = "PAN>Analysis>Cross-channel nearest neighbor" */)
 public class CrossChannelNearestNeighbor extends BiChannelCommand {
 
 

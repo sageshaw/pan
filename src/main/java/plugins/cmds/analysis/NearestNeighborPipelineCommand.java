@@ -21,7 +21,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-@Plugin(type = Command.class, menuPath = "PAN>Process point data... [WHOLE PIPELINE]")
+@Plugin(type = Command.class, menuPath = "PAN>Process point data...")
 public class NearestNeighborPipelineCommand extends BiChannelCommand {
     private int numBins;
     private boolean scaleToOne;

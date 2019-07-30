@@ -17,7 +17,7 @@ import javax.swing.*;
 import java.awt.AWTEvent;
 import java.awt.Dimension;
 
-@Plugin(type = Command.class, menuPath = "PAN>Histogram>Make histogram")
+@Plugin(type = Command.class/*, menuPath = "PAN>Histogram>Make histogram"*/)
 public class MakeHistogram extends DataCommand {
 
     private static final int BIN_LIMIT = 99999;
