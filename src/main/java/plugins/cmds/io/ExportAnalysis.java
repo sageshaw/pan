@@ -18,7 +18,7 @@ public class ExportAnalysis extends DATATextExportCommand {
     @Override
     public String getOutput(String dataName, DataContainer dataset) {
 
-        return dataset.header() + "\n" + dataset.body();
+        return dataset.header() + System.lineSeparator() + dataset.body();
 
     }
 }

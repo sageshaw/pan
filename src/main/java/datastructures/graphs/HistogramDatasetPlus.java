@@ -61,7 +61,7 @@ public class HistogramDatasetPlus extends HistogramDataset implements Batchable,
         String result = "Annotations\n";
 
         for (String key : annotations.keySet()) {
-            result += key + "\t" + annotations.get(key) + "\n";
+            result += key + "\t" + annotations.get(key) + System.lineSeparator();
         }
 
         //    result += "X(range)\tY(value)";
@@ -76,7 +76,7 @@ public class HistogramDatasetPlus extends HistogramDataset implements Batchable,
 //
 //        for (int i = 0; i < this.getItemCount(0); i++) {
 //            result += this.getStartXValue(0, i) + "-" + this.getEndXValue(0, i) + "\t";
-//            result += this.getYValue(0, i) + "\n";
+//            result += this.getYValue(0, i) + System.lineSeparator();
 //        }
 //
 //        return result;

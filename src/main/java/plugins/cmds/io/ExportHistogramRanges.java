@@ -16,7 +16,7 @@ public class ExportHistogramRanges extends HISTOTextExportCommand {
 
     @Override
     public String getOutput(String histoName, HistogramDatasetPlus histoData) {
-        return histoData.header() + "\n" + histoData.body();
+        return histoData.header() + System.lineSeparator() + histoData.body();
     }
 
 

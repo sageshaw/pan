@@ -37,7 +37,7 @@ public abstract class DATATextExportCommand extends DataCommand {
 
     @Override
     protected void forEveryDatasetDo(String dataName, DataContainer dataset, boolean isBatched) {
-        content += dataName + "\n" + getOutput(dataName, dataset);
+        content += dataName + System.lineSeparator() + getOutput(dataName, dataset);
 
     }
 

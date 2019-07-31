@@ -79,7 +79,7 @@ public class LinearData implements DataContainer {
         String result = "Annotations\n";
 
         for (String key : annotations.keySet()) {
-            result += key + "\t" + annotations.get(key) + "\n";
+            result += key + "\t" + annotations.get(key) + System.lineSeparator();
         }
 
         result += "Value";
@@ -93,7 +93,7 @@ public class LinearData implements DataContainer {
 
 
         for (double val : data) {
-            result += val + "\n";
+            result += val + System.lineSeparator();
         }
 
         return result;

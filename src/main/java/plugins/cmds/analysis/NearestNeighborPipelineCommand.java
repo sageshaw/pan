@@ -103,11 +103,11 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         BiOperation biNN = new BiLinearNearestNeighbor();
         biNN.setChannel(channels.get(fromChannelName), channels.get(toChannelName));
 
-        String operationName = "NearestNeighbor" + fromChannelName + "->" + toChannelName;
+        String operationName = "NearestNeighbor " + fromChannelName + "->" + toChannelName;
         DataContainer dataResult = new LinearData(operationName, biNN.execute());
         if (isBatched) dataResult.setBatchKey(channels.getBatchKey());
 
-        String dataResultName = "NearestNeighbor " + operationName + "(" + channelSetName + ")";
+        String dataResultName = operationName + " (" + channelSetName + ")";
         panService.addAnalysisResult(dataResultName, dataResult);
 
         // Step 2: construct histogram
