@@ -13,7 +13,7 @@
 
     <groupId>org.honglab</groupId>
     <artifactId>PointsANalysis</artifactId>
-    <version>ALPHA-1.2</version>
+    <version>ALPHA-1.3</version>
 
     <name>PointsANalysis</name>
     <description>ImageJ plugin for 3D point analysis.</description>
@@ -147,6 +147,7 @@
             <version>23.0</version>
         </dependency>
 
+        <!--
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -154,6 +155,7 @@
             <scope>test</scope>
 
         </dependency>
+        -->
 
     </dependencies>
 
