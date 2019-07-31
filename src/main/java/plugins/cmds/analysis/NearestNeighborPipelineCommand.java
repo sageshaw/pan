@@ -139,8 +139,8 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
             }
         }
 
-        String val_entryName = "Peak Value @ " + xLowBound + "-" + xUpBound;
-        String midbox_entryName = "Peak Box Midpoint @ " + xLowBound + "-" + xUpBound;
+        String val_entryName = "" + xLowBound + "-" + xUpBound + " Peak Value";
+        String midbox_entryName = "" + xLowBound + "-" + xUpBound + " Peak Box Midpoint  ";
 
 
         histoData.addEntry(val_entryName, maxVal);
