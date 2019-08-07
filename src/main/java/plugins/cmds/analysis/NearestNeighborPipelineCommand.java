@@ -41,11 +41,15 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         String resultName = "NearestNeighbor" + fromChannelName + "->" + toChannelName;
         DataContainer result = new LinearData(resultName, biNN.execute());
 
-        // Step 2: construct histogram from nearest-neighbor data
+        // Step 2: construct histogram from nearest-neighbor data in a given range (to crop data)
         GenericDialog histoDialog = new GenericDialog("Constructing histogram...");
         histoDialog.addMessage("Choose histogram parameters:");
-        histoDialog.addNumericField("Number of fields", 40, 0);
+        histoDialog.addMessage("Specify x-axis range: ");
+        histoDialog.addNumericField("From", result.min(), 2);
+        histoDialog.addNumericField("To", result.max(), 2);
+        histoDialog.addNumericField("Number of boxes", 100, 0);
         histoDialog.addCheckbox("Make total area equal to 1", true);
+        histoDialog.addCheckbox("Display peak data", false);
 
         HistogramPreviewFrame hPrevFrame = new HistogramPreviewFrame(resultName, result);
         histoDialog.addDialogListener(hPrevFrame);
@@ -59,34 +63,14 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
             return false;
         }
 
+        xLowBound = histoDialog.getNextNumber();
+        xUpBound = histoDialog.getNextNumber();
+
         numBins = (int) histoDialog.getNextNumber();
         if (numBins <= 0 || numBins > BIN_LIMIT) numBins = 1;
         scaleToOne = histoDialog.getNextBoolean();
 
-        HistogramDatasetPlus histoData = new HistogramDatasetPlus();
-        histoData.addSeries("Preview", result.getData(), numBins);
-
-        // Step 3: find peak values in specified range
-        GenericDialog rangeDialog = new GenericDialog("Select range...");
-        rangeDialog.addMessage("Specify range on x-axis on which to find peak:");
-
-        double min = histoData.getStartXValue(0, 0);
-        double max = histoData.getEndXValue(0, numBins - 1);
-
-        rangeDialog.addNumericField("From", min, NUM_RANGE_DECIMALS);
-        rangeDialog.addNumericField("To", max, NUM_RANGE_DECIMALS);
-        rangeDialog.addCheckbox("Display data after processing", false);
-        rangeDialog.showDialog();
-
-        if (rangeDialog.wasCanceled()) {
-            hPrevFrame.setVisible(false);
-            hPrevFrame.dispose();
-            return false;
-        }
-
-        xLowBound = rangeDialog.getNextNumber();
-        xUpBound = rangeDialog.getNextNumber();
-        displayPeakData = rangeDialog.getNextBoolean();
+        displayPeakData = histoDialog.getNextBoolean();
 
         hPrevFrame.setVisible(false);
         hPrevFrame.dispose();
@@ -112,7 +96,7 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
 
         // Step 2: construct histogram
         HistogramDatasetPlus histoData = new HistogramDatasetPlus();
-        histoData.addSeries(dataResultName, dataResult.getData(), numBins);
+        histoData.addSeries(dataResultName, dataResult.getDataWithinRange(xLowBound, xUpBound), numBins);
         if (scaleToOne) {
             histoData.setType(HistogramType.SCALE_AREA_TO_1);
         } else {
@@ -126,15 +110,12 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         int maxIndex = -1;
 
         for (int i = 0; i < histoData.getItemCount(0); i++) {
-            if (histoData.getStartXValue(0, i) >= xLowBound &&
-                    histoData.getEndXValue(0, i) <= xUpBound) {
+
                 double y = histoData.getYValue(0, i);
 
                 if (y > maxVal) {
                     maxVal = y;
                     maxIndex = i;
-                }
-
 
             }
         }
@@ -143,14 +124,18 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         String midbox_entryName = "" + xLowBound + "-" + xUpBound + " Peak Box Midpoint  ";
 
 
+
         histoData.addEntry(val_entryName, maxVal);
 
+        double midBoxVal;
+
         if (maxIndex != -1) {
-            histoData.addEntry(midbox_entryName, 0.5 * (histoData.getStartXValue(0, maxIndex)
-                    + histoData.getEndXValue(0, maxIndex)));
+            midBoxVal = 0.5 * (histoData.getStartXValue(0, maxIndex) + histoData.getEndXValue(0, maxIndex));
         } else {
-            histoData.addEntry(midbox_entryName, -1);
+            midBoxVal = -1.0;
         }
+
+        histoData.addEntry(midbox_entryName, midBoxVal);
 
 
         JLabel dataLabel = new JLabel("Peak Analysis: " + dataResultName);
@@ -158,7 +143,7 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         rangePanel.add(dataLabel);
 
         JTextArea dataText = new JTextArea(val_entryName + ":\t" + maxVal + System.getProperty("line.separator") +
-                midbox_entryName + ":\t" + maxIndex + System.getProperty("line.separator"));
+                midbox_entryName + ":\t" + midBoxVal + System.getProperty("line.separator"));
         dataText.setFont(HistoUtil.PARAGRAPH_FONT);
         dataText.setEditable(false);
         rangePanel.add(dataText);
@@ -192,13 +177,22 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
 
         @Override
         public boolean dialogItemChanged(GenericDialog gd, AWTEvent e) {
+            Double low = gd.getNextNumber();
+            Double high = gd.getNextNumber();
+
+            if (low <= 0.0 || low.isNaN() || high <= 0.0 || high.isNaN() || low >= high) return false;
 
             int numBins = (int) gd.getNextNumber();
 
             if (numBins <= 0 || numBins > BIN_LIMIT) return false;
 
             HistogramDatasetPlus previewHistoData = new HistogramDatasetPlus();
-            previewHistoData.addSeries(previewName, previewSet.getData(), numBins);
+
+            double[] previewData = previewSet.getDataWithinRange(low, high);
+            if (previewData.length == 0) return false;
+
+
+            previewHistoData.addSeries(previewName, previewData, numBins);
 
             if (gd.getNextBoolean())
                 previewHistoData.setType(HistogramType.SCALE_AREA_TO_1);

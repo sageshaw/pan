@@ -1,7 +1,9 @@
 package datastructures.analysis;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,6 +33,19 @@ public class LinearData implements DataContainer {
     @Override
     public double[] getData() {
         return data;
+    }
+
+    @Override
+    public double[] getDataWithinRange(double low, double high) {
+        List<Double> resultList = new ArrayList();
+
+        for (double datum : data) {
+            if (datum >= low && datum <= high) {
+                resultList.add(datum);
+            }
+        }
+
+        return resultList.stream().mapToDouble(Double::doubleValue).toArray();
     }
 
     @Override
@@ -98,4 +113,25 @@ public class LinearData implements DataContainer {
 
         return result;
     }
+
+    @Override
+    public double max() {
+        double maxVal = Double.MIN_VALUE;
+        for (double datum : data) {
+            maxVal = Math.max(maxVal, datum);
+        }
+
+        return maxVal;
+    }
+
+    @Override
+    public double min() {
+        double minVal = Double.MAX_VALUE;
+        for (double datum : data) {
+            minVal = Math.min(minVal, datum);
+        }
+
+        return minVal;
+    }
+
 }

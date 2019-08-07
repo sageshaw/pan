@@ -15,6 +15,12 @@ public interface DataContainer<T extends Number> extends Batchable, Annotatable,
 
     double[] getData();
 
+    double[] getDataWithinRange(double low, double high);
+
     int getSize();
+
+    double max();
+
+    double min();
 
 }
