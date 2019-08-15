@@ -19,15 +19,14 @@ import plugins.cmds.charts.HistoUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 @Plugin(type = Command.class, menuPath = "PAN>Process point data...")
 public class NearestNeighborPipelineCommand extends BiChannelCommand {
     private int numBins;
     private boolean scaleToOne;
 
-    private double xLowBound;
-    private double xUpBound;
+    private double xLowerBound;
+    private double xUpperBound;
     private boolean displayPeakData;
 
     private JPanel rangePanel;
@@ -63,8 +62,8 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
             return false;
         }
 
-        xLowBound = histoDialog.getNextNumber();
-        xUpBound = histoDialog.getNextNumber();
+        xLowerBound = histoDialog.getNextNumber();
+        xUpperBound = histoDialog.getNextNumber();
 
         numBins = (int) histoDialog.getNextNumber();
         if (numBins <= 0 || numBins > BIN_LIMIT) numBins = 1;
@@ -96,7 +95,7 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
 
         // Step 2: construct histogram
         HistogramDatasetPlus histoData = new HistogramDatasetPlus();
-        histoData.addSeries(dataResultName, dataResult.getDataWithinRange(xLowBound, xUpBound), numBins);
+        histoData.addSeries(dataResultName, dataResult.getDataWithinRange(xLowerBound, xUpperBound), numBins);
         if (scaleToOne) {
             histoData.setType(HistogramType.SCALE_AREA_TO_1);
         } else {
@@ -120,8 +119,11 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
             }
         }
 
-        String val_entryName = "" + xLowBound + "-" + xUpBound + " Peak Value";
-        String midbox_entryName = "" + xLowBound + "-" + xUpBound + " Peak Box Midpoint  ";
+        histoData.addEntry("Selected Lower Range", xLowerBound);
+        histoData.addEntry("Selected Upper Bound", xUpperBound);
+
+        String val_entryName = "Peak Value";
+        String midbox_entryName = "Peak Box Midpoint";
 
 
 

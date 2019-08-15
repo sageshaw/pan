@@ -4,6 +4,7 @@ import datastructures.graphs.HistogramDatasetPlus;
 import ij.io.SaveDialog;
 import org.scijava.command.Command;
 import org.scijava.command.DynamicCommand;
+import org.scijava.plugin.Plugin;
 import plugins.cmds.HistogramCommand;
 
 import java.io.BufferedWriter;
@@ -15,9 +16,8 @@ import java.nio.file.Files;
  * Interface providing basic framework for text output of analysis data.
  */
 //TODO: generalize the container choice system, and reunify textexport
-public abstract class HISTOTextExportCommand extends HistogramCommand {
-
-    protected abstract String getOutput(String histoName, HistogramDatasetPlus histoData);
+@Plugin(type = Command.class, menuPath = "PAN>Export>Histogram ranges")
+public class ExportHistoRanges extends HistogramCommand {
 
     private File export;
 
@@ -31,14 +31,13 @@ public abstract class HISTOTextExportCommand extends HistogramCommand {
         export = getFile("");
         if (export == null) return;
 
-        content = "";
+        content = "ID," + histoData.header();
     }
 
 
     @Override
     protected void forEveryHistoDo(String histoName, HistogramDatasetPlus histoData, boolean isBatched) {
-        content += histoName + System.lineSeparator() + getOutput(histoName, histoData);
-
+        content += histoName + "," + histoData.body();
     }
 
     @Override
@@ -61,7 +60,7 @@ public abstract class HISTOTextExportCommand extends HistogramCommand {
     }
 
     private String getPath(String defaultName) {
-        SaveDialog sd = new SaveDialog("Export Nearest Neighbor Analysis", defaultName, ".txt");
+        SaveDialog sd = new SaveDialog("Export Nearest Neighbor Analysis", defaultName, ".csv");
         String path = sd.getDirectory() + sd.getFileName();
         if (path.equals("nullnull")) return null;
         return path;

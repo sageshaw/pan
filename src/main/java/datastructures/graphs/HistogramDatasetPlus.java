@@ -5,6 +5,7 @@ import datastructures.Batchable;
 import datastructures.Exportable;
 import org.jfree.data.statistics.HistogramDataset;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,19 +59,32 @@ public class HistogramDatasetPlus extends HistogramDataset implements Batchable,
     @Override
     public String header() {
 
-        String result = "Annotations\n";
+        String result = "";
 
-        for (String key : annotations.keySet()) {
-            result += key + "\t" + annotations.get(key) + System.lineSeparator();
+        String[] keys = annotations.keySet().toArray(new String[0]);
+        Arrays.sort(keys);
+
+        for (String key : keys) {
+            result += key + ",";
         }
 
-        //    result += "X(range)\tY(value)";
-
+        result += System.lineSeparator();
         return result;
     }
 
     @Override
     public String body() {
+
+        String result = "";
+
+        String[] keys = annotations.keySet().toArray(new String[0]);
+        Arrays.sort(keys);
+
+        for (String key : keys) {
+            result += annotations.get(key) + ",";
+        }
+
+        result += System.lineSeparator();
 
 //        String result = "";
 //
@@ -79,8 +93,7 @@ public class HistogramDatasetPlus extends HistogramDataset implements Batchable,
 //            result += this.getYValue(0, i) + System.lineSeparator();
 //        }
 //
-//        return result;
+        return result;
 
-        return "";
     }
 }
