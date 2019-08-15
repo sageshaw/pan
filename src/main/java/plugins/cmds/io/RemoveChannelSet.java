@@ -33,6 +33,9 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
 
     List<ChannelModuleItem<Boolean, ChannelContainer>> checkboxItems = new ArrayList<>();
 
+    @Parameter(label = "Select all", persist = false, callback = "updateAllEntries")
+    boolean selectAll = false;
+
     @Override
     public void initialize() {
 
@@ -54,6 +57,13 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
 
     }
 
+    public void updateAllEntries() {
+        for (ChannelModuleItem bundledChannelItem : checkboxItems) {
+            ModuleItem<Boolean> moduleItem = bundledChannelItem.getModuleItem();
+            moduleItem.setValue(this, selectAll);
+        }
+    }
+
     @Override
     public void run() {
 
@@ -65,6 +75,7 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
             if (moduleItem.getValue(this)) {
                 ChannelContainer channelSet = bundledChannelItem.getChannel();
                 String name = ptStore.channelSetKey(channelSet);
+
 
                 // check if item is in a batch, and break/delete batch if user says so
                 if (channelSet.isBatched()) {

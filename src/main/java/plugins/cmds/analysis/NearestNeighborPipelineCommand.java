@@ -144,8 +144,9 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         dataLabel.setFont(HistoUtil.HEADER_FONT);
         rangePanel.add(dataLabel);
 
-        JTextArea dataText = new JTextArea(val_entryName + ":\t" + maxVal + System.getProperty("line.separator") +
-                midbox_entryName + ":\t" + midBoxVal + System.getProperty("line.separator"));
+        JTextArea dataText = new JTextArea(val_entryName + ":\t" + maxVal + System.lineSeparator() +
+                midbox_entryName + ":\t" + midBoxVal + System.lineSeparator() +
+                "Selected Range:\t" + xLowerBound + " - " + xUpperBound + System.lineSeparator());
         dataText.setFont(HistoUtil.PARAGRAPH_FONT);
         dataText.setEditable(false);
         rangePanel.add(dataText);
