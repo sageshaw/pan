@@ -183,7 +183,7 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
             Double low = gd.getNextNumber();
             Double high = gd.getNextNumber();
 
-            if (low <= 0.0 || low.isNaN() || high <= 0.0 || high.isNaN() || low >= high) return false;
+            if (low < 0.0 || low.isNaN() || high <= 0.0 || high.isNaN() || low >= high) return false;
 
             int numBins = (int) gd.getNextNumber();
 
