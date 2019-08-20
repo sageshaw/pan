@@ -50,7 +50,12 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
             final ChannelModuleItem<Boolean, ChannelContainer> bundledChannelItem =
                     new ChannelModuleItem <>(getInfo(), channelSetKey, boolean.class, channelSet);
 
-            bundledChannelItem.getModuleItem().setLabel(channelSetKey);
+            if (channelSet.isBatched()) {
+                bundledChannelItem.getModuleItem().setLabel("[" + channelSet.getBatchKey() + "] " + channelSetKey);
+            } else {
+                bundledChannelItem.getModuleItem().setLabel(channelSetKey);
+            }
+
             checkboxItems.add(bundledChannelItem);
             getInfo().addInput(bundledChannelItem.getModuleItem());
         }

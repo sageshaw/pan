@@ -10,15 +10,19 @@ import org.scijava.plugin.Parameter;
 import plugins.PanService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class HistogramCommand extends DynamicCommand implements Initializable {
+
+    // relates display names with actual keynames stored in PanService
+    private HashMap<String, String> displayToHistoNames;
 
     @Parameter
     private PanService panService;
 
     @Parameter(label = "Histogram data", choices = {"a", "b"})
-    private String histoName;
+    private String histoDisplayName;
 
     @Override
     public void initialize() {
@@ -28,16 +32,31 @@ public abstract class HistogramCommand extends DynamicCommand implements Initial
 
         if (histoKeys.length == 0) throw new NullArgumentException();
 
-        for (String histoKey : histoKeys)
-            options.add(histoKey);
 
-        MutableModuleItem<String> selectHistoItem = getInfo().getMutableInput("histoName", String.class);
+        displayToHistoNames = new HashMap<String, String>();
+        for (String histoKey : histoKeys) {
+            String displayName;
+            HistogramDatasetPlus histoSet = panService.getHistoSet(histoKey);
+
+            if (histoSet.isBatched()) {
+                displayName = "[" + histoSet.getBatchKey() + "] " + histoKey;
+            } else {
+                displayName = new String(histoKey);
+            }
+
+            displayToHistoNames.put(displayName, histoKey);
+            options.add(displayName);
+        }
+
+        MutableModuleItem<String> selectHistoItem = getInfo().getMutableInput("histoDisplayName", String.class);
 
         selectHistoItem.setChoices(options);
     }
 
     @Override
     public void run() {
+
+        String histoName = displayToHistoNames.get(histoDisplayName);
 
         HistogramDatasetPlus histoData = panService.getHistoSet(histoName);
 

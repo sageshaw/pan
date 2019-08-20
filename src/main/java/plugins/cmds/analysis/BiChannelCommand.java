@@ -10,6 +10,7 @@ import org.scijava.plugin.Parameter;
 import plugins.PanService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,11 +19,13 @@ import java.util.List;
  */
 public abstract class BiChannelCommand extends DynamicCommand implements Initializable {
 
+    private HashMap<String, String> displayToChannelName;
+
     @Parameter
     protected PanService panService;
 
     @Parameter(label = "Channel File", choices = {"a", "b"})
-    private String channelSetName;
+    private String channelSetDisplayName;
 
     public void initialize() {
 
@@ -32,11 +35,23 @@ public abstract class BiChannelCommand extends DynamicCommand implements Initial
 
         if (channelSetKeys.length == 0) throw new NullArgumentException();
 
-        for (String channelSetKey : channelSetKeys)
-            options.add(channelSetKey);
+        displayToChannelName = new HashMap<>();
 
+        for (String channelSetKey : channelSetKeys) {
+            String displayName;
+            ChannelContainer channelSet = panService.getChannelSet(channelSetKey);
 
-        MutableModuleItem<String> selectSetItem = getInfo().getMutableInput("channelSetName", String.class);
+            if (channelSet.isBatched()) {
+                displayName = "[" + channelSet.getBatchKey() + "] " + channelSetKey;
+            } else {
+                displayName = channelSetKey;
+            }
+
+            displayToChannelName.put(displayName, channelSetKey);
+            options.add(displayName);
+        }
+
+        MutableModuleItem<String> selectSetItem = getInfo().getMutableInput("channelSetDisplayName", String.class);
 
         selectSetItem.setChoices(options);
 
@@ -44,6 +59,8 @@ public abstract class BiChannelCommand extends DynamicCommand implements Initial
 
     @Override
     public void run() {
+
+        String channelSetName = displayToChannelName.get(channelSetDisplayName);
 
         ChannelContainer channelSet = panService.getChannelSet(channelSetName);
         String[] keys = channelSet.keys();

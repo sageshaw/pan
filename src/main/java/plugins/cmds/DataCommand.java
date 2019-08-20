@@ -10,28 +10,49 @@ import org.scijava.plugin.Parameter;
 import plugins.PanService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+
 public abstract class DataCommand extends DynamicCommand implements Initializable {
+
+    // relates display names to internal names stored in PanService
+    private HashMap<String, String> displayToDataNames;
 
     @Parameter
     protected PanService panService;
 
     @Parameter(label = "Analysis result", choices = {"a", "b"})
-    private String dataName;
+    private String dataDisplayName;
 
     @Override
     public void initialize() {
+
+
         ArrayList<String> options = new ArrayList<>();
 
         String[] dataKeys = panService.analysisResultKeys();
 
         if (dataKeys.length == 0) throw new NullArgumentException();
 
-        for (String dataKey : dataKeys)
-            options.add(dataKey);
+        displayToDataNames = new HashMap<>();
 
-        MutableModuleItem<String> selectDataItem = getInfo().getMutableInput("dataName", String.class);
+        for (String dataKey : dataKeys) {
+            String displayName;
+
+            DataContainer dataset = panService.getAnalysisResult(dataKey);
+
+            if (dataset.isBatched()) {
+                displayName = "[" + dataset.getBatchKey() + "] " + dataKey;
+            } else {
+                displayName = dataKey;
+            }
+
+            displayToDataNames.put(displayName, dataKey);
+            options.add(displayName);
+        }
+
+        MutableModuleItem<String> selectDataItem = getInfo().getMutableInput("dataDisplayName", String.class);
 
         selectDataItem.setChoices(options);
 
@@ -39,6 +60,8 @@ public abstract class DataCommand extends DynamicCommand implements Initializabl
 
     @Override
     public void run() {
+
+        String dataName = displayToDataNames.get(dataDisplayName);
 
         DataContainer dataset = panService.getAnalysisResult(dataName);
 
