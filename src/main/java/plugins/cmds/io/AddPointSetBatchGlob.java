@@ -67,6 +67,8 @@ public class AddPointSetBatchGlob extends TextImportCommand {
         String pattern = "**" + searchExpression + "*";
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
 
+        if (panService.isCurrentBatchNameUsed()) panService.uptickBatchName();
+        String batchKey = panService.getCurrentBatchName();
 
         for (File file : dummySet.getParentFile().listFiles()) {
             if(matcher.matches(file.toPath())) { //Check if file matches the expression
@@ -79,7 +81,7 @@ public class AddPointSetBatchGlob extends TextImportCommand {
                 } finally {
                     String channelSetName = addPostDuplicateString(file.getName().trim()); //Extract data and store in PanService
                     if(isRelative) newData.makeRelative();
-                    newData.setBatchKey(searchExpression);
+                    newData.setBatchKey(batchKey);
                     panService.addChannelSet(channelSetName, newData);
 
                 }

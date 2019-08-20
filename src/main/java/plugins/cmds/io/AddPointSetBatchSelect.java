@@ -30,7 +30,9 @@ public class AddPointSetBatchSelect extends TextImportCommand {
             relativeDialog.showDialog();
 
             File[] files = chooser.getSelectedFiles();
-            String batchKey = files[0].getName();
+
+            if (panService.isCurrentBatchNameUsed()) panService.uptickBatchName();
+            String batchKey = panService.getCurrentBatchName();
 
             for (File file : files) {
                 ChannelContainer newData = null;

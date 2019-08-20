@@ -26,14 +26,15 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
     private BiMap<String, DataContainer> results;
     private BiMap<String, HistogramDatasetPlus> histoSets;
 
-    private int numHistos;
-
+    private int currentBatchNum;
+    private boolean batchNameUsed;
 
     public PanService() {
         channelSets = HashBiMap.create();
         results = HashBiMap.create();
         histoSets = HashBiMap.create();
-        numHistos = 0;
+        currentBatchNum = 0;
+        batchNameUsed = false;
     }
 
     @Deprecated
@@ -88,6 +89,23 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
 
         return batch;
     }
+
+
+    public boolean isCurrentBatchNameUsed() {
+        return batchNameUsed;
+    }
+
+    public String getCurrentBatchName() {
+        batchNameUsed = true;
+        return "Batch" + currentBatchNum;
+    }
+
+    public void uptickBatchName() {
+        currentBatchNum++;
+        batchNameUsed = false;
+    }
+
+
 
 
     public String analysisResultKey(DataContainer value) {
@@ -172,15 +190,6 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
     }
 
 
-    @Deprecated
-    public int getHistogramNumber() {
-        return numHistos;
-    }
-
-    @Deprecated
-    public void setHistogramNumber(int numHisto) {
-        this.numHistos = numHisto;
-    }
 
     public Class<ImageJService> getPluginType() {
         return ImageJService.class;
