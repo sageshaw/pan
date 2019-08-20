@@ -17,6 +17,7 @@ import java.util.List;
  * ChannelSets to display them to the gui, and will return the selected ChannelSets to the command extending this one.
  */
 
+@Deprecated
 public abstract class UniChannelCommand extends DynamicCommand implements Initializable {
 
     @Parameter

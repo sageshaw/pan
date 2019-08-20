@@ -17,6 +17,7 @@ import javax.swing.*;
 import java.awt.AWTEvent;
 import java.awt.Dimension;
 
+@Deprecated
 @Plugin(type = Command.class/*, menuPath = "PAN>Histogram>Make histogram"*/)
 public class MakeHistogram extends DataCommand {
 

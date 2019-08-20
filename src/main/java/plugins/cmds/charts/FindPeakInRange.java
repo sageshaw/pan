@@ -19,6 +19,7 @@ import plugins.cmds.HistogramCommand;
 import javax.swing.*;
 import java.util.ArrayList;
 
+@Deprecated
 @Plugin(type = Command.class /*, menuPath = "PAN>Histogram>Find peak in range"*/)
 public class FindPeakInRange extends HistogramCommand {
     private JPanel statPanel;

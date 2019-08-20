@@ -11,6 +11,7 @@ import plugins.PanService;
 
 import java.util.ArrayList;
 
+@Deprecated
 @Plugin(type = Command.class /*, menuPath = "PAN>Analysis>Export analysis result as text file"*/)
 public class ExportAnalysis extends DATATextExportCommand {
 

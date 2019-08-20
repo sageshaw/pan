@@ -15,6 +15,7 @@ import java.nio.file.Files;
  * Interface providing basic framework for text output of analysis data.
  */
 //TODO: generalize the container choice system, and reunify textexport
+@Deprecated
 public abstract class DATATextExportCommand extends DataCommand {
 
     protected abstract String getOutput(String dataName, DataContainer dataset);
