@@ -75,6 +75,8 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         hPrevFrame.dispose();
 
         rangePanel = new JPanel();
+        rangePanel.setLayout(new BoxLayout(rangePanel, BoxLayout.PAGE_AXIS));
+
 
         return true;
     }
