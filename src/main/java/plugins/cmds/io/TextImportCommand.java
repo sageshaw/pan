@@ -64,8 +64,7 @@ public abstract class TextImportCommand implements Command {
 
       // Ensure we have the right filetype
       if (rawInput == null || !rawInput.get(0).equals(CHECK_STRING)) {
-        throw new IllegalArgumentException(
-                "Incorrect file content. Please ensure file was exported properly");
+          throw new IllegalArgumentException("Incorrect file content. Please ensure file was exported properly");
       }
 
       String[] categories = rawInput.get(0).split("\t");

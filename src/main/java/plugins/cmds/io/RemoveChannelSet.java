@@ -42,7 +42,7 @@ public class RemoveChannelSet extends DynamicCommand implements Initializable{
         String[] channelSetKeys = ptStore.channelSetKeys();
 
 
-        if (channelSetKeys.length == 0) throw new NullArgumentException();
+        if (channelSetKeys.length == 0) cancel("No channels loaded");
 
         for (String channelSetKey : channelSetKeys) {
             ChannelContainer channelSet = ptStore.getChannelSet(channelSetKey);

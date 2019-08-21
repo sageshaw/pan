@@ -5,6 +5,7 @@ import ij.gui.GenericDialog;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.Initializable;
 import org.scijava.command.DynamicCommand;
+import org.scijava.log.LogService;
 import org.scijava.module.MutableModuleItem;
 import org.scijava.plugin.Parameter;
 import plugins.PanService;
@@ -20,6 +21,9 @@ public abstract class DataCommand extends DynamicCommand implements Initializabl
     private HashMap<String, String> displayToDataNames;
 
     @Parameter
+    protected LogService logService;
+
+    @Parameter
     protected PanService panService;
 
     @Parameter(label = "Analysis result", choices = {"a", "b"})
@@ -33,7 +37,7 @@ public abstract class DataCommand extends DynamicCommand implements Initializabl
 
         String[] dataKeys = panService.analysisResultKeys();
 
-        if (dataKeys.length == 0) throw new NullArgumentException();
+        if (dataKeys.length == 0) cancel("No datasets stored");
 
         displayToDataNames = new HashMap<>();
 

@@ -5,6 +5,7 @@ import ij.gui.GenericDialog;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.Initializable;
 import org.scijava.command.DynamicCommand;
+import org.scijava.log.LogService;
 import org.scijava.module.MutableModuleItem;
 import org.scijava.plugin.Parameter;
 import plugins.PanService;
@@ -19,6 +20,9 @@ public abstract class HistogramCommand extends DynamicCommand implements Initial
     private HashMap<String, String> displayToHistoNames;
 
     @Parameter
+    private LogService logService;
+
+    @Parameter
     private PanService panService;
 
     @Parameter(label = "Histogram data", choices = {"a", "b"})
@@ -30,7 +34,7 @@ public abstract class HistogramCommand extends DynamicCommand implements Initial
 
         String[] histoKeys = panService.histoKeys();
 
-        if (histoKeys.length == 0) throw new NullArgumentException();
+        if (histoKeys.length == 0) cancel("No histograms stored");
 
 
         displayToHistoNames = new HashMap<String, String>();

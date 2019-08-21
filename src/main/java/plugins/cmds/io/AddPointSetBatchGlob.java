@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
-import java.util.ArrayList;
 
 @Plugin(type = Command.class, menuPath = "PAN>Import>Add point set batch from text file")
 public class AddPointSetBatchGlob extends TextImportCommand {
@@ -21,7 +20,7 @@ public class AddPointSetBatchGlob extends TextImportCommand {
 
 
     @Parameter(label = "Exported .txt file from Nikon Elements", callback = "updateExpression", persist = false)
-    private File dummySet;
+    private File sampleFile;
 
     @Parameter(label="File format", initializer = "initExpression", callback="updateFilesFound", persist = false)
     String searchExpression;
@@ -38,7 +37,7 @@ public class AddPointSetBatchGlob extends TextImportCommand {
         String name = "";
 
         try {
-            name = dummySet.getName();
+            name = sampleFile.getName();
         } catch (NullPointerException e) {
             updateExpression(); //TODO: dangerous, find a better solution
         }
@@ -53,7 +52,7 @@ public class AddPointSetBatchGlob extends TextImportCommand {
         String pattern = "**" + searchExpression + "*";
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
         //loop through all files in current directory to see if they match the pattern
-        for (File file : dummySet.getParentFile().listFiles()) {
+        for (File file : sampleFile.getParentFile().listFiles()) {
             if(matcher.matches(file.toPath()))
                 total++;
         }
@@ -70,7 +69,7 @@ public class AddPointSetBatchGlob extends TextImportCommand {
         if (panService.isCurrentBatchNameUsed()) panService.uptickBatchName();
         String batchKey = panService.getCurrentBatchName();
 
-        for (File file : dummySet.getParentFile().listFiles()) {
+        for (File file : sampleFile.getParentFile().listFiles()) {
             if(matcher.matches(file.toPath())) { //Check if file matches the expression
                 ChannelContainer newData = null;
                 try {
