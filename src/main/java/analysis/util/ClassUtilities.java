@@ -14,6 +14,7 @@ import java.util.jar.JarFile;
 /**
  * Static method utility class for classpath scanning for plugin OpScripts.
  */
+@Deprecated
 public class ClassUtilities {
 
     public static String[] getPackageContent(String packageName) throws IOException {

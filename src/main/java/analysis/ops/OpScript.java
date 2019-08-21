@@ -9,7 +9,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Annotation used to denote new algorithm plugins.
  */
-
+@Deprecated
 @Target(ElementType.TYPE)
 @Retention(RUNTIME)
 public @interface OpScript {
