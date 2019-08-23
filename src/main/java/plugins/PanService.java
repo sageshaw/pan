@@ -12,7 +12,9 @@ import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Serves as a common context for all command plugins.
@@ -88,6 +90,18 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
         }
 
         return batch;
+    }
+
+    public Map<String, ChannelContainer> getStringChannelSetBatchMap(String batchKey) {
+        Map<String, ChannelContainer> batchMap = new HashMap<String, ChannelContainer>();
+
+        for (ChannelContainer channelSet : channelSets.values()) {
+            if (batchKey.equals(channelSet.getBatchKey())) {
+                batchMap.put(channelSetKey(channelSet), channelSet);
+            }
+        }
+
+        return batchMap;
     }
 
 

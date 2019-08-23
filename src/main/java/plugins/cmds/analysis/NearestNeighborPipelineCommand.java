@@ -19,6 +19,8 @@ import plugins.cmds.charts.HistoUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Plugin(type = Command.class, menuPath = "PAN>Process point data...")
 public class NearestNeighborPipelineCommand extends BiChannelCommand {
@@ -32,25 +34,39 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
     private JPanel rangePanel;
 
     @Override
-    protected boolean setup(String channelSetName, ChannelContainer channels, String fromChannelName, String toChannelName) {
+    protected boolean setup(String channelSetName, ChannelContainer channels, String fromChannelName, String toChannelName, boolean isBatched) {
 
-        // Step 1: run nearest-neighbor analysis
+        Map<String, ChannelContainer> batchMap;
+
+        if (isBatched) {
+            batchMap = panService.getStringChannelSetBatchMap(channels.getBatchKey());
+        } else {
+            batchMap = new HashMap<>();
+            batchMap.put(channelSetName, channels);
+        }
+
+
+        // Run nearest-neighbor analysis for default values for dialog box
         BiOperation biNN = new BiLinearNearestNeighbor();
         biNN.setChannel(channels.get(fromChannelName), channels.get(toChannelName));
-        String resultName = "NearestNeighbor" + fromChannelName + "->" + toChannelName;
-        DataContainer result = new LinearData(resultName, biNN.execute());
+        String defaultResultName = "NearestNeighbor" + fromChannelName + "->" + toChannelName;
+        DataContainer defaultResult = new LinearData(defaultResultName, biNN.execute());
 
-        // Step 2: construct histogram from nearest-neighbor data in a given range (to crop data)
+        // Fill in histogram selection dialog box using nearest-neighbor data found in the data output by previous process
         GenericDialog histoDialog = new GenericDialog("Constructing histogram...");
+        String[] batchChannelKeys = batchMap.keySet().toArray(new String[0]);
+        histoDialog.addChoice("Preview data: ", batchChannelKeys, channelSetName);
         histoDialog.addMessage("Choose histogram parameters:");
         histoDialog.addMessage("Specify x-axis range: ");
-        histoDialog.addNumericField("From", result.min(), 2);
-        histoDialog.addNumericField("To", result.max(), 2);
+        histoDialog.addNumericField("From", defaultResult.min(), 2);
+        histoDialog.addNumericField("To", defaultResult.max(), 2);
         histoDialog.addNumericField("Number of boxes", 100, 0);
         histoDialog.addCheckbox("Make total area equal to 1", true);
         histoDialog.addCheckbox("Display peak data", false);
 
-        HistogramPreviewFrame hPrevFrame = new HistogramPreviewFrame(resultName, result);
+
+        // Construct preview frame and add as listener to dynamically update as user changes parameters in histogram dialog box
+        HistogramPreviewFrame hPrevFrame = new HistogramPreviewFrame(batchMap, fromChannelName, toChannelName);
         histoDialog.addDialogListener(hPrevFrame);
 
         hPrevFrame.setVisible(true);
@@ -62,6 +78,7 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
             return false;
         }
 
+        // User has finished entering parameters. Extract selected parameters from dialog box.
         xLowerBound = histoDialog.getNextNumber();
         xUpperBound = histoDialog.getNextNumber();
 
@@ -170,18 +187,29 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
     private class HistogramPreviewFrame extends JFrame implements DialogListener {
         private static final int TEXT_CHANGE_ID = 900;
 
-        private String previewName;
-        private DataContainer previewSet;
+        private Map<String, ChannelContainer> prevChannelSetMap;
+        private BiOperation biNN;
+        private String fromChannelName;
+        private String toChannelname;
 
 
-        public HistogramPreviewFrame(String name, DataContainer set) {
+        public HistogramPreviewFrame(Map<String, ChannelContainer> prevChannelSetMap, String fromChannelName, String toChannelName) {
             super();
-            previewName = name;
-            previewSet = set;
+            this.prevChannelSetMap = prevChannelSetMap;
+            biNN = new BiLinearNearestNeighbor();
+            this.fromChannelName = fromChannelName;
+            this.toChannelname = toChannelName;
         }
+
 
         @Override
         public boolean dialogItemChanged(GenericDialog gd, AWTEvent e) {
+            String prevChannelSetKey = gd.getNextChoice();
+            ChannelContainer prevChannelSet = prevChannelSetMap.get(prevChannelSetKey);
+
+            biNN.setChannel(prevChannelSet.get(fromChannelName), prevChannelSet.get(toChannelname));
+            DataContainer previewNNResult = new LinearData(prevChannelSetKey, biNN.execute());
+
             Double low = gd.getNextNumber();
             Double high = gd.getNextNumber();
 
@@ -193,18 +221,18 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
 
             HistogramDatasetPlus previewHistoData = new HistogramDatasetPlus();
 
-            double[] previewData = previewSet.getDataWithinRange(low, high);
+            double[] previewData = previewNNResult.getDataWithinRange(low, high);
             if (previewData.length == 0) return false;
 
 
-            previewHistoData.addSeries(previewName, previewData, numBins);
+            previewHistoData.addSeries(prevChannelSetKey, previewData, numBins);
 
             if (gd.getNextBoolean())
                 previewHistoData.setType(HistogramType.SCALE_AREA_TO_1);
             else
                 previewHistoData.setType(HistogramType.FREQUENCY);
 
-            JFreeChart chart = ChartFactory.createHistogram("Preview", "", "", previewHistoData,
+            JFreeChart chart = ChartFactory.createHistogram(prevChannelSetKey + " Preview", "", "", previewHistoData,
                     PlotOrientation.VERTICAL, false, false, false);
             ChartPanel chartPanel = new ChartPanel(chart, false);
             chartPanel.setPreferredSize(HistoUtil.PREVIEW_DIMENSIONS);
@@ -216,6 +244,7 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
 
             return true;
         }
+
     }
 
     private static final int BIN_LIMIT = 99999;

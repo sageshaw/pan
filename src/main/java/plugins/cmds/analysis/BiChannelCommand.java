@@ -2,7 +2,6 @@ package plugins.cmds.analysis;
 
 import datastructures.points.ChannelContainer;
 import ij.gui.GenericDialog;
-import org.apache.commons.math3.exception.NullArgumentException;
 import org.scijava.Initializable;
 import org.scijava.command.DynamicCommand;
 import org.scijava.log.LogService;
@@ -33,7 +32,7 @@ public abstract class BiChannelCommand extends DynamicCommand implements Initial
 
     public void initialize() {
 
-        ArrayList <String> options = new ArrayList <>();
+        ArrayList<String> options = new ArrayList<>();
 
         String[] channelSetKeys = panService.channelSetKeys();
 
@@ -80,30 +79,32 @@ public abstract class BiChannelCommand extends DynamicCommand implements Initial
         String from = selectChannelDialogue.getNextChoice();
         String to = selectChannelDialogue.getNextChoice();
 
-        if (!setup(channelSetName, channelSet, from, to)) return;
-
-
+        boolean runOnBatch = false;
         if (channelSet.isBatched()) {
             GenericDialog batchDialogue = new GenericDialog("Found batch...");
             batchDialogue.addMessage("'" + channelSetName + "' was found to be in a batch. Run operation on entire batch?");
             batchDialogue.setOKLabel("Yes");
             batchDialogue.setCancelLabel("No");
             batchDialogue.showDialog();
+            runOnBatch = batchDialogue.wasOKed();
+        }
 
-            if (batchDialogue.wasOKed()) {
+        if (!setup(channelSetName, channelSet, from, to, runOnBatch)) return;
 
-                List<ChannelContainer> containers = panService.getChannelSetBatch(channelSet.getBatchKey());
 
-                for (ChannelContainer container : containers) {
-                    forEveryChannelSetDo(panService.channelSetKey(container), container, from, to, true);
-                }
+        if (runOnBatch) {
 
-                end();
+            List<ChannelContainer> containers = panService.getChannelSetBatch(channelSet.getBatchKey());
 
-                return;
+            for (ChannelContainer container : containers) {
+                forEveryChannelSetDo(panService.channelSetKey(container), container, from, to, true);
             }
 
+            end();
+
+            return;
         }
+
 
         forEveryChannelSetDo(channelSetName, channelSet, from, to, false);
         end();
@@ -111,13 +112,12 @@ public abstract class BiChannelCommand extends DynamicCommand implements Initial
         return;
     }
 
-    protected abstract boolean setup(String channelSetName, ChannelContainer channels, String fromChannelName, String toChannelName);
+    protected abstract boolean setup(String channelSetName, ChannelContainer channels, String fromChannelName, String toChannelName, boolean isBatched);
 
     //TODO: implement boolean stopper for other command types as well (if necessary)
     protected abstract void forEveryChannelSetDo(String channelSetName, ChannelContainer channels, String fromChannelName, String toChannelName, boolean isBatched);
 
     protected abstract void end();
-
 
 
 }

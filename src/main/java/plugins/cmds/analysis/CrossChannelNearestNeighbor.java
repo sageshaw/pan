@@ -10,8 +10,6 @@ import org.scijava.log.LogService;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
-import java.util.List;
-
 @Deprecated
 @Plugin(type = Command.class /*, menuPath = "PAN>Analysis>Cross-channel nearest neighbor" */)
 public class CrossChannelNearestNeighbor extends BiChannelCommand {
@@ -22,7 +20,7 @@ public class CrossChannelNearestNeighbor extends BiChannelCommand {
 
 
     @Override
-    protected boolean setup(String channelSetName, ChannelContainer channels, String fromChannelName, String toChannelName) {
+    protected boolean setup(String channelSetName, ChannelContainer channels, String fromChannelName, String toChannelName, boolean isBatched) {
         logService.info("Running cross nearest-neighbor...");
         return true;
     }
