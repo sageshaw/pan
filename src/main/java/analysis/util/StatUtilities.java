@@ -80,4 +80,20 @@ public class StatUtilities {
     }
 
 
+    public static double RSquared(double[] yData, double[] fModel) {
+        double yBar = mean(yData);
+
+        double totSumSquares = 0.0;
+        double resSumSquares = 0.0;
+        for (int i = 0; i < yData.length; i++) {
+            totSumSquares += Math.pow(yData[i] - yBar, 2);
+            resSumSquares += Math.pow(yData[i] - fModel[i], 2);
+        }
+
+        if (totSumSquares <= 0) return -1;
+
+        return 1 - (resSumSquares / totSumSquares);
+    }
+
+
 }
