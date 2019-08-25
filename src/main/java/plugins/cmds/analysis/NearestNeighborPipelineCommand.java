@@ -149,6 +149,9 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         // Step 3: fit data with specified function to find peak
         double maxY = -1.0;
         double maxX = -1.0;
+        String maxYAnnotationLabel = "Peak Y";
+        String maxXAnnotationLabel = "Peak X";
+
 
         int nx = histoData.getItemCount(0);
         if (!fitFunctionChoice.equals(NO_FIT)) {
@@ -174,6 +177,8 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
 
             histoData.addEntry("R^2 (" + fitFunctionChoice + ")", StatUtilities.RSquared(yData, fModel));
 
+            maxYAnnotationLabel += ", " + fitFunctionChoice + " fit";
+
         } else { // if no fit function was specified, find highest bar
             for (int i = 0; i < nx; i++) {
 
@@ -185,15 +190,13 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
 
                 }
             }
+
+            maxXAnnotationLabel += ", box midpoint";
         }
 
 
         histoData.addEntry("Selected Lower Range", xLowerBound);
         histoData.addEntry("Selected Upper Bound", xUpperBound);
-
-        String maxYAnnotationLabel = "Peak Value";
-        String maxXAnnotationLabel = "Peak Box Midpoint";
-
 
         histoData.addEntry(maxYAnnotationLabel, maxY);
         histoData.addEntry(maxXAnnotationLabel, maxX);
