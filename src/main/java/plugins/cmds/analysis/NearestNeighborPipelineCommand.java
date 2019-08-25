@@ -177,7 +177,7 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
 
             histoData.addEntry("R^2 (" + fitFunctionChoice + ")", StatUtilities.RSquared(yData, fModel));
 
-            maxYAnnotationLabel += ", " + fitFunctionChoice + " fit";
+            maxYAnnotationLabel += " (" + fitFunctionChoice + " fit)";
 
         } else { // if no fit function was specified, find highest bar
             for (int i = 0; i < nx; i++) {
@@ -191,7 +191,7 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
                 }
             }
 
-            maxXAnnotationLabel += ", box midpoint";
+            maxXAnnotationLabel += " (box midpoint)";
         }
 
 
