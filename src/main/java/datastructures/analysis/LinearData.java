@@ -89,29 +89,14 @@ public class LinearData implements DataContainer {
     }
 
     @Override
-    public String header() {
-
-        String result = "Annotations\n";
-
-        for (String key : annotations.keySet()) {
-            result += key + "\t" + annotations.get(key) + System.lineSeparator();
-        }
-
-        result += "Value";
-
-        return result;
+    public String[] header() {
+        return new String[0];
     }
 
     @Override
-    public String body() {
-        String result = "";
-
-
-        for (double val : data) {
-            result += val + System.lineSeparator();
-        }
-
-        return result;
+    public String[][] body() {
+        return new String[0][0];
+        //todo: finish implementing exporting for LinearData
     }
 
     @Override

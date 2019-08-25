@@ -3,7 +3,6 @@ package plugins.cmds.io;
 import datastructures.graphs.HistogramDatasetPlus;
 import ij.io.SaveDialog;
 import org.scijava.command.Command;
-import org.scijava.command.DynamicCommand;
 import org.scijava.plugin.Plugin;
 import plugins.cmds.HistogramCommand;
 
@@ -31,13 +30,13 @@ public class ExportHistoRanges extends HistogramCommand {
         export = getFile("");
         if (export == null) return;
 
-        content = "ID," + histoData.header();
+        content = "ID," + histoData.csvHeader();
     }
 
 
     @Override
     protected void forEveryHistoDo(String histoName, HistogramDatasetPlus histoData, boolean isBatched) {
-        content += histoName + "," + histoData.body();
+        content += histoName + "," + histoData.csvBody();
     }
 
     @Override

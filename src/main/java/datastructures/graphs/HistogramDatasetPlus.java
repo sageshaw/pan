@@ -57,43 +57,26 @@ public class HistogramDatasetPlus extends HistogramDataset implements Batchable,
     }
 
     @Override
-    public String header() {
-
-        String result = "";
+    public String[] header() {
 
         String[] keys = annotations.keySet().toArray(new String[0]);
         Arrays.sort(keys);
-
-        for (String key : keys) {
-            result += key + ",";
-        }
-
-        result += System.lineSeparator();
-        return result;
+        return keys;
     }
 
     @Override
-    public String body() {
-
-        String result = "";
-
+    public String[][] body() {
         String[] keys = annotations.keySet().toArray(new String[0]);
         Arrays.sort(keys);
 
-        for (String key : keys) {
-            result += annotations.get(key) + ",";
+        String[][] vals = new String[1][keys.length];
+
+        for (int i = 0; i < keys.length; i++) {
+            vals[0][i] = "" + annotations.get(keys[i]);
         }
 
-        result += System.lineSeparator();
 
-//        String result = "";
-//
-//        for (int i = 0; i < this.getItemCount(0); i++) {
-//            result += this.getStartXValue(0, i) + "-" + this.getEndXValue(0, i) + "\t";
-//            result += this.getYValue(0, i) + System.lineSeparator();
-//        }
-//
-        return result;
+        return vals;
 
     }
 }

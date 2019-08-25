@@ -195,7 +195,7 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         }
 
 
-        histoData.addEntry("Selected Lower Range", xLowerBound);
+        histoData.addEntry("Selected Lower Bound", xLowerBound);
         histoData.addEntry("Selected Upper Bound", xUpperBound);
 
         histoData.addEntry(maxYAnnotationLabel, maxY);
@@ -206,9 +206,7 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         dataLabel.setFont(HistoUtil.HEADER_FONT);
         rangePanel.add(dataLabel);
 
-        JTextArea dataText = new JTextArea(maxYAnnotationLabel + ":\t" + maxY + System.lineSeparator() +
-                maxXAnnotationLabel + ":\t" + maxX + System.lineSeparator() +
-                "Selected Range:\t" + xLowerBound + " - " + xUpperBound + System.lineSeparator());
+        JTextArea dataText = new JTextArea(histoData.txtHeader() + histoData.txtBody());
         dataText.setFont(HistoUtil.PARAGRAPH_FONT);
         dataText.setEditable(false);
         rangePanel.add(dataText);
