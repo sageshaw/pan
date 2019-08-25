@@ -13,7 +13,7 @@
 
     <groupId>org.honglab</groupId>
     <artifactId>PointsANalysis</artifactId>
-    <version>ALPHA-1.4</version>
+    <version>ALPHA-1.5</version>
 
     <name>PointsANalysis</name>
     <description>ImageJ plugin for 3D point analysis.</description>
