@@ -127,7 +127,7 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         BiOperation biNN = new BiLinearNearestNeighbor();
         biNN.setChannel(channels.get(fromChannelName), channels.get(toChannelName));
 
-        String operationName = "NearestNeighbor " + fromChannelName + "->" + toChannelName;
+        String operationName = "NearestNeighbor " + fromChannelName + "->" + toChannelName + "|" + fitFunctionChoice;
         DataContainer dataResult = new LinearData(operationName, biNN.execute());
         if (isBatched) dataResult.setBatchKey(channels.getBatchKey());
 
@@ -175,10 +175,7 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
                 fModel[ix] = fittedFunc.value(histoData.getX(0, ix).doubleValue());
             }
 
-            histoData.addEntry("R^2 (" + fitFunctionChoice + ")", StatUtilities.RSquared(yData, fModel));
-
-            maxYAnnotationLabel += " (" + fitFunctionChoice + " fit)";
-
+            histoData.addEntry("R^2", StatUtilities.RSquared(yData, fModel));
         } else { // if no fit function was specified, find highest bar
             for (int i = 0; i < nx; i++) {
 
@@ -191,7 +188,7 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
                 }
             }
 
-            maxXAnnotationLabel += " (box midpoint)";
+            histoData.addEntry("R^2", -1.0);
         }
 
 
