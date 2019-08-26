@@ -11,10 +11,7 @@ import net.imagej.ImageJService;
 import org.scijava.plugin.AbstractPTService;
 import org.scijava.plugin.Plugin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Serves as a common context for all command plugins.
@@ -25,7 +22,7 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
 
     // master channel list
     private BiMap<String, ChannelContainer> channelSets;
-    private BiMap<String, DataContainer> results;
+    private BiMap<String, DataContainer> analysisResults;
     private BiMap<String, HistogramDatasetPlus> histoSets;
 
     private int currentBatchNum;
@@ -33,7 +30,7 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
 
     public PanService() {
         channelSets = HashBiMap.create();
-        results = HashBiMap.create();
+        analysisResults = HashBiMap.create();
         histoSets = HashBiMap.create();
         currentBatchNum = 0;
         batchNameUsed = false;
@@ -62,6 +59,7 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
     }
 
     public void addChannelSet(String name, ChannelContainer container) {
+        name = addNameDuplicateNumber(name, channelSets.keySet());
         channelSets.put(name, container);
     }
 
@@ -123,36 +121,41 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
 
 
     public String analysisResultKey(DataContainer value) {
-        return results.inverse().get(value);
+        return analysisResults.inverse().get(value);
     }
 
-    public String[] analysisResultKeys() { return results.keySet().toArray(new String[0]); }
+    public String[] analysisResultKeys() {
+        return analysisResults.keySet().toArray(new String[0]);
+    }
 
     public void addAnalysisResult(String name, DataContainer result) {
-        results.put(name, result);
+
+        name = addNameDuplicateNumber(name, analysisResults.keySet());
+
+        analysisResults.put(name, result);
     }
 
     public DataContainer removeAnalysisResult(String name) {
-        return results.remove(name);
+        return analysisResults.remove(name);
     }
 
     public boolean removeAnalysisResult(DataContainer value) {
-        return results.remove(analysisResultKey(value), value);
+        return analysisResults.remove(analysisResultKey(value), value);
     }
 
     public DataContainer getAnalysisResult(String name) {
-        return results.get(name);
+        return analysisResults.get(name);
     }
 
     public int getNumAnalysisResults() {
-        return results.size();
+        return analysisResults.size();
     }
 
     public List<DataContainer> getAnalysisBatch(String batchKey) {
 
         List<DataContainer> batch = new ArrayList<>();
 
-        for (DataContainer dataset : results.values()) {
+        for (DataContainer dataset : analysisResults.values()) {
             if (batchKey.equals(dataset.getBatchKey()))
                 batch.add(dataset);
 
@@ -171,6 +174,7 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
     }
 
     public void addHistoSet(String name, HistogramDatasetPlus result) {
+        name = addNameDuplicateNumber(name, histoSets.keySet());
         histoSets.put(name, result);
     }
 
@@ -204,9 +208,34 @@ public class PanService extends AbstractPTService<ImageJService> implements Imag
     }
 
 
+    private String addNameDuplicateNumber(String name, Collection<String> savedNames) {
+        int duplNum = 1;
+        boolean hasDuplicate = false;
+
+        for (String savedName : savedNames) {
+            if (savedName.contains(name)) {
+                hasDuplicate = true;
+
+                if (!savedName.equals(name)) {
+                    int currentNum = Integer.parseInt(savedName.substring(savedName.length() - 2, savedName.length() - 1));
+                    if (currentNum >= duplNum) {
+                        duplNum = currentNum + 1;
+                    }
+                }
+            }
+        }
+
+        if (hasDuplicate) {
+            name += "(" + duplNum + ")";
+        }
+
+        return name;
+    }
+
 
     public Class<ImageJService> getPluginType() {
         return ImageJService.class;
     }
+
 
 }

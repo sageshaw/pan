@@ -42,7 +42,7 @@ public class AddPointSetBatchSelect extends TextImportCommand {
                     logService.error(e);
 
                 } finally {
-                    String channelSetName = addPostDuplicateString(file.getName().trim()); //Extract data and store in PanService
+                    String channelSetName = file.getName().trim(); //Extract data and store in PanService
 
                     if (relativeDialog.getNextBoolean()) newData.makeRelative();
                     newData.setBatchKey(batchKey);

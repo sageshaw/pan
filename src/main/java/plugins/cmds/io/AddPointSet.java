@@ -25,9 +25,6 @@ public class AddPointSet extends TextImportCommand {
   @Parameter(label = "Crop image to only fit dataset")
   private boolean isRelative;
 
-  @Parameter(label = "Show image render of dataset")
-  private boolean display;
-
     // STRICTLY for testing purposes
   public static void main(final String... args) {
     // Launch ImageJ as usual.
@@ -54,18 +51,11 @@ public class AddPointSet extends TextImportCommand {
     } finally {
 
       //Grab name, and label duplicate if necessary
-        String channelSetName = addPostDuplicateString(pointSet.getName().trim());
-
-
+        String channelSetName = pointSet.getName().trim();
 
       //Reduce coordinates, preserve distance relationships since it makes computations easier (some things will not work
       // if this is not used
       if (isRelative) newData.makeRelative();
-      //Generate a displayable image (for users only, not for analysis) and open on screen
-      if (display) {
-        ImgGenerator imgGenerator = new DisplayImgGenerator(DisplayImgGenerator.PointMarker.plus, 7);
-        ImageJFunctions.show(imgGenerator.generate(newData));
-      }
 
       if (newData != null) panService.addChannelSet(channelSetName, newData);
     }

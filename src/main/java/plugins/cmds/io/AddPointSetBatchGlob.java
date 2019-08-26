@@ -78,7 +78,7 @@ public class AddPointSetBatchGlob extends TextImportCommand {
                     logService.error(e);
 
                 } finally {
-                    String channelSetName = addPostDuplicateString(file.getName().trim()); //Extract data and store in PanService
+                    String channelSetName = file.getName().trim(); //Extract data and store in PanService
                     if(isRelative) newData.makeRelative();
                     newData.setBatchKey(batchKey);
                     panService.addChannelSet(channelSetName, newData);

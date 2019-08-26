@@ -33,28 +33,6 @@ public abstract class TextImportCommand implements Command {
     private int Y;
     private int Z;
 
-    protected String addPostDuplicateString(String name) {
-      int duplNum = 1;
-      boolean hasDuplicate = false;
-      for (String loadedName : panService.channelSetKeys()) {
-        if (loadedName.contains(name)) {
-          hasDuplicate = true;
-          if (!loadedName.equals(name)) {
-            int currentNum = Integer.parseInt(loadedName.substring(loadedName.length() - 2, loadedName.length() - 1));
-            if (currentNum >= duplNum) {
-              duplNum = currentNum + 1;
-            }
-          }
-        }
-      }
-
-      if (hasDuplicate) {
-        name += "(" + duplNum + ")";
-      }
-
-      return name;
-    }
-
     public ChannelContainer loadFile(File file) throws IllegalArgumentException, IOException {
 
       // read file data line by line into list(thank you Java 8!)
