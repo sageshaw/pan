@@ -33,6 +33,8 @@ import plugins.cmds.charts.HistoUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,6 +73,7 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         // Fill in histogram selection dialog box using nearest-neighbor data found in the data output by previous process
         GenericDialog histoDialog = new GenericDialog("Constructing histogram...");
         String[] batchChannelKeys = batchMap.keySet().toArray(new String[0]);
+        histoDialog.addCheckbox("Automatic Preview:", false);
         histoDialog.addChoice("Preview data: ", batchChannelKeys, channelSetName);
         histoDialog.addMessage("Choose histogram parameters:");
         histoDialog.addMessage("Specify x-axis range: ");
@@ -81,10 +84,10 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         histoDialog.addChoice("Fitting data: ", FIT_OPTIONS, FIT_OPTIONS[0]);
         histoDialog.addCheckbox("Display peak data", false);
 
-
         // Construct preview frame and add as listener to dynamically update as user changes parameters in histogram dialog box
         HistogramPreviewFrame hPrevFrame = new HistogramPreviewFrame(batchMap, fromChannelName, toChannelName);
         histoDialog.addDialogListener(hPrevFrame);
+
 
         hPrevFrame.setVisible(true);
         histoDialog.showDialog();
@@ -96,6 +99,7 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         }
 
         // User has finished entering parameters. Extract selected parameters from dialog box.
+        histoDialog.getNextBoolean(); //No need to save automatic preview option
         histoDialog.getNextChoice(); // No need to save selected preview channelset
 
         xLowerBound = histoDialog.getNextNumber();
@@ -242,6 +246,8 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
 
         @Override
         public boolean dialogItemChanged(GenericDialog gd, AWTEvent e) {
+            if (!gd.getNextBoolean()) return false; //if preview not selected, disable
+
             //Extract selected channelset to preview
             String prevChannelSetKey = gd.getNextChoice();
             ChannelContainer prevChannelSet = prevChannelSetMap.get(prevChannelSetKey);
