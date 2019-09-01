@@ -453,7 +453,7 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
             GAUSSIAN_DIST};
 
 
-    private static final double FUNC_SAMPLING_RATE = 0.1;
+    private static final double FUNC_SAMPLING_RATE = 0.01;
 
 
 }
