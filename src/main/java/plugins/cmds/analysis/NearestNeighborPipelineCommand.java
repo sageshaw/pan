@@ -9,6 +9,7 @@ import datastructures.graphs.HistogramDatasetPlus;
 import datastructures.points.ChannelContainer;
 import ij.gui.DialogListener;
 import ij.gui.GenericDialog;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.analysis.function.Gaussian;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
@@ -35,6 +36,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,6 +51,9 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
     private double xUpperBound;
     private boolean displayPeakData;
     private String fitFunctionChoice;
+
+    private boolean multiplePeaks;
+    private boolean excludeEndpoints;
 
     private JPanel rangePanel;
 
@@ -73,8 +79,9 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         // Fill in histogram selection dialog box using nearest-neighbor data found in the data output by previous process
         GenericDialog histoDialog = new GenericDialog("Constructing histogram...");
         String[] batchChannelKeys = batchMap.keySet().toArray(new String[0]);
-        histoDialog.addCheckbox("Automatic Preview:", false);
+        Arrays.sort(batchChannelKeys);
         histoDialog.addChoice("Preview data: ", batchChannelKeys, channelSetName);
+        histoDialog.addCheckbox("Automatic preview:", true);
         histoDialog.addMessage("Choose histogram parameters:");
         histoDialog.addMessage("Specify x-axis range: ");
         histoDialog.addNumericField("From", defaultResult.min(), 2);
@@ -99,8 +106,8 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         }
 
         // User has finished entering parameters. Extract selected parameters from dialog box.
-        histoDialog.getNextBoolean(); //No need to save automatic preview option
         histoDialog.getNextChoice(); // No need to save selected preview channelset
+        histoDialog.getNextBoolean(); //No need to save automatic preview option
 
         xLowerBound = histoDialog.getNextNumber();
         xUpperBound = histoDialog.getNextNumber();
@@ -120,6 +127,23 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
         rangePanel = new JPanel();
         rangePanel.setLayout(new BoxLayout(rangePanel, BoxLayout.PAGE_AXIS));
 
+
+        // Ask and extract additional fitting options (how many peaks, excluding endpoint vals, etc)
+        if (!fitFunctionChoice.equals(FIT_OPTIONS[0]) && Arrays.asList(FIT_OPTIONS).contains(fitFunctionChoice)) {
+            GenericDialog fitDialog = new GenericDialog("Fitting options...");
+            fitDialog.addCheckbox("Find multiple peaks", false);
+            fitDialog.addCheckbox("Exclude endpoints from peak calculation", true);
+            fitDialog.showDialog();
+
+            if (fitDialog.wasCanceled()) return false;
+
+            multiplePeaks = fitDialog.getNextBoolean();
+            excludeEndpoints = fitDialog.getNextBoolean();
+
+        } else {
+            multiplePeaks = false;
+            excludeEndpoints = false;
+        }
 
         return true;
     }
@@ -151,24 +175,78 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
 
 
         // Step 3: fit data with specified function to find peak
-        double maxY = -1.0;
-        double maxX = -1.0;
-        String maxYAnnotationLabel = "Peak Y";
-        String maxXAnnotationLabel = "Peak X";
-
-
         int nx = histoData.getItemCount(0);
         if (!fitFunctionChoice.equals(NO_FIT)) {
             AbstractCurveFitter fitter = getCurveFitter(fitFunctionChoice);
             UnivariateDifferentiableFunction fittedFunc = fitData(fitter, histoData);
 
+            // find all critical points
+            ArrayList<double[]> cps = new ArrayList<>();
+            double yprime_prev = -1.0;
             for (double x = xLowerBound; x <= xUpperBound; x += FUNC_SAMPLING_RATE) {
-                double fitY = fittedFunc.value(x);
-                if (fitY > maxY) {
-                    maxY = fitY;
-                    maxX = x;
+                DerivativeStructure xs = new DerivativeStructure(1, 1, 0, x);
+                DerivativeStructure ys = fittedFunc.value(xs);
+
+                double y = ys.getValue();
+                double yprime = ys.getPartialDerivative(1);
+
+                if (yprime_prev > 0.0) {
+                    if (yprime < 0.0) {
+                        cps.add(new double[]{x, y});
+                    } else if (yprime == 0.0) continue;
                 }
+
+                yprime_prev = yprime;
+
             }
+
+            if (!excludeEndpoints) {
+                DerivativeStructure lowboundXs = new DerivativeStructure(1, 1, 0, xLowerBound);
+                DerivativeStructure highboundXs = new DerivativeStructure(1, 1, 0, xUpperBound);
+
+                DerivativeStructure lowBoundYs = fittedFunc.value(lowboundXs);
+                DerivativeStructure highBoundYs = fittedFunc.value(highboundXs);
+
+                if (lowBoundYs.getPartialDerivative(1) < 0.0)
+                    cps.add(0, new double[]{xLowerBound, lowBoundYs.getValue()});
+                if (highBoundYs.getPartialDerivative(1) > 0.0)
+                    cps.add(new double[]{xUpperBound, highBoundYs.getValue()});
+
+            }
+
+
+            if (multiplePeaks) {
+                int count = 1;
+
+                for (double[] pair : cps) {
+                    histoData.addEntry("Peak" + "(" + count + ")" + " X", pair[0]);
+                    histoData.addEntry("Peak" + "(" + count + ")" + " Y", pair[1]);
+                    count++;
+                }
+
+            } else {
+
+                double xmax = -10;
+                double ymax = -10;
+
+                for (double[] pair : cps) {
+                    double y = pair[1];
+
+                    if (y > ymax) {
+                        xmax = pair[0];
+                        ymax = y;
+                    }
+                }
+
+                if (ymax >= 0.0) {
+                    histoData.addEntry("PeakX", xmax);
+                    histoData.addEntry("PeakY", ymax);
+                }
+
+            }
+
+
+
 
             // calculating R^2 value and adding as annotation
             double[] yData = new double[nx];
@@ -180,27 +258,30 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
             }
 
             histoData.addEntry("R^2", StatUtilities.RSquared(yData, fModel));
+
+
         } else { // if no fit function was specified, find highest bar
+            double xmax = Double.MIN_VALUE;
+            double ymax = Double.MIN_VALUE;
+
             for (int i = 0; i < nx; i++) {
 
-                double histoY = histoData.getYValue(0, i);
+                double y = histoData.getYValue(0, i);
 
-                if (histoY > maxY) {
-                    maxY = histoY;
-                    maxX = 0.5 * (histoData.getStartXValue(0, i) + histoData.getEndXValue(0, i));
+                if (y > ymax) {
+                    ymax = y;
+                    xmax = 0.5 * (histoData.getStartXValue(0, i) + histoData.getEndXValue(0, i));
 
                 }
             }
+
+            histoData.addEntry("PeakX", xmax);
+            histoData.addEntry("PeakY", ymax);
 
             histoData.addEntry("R^2", -1.0);
         }
 
 
-        histoData.addEntry("Selected Lower Bound", xLowerBound);
-        histoData.addEntry("Selected Upper Bound", xUpperBound);
-
-        histoData.addEntry(maxYAnnotationLabel, maxY);
-        histoData.addEntry(maxXAnnotationLabel, maxX);
 
 
         JLabel dataLabel = new JLabel("Peak Analysis: " + dataResultName);
@@ -246,11 +327,12 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
 
         @Override
         public boolean dialogItemChanged(GenericDialog gd, AWTEvent e) {
-            if (!gd.getNextBoolean()) return false; //if preview not selected, disable
 
             //Extract selected channelset to preview
             String prevChannelSetKey = gd.getNextChoice();
             ChannelContainer prevChannelSet = prevChannelSetMap.get(prevChannelSetKey);
+
+            if (!gd.getNextBoolean()) return false; //if preview not selected, disable
 
             //Perform nearest-neighbor analysis on preview channelset
             biNN.setChannel(prevChannelSet.get(fromChannelName), prevChannelSet.get(toChannelname));
