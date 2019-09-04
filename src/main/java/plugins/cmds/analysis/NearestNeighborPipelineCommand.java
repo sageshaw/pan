@@ -200,6 +200,8 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
 
             }
 
+
+            // Add endpoints if a 'peak' value
             if (!excludeEndpoints) {
                 DerivativeStructure lowboundXs = new DerivativeStructure(1, 1, 0, xLowerBound);
                 DerivativeStructure highboundXs = new DerivativeStructure(1, 1, 0, xUpperBound);
@@ -219,8 +221,8 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
                 int count = 1;
 
                 for (double[] pair : cps) {
-                    histoData.addEntry("Peak" + "(" + count + ")" + " X", pair[0]);
-                    histoData.addEntry("Peak" + "(" + count + ")" + " Y", pair[1]);
+                    histoData.addEntry("Peak(" + count + ") X", pair[0]);
+                    histoData.addEntry("Peak(" + count + ") Y", pair[1]);
                     count++;
                 }
 
@@ -244,8 +246,6 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
                 }
 
             }
-
-
 
 
             // calculating R^2 value and adding as annotation
@@ -281,7 +281,9 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
             histoData.addEntry("R^2", -1.0);
         }
 
-
+        histoData.addEntry("Bound Lower", xLowerBound);
+        histoData.addEntry("Bound Upper", xUpperBound);
+        histoData.addEntry("Number of bins", numBins);
 
 
         JLabel dataLabel = new JLabel("Peak Analysis: " + dataResultName);
@@ -465,6 +467,30 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
                 fitter = PolynomialCurveFitter.create(9);
                 break;
 
+            case POLY_10:
+                fitter = PolynomialCurveFitter.create(10);
+                break;
+
+            case POLY_11:
+                fitter = PolynomialCurveFitter.create(11);
+                break;
+
+            case POLY_12:
+                fitter = PolynomialCurveFitter.create(12);
+                break;
+
+            case POLY_13:
+                fitter = PolynomialCurveFitter.create(13);
+                break;
+
+            case POLY_14:
+                fitter = PolynomialCurveFitter.create(14);
+                break;
+
+            case POLY_15:
+                fitter = PolynomialCurveFitter.create(15);
+                break;
+
             case GAUSSIAN_DIST:
                 fitter = GaussianCurveFitter.create();
                 break;
@@ -520,6 +546,12 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
     private static final String POLY_7 = "7th-degree polynomial";
     private static final String POLY_8 = "8th-degree polynomial";
     private static final String POLY_9 = "9th-degree polynomial";
+    private static final String POLY_10 = "10th-degree polynomial";
+    private static final String POLY_11 = "11th-degree polynomial";
+    private static final String POLY_12 = "12th-degree polynomial";
+    private static final String POLY_13 = "13th-degree polynomial";
+    private static final String POLY_14 = "14th-degree polynomial";
+    private static final String POLY_15 = "15th-degree polynomial";
     private static final String GAUSSIAN_DIST = "Gaussian";
 
     private static final String[] FIT_OPTIONS = new String[]{
@@ -532,6 +564,12 @@ public class NearestNeighborPipelineCommand extends BiChannelCommand {
             POLY_7,
             POLY_8,
             POLY_9,
+            POLY_10,
+            POLY_11,
+            POLY_12,
+            POLY_13,
+            POLY_14,
+            POLY_15,
             GAUSSIAN_DIST};
 
 

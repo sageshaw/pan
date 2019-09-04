@@ -23,7 +23,7 @@ public abstract class HistogramCommand extends DynamicCommand implements Initial
     private LogService logService;
 
     @Parameter
-    private PanService panService;
+    protected PanService panService;
 
     @Parameter(label = "Histogram data", choices = {"a", "b"})
     private String histoDisplayName;
