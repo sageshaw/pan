@@ -69,7 +69,7 @@ public abstract class DataCommand extends DynamicCommand implements Initializabl
 
         DataContainer dataset = panService.getAnalysisResult(dataName);
 
-        setup(dataName, dataset);
+        if (!setup(dataName, dataset)) return;
 
         if (dataset.isBatched()) {
             GenericDialog batchDialogue = new GenericDialog("Found batch...");
@@ -98,7 +98,7 @@ public abstract class DataCommand extends DynamicCommand implements Initializabl
     }
 
 
-    protected abstract void setup(String dataName, DataContainer dataset);
+    protected abstract boolean setup(String dataName, DataContainer dataset);
 
     protected abstract void forEveryDatasetDo(String dataName, DataContainer dataset, boolean isBatched);
 

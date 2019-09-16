@@ -1,5 +1,6 @@
 package plugins.cmds.io;
 
+import analysis.util.ExportUtilities;
 import datastructures.graphs.HistogramDatasetPlus;
 import ij.io.SaveDialog;
 import org.scijava.command.Command;
@@ -27,10 +28,10 @@ public class ExportHistoRanges extends HistogramCommand {
     private int maxPeaks;
 
     @Override
-    protected void setup(String histoName, HistogramDatasetPlus histoData) {
+    protected boolean setup(String histoName, HistogramDatasetPlus histoData) {
 
         List<HistogramDatasetPlus> histos;
-
+        // TODO: ask after and add batching choice as a param (same for DatCommand)
         if (histoData.isBatched()) {
             histos = panService.getHistoBatch(histoData.getBatchKey());
         } else {
@@ -55,10 +56,12 @@ public class ExportHistoRanges extends HistogramCommand {
 
         //Get file directory to use, if user hits cancel, getFile will return null, and the command will
         //exit
-        export = getFile("");
-        if (export == null) return;
+        export = ExportUtilities.getFile("");
+        if (export == null) return false;
 
         content = "ID," + longestHeaderHisto.csvHeader();
+
+        return true;
     }
 
     @Override
@@ -84,21 +87,7 @@ public class ExportHistoRanges extends HistogramCommand {
         }
     }
 
-    private File getFile(String defaultName) {
-        String path = getPath(defaultName);
-        if (path == null) return null;
-        File export = new File(path);
 
-
-        return export;
-    }
-
-    private String getPath(String defaultName) {
-        SaveDialog sd = new SaveDialog("Export Nearest Neighbor Analysis", defaultName, ".csv");
-        String path = sd.getDirectory() + sd.getFileName();
-        if (path.equals("nullnull")) return null;
-        return path;
-    }
 
     private int getPeakCount(HistogramDatasetPlus histo) {
         int peakCount = 0;

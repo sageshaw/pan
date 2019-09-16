@@ -90,13 +90,18 @@ public class LinearData implements DataContainer {
 
     @Override
     public String[] header() {
-        return new String[0];
+        return new String[]{name};
     }
 
     @Override
     public String[][] body() {
-        return new String[0][0];
-        //todo: finish implementing exporting for LinearData
+        String[][] col = new String[data.length][1];
+
+        for (int i = 0; i < col.length; i++) {
+            col[i][0] = "" + data[i];
+        }
+
+        return col;
     }
 
     @Override

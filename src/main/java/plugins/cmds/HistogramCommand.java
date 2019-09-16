@@ -64,7 +64,7 @@ public abstract class HistogramCommand extends DynamicCommand implements Initial
 
         HistogramDatasetPlus histoData = panService.getHistoSet(histoName);
 
-        setup(histoName, histoData);
+        if (!setup(histoName, histoData)) return;
 
         if (histoData.isBatched()) {
             GenericDialog batchDialogue = new GenericDialog("Found batch...");
@@ -91,7 +91,7 @@ public abstract class HistogramCommand extends DynamicCommand implements Initial
     }
 
 
-    protected abstract void setup(String histoName, HistogramDatasetPlus histoData);
+    protected abstract boolean setup(String histoName, HistogramDatasetPlus histoData);
 
     protected abstract void forEveryHistoDo(String histoName, HistogramDatasetPlus histoData, boolean isBatched);
 
