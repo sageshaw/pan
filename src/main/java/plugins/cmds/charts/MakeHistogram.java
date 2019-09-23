@@ -30,7 +30,7 @@ public class MakeHistogram extends DataCommand {
     private int numBins;
 
     @Override
-    protected void setup(String dataName, DataContainer dataset) {
+    protected boolean setup(String dataName, DataContainer dataset) {
         histoPreviewFrame = new HistogramPreviewFrame(dataName, dataset);
 
         histoDialog = new GenericDialog("Histogram...");
@@ -51,6 +51,8 @@ public class MakeHistogram extends DataCommand {
             scaleToOne = histoDialog.getNextBoolean();
 
         }
+
+        return false; // prevents command from wreaking havoc
     }
 
     @Override

@@ -62,6 +62,8 @@ public class ExportDataset extends DataCommand {
             tabulatedContent[r + 1][columnCount] = body[r][0];
         }
 
+        columnCount++;
+
     }
 
     @Override

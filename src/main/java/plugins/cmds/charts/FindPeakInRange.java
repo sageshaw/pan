@@ -32,7 +32,7 @@ public class FindPeakInRange extends HistogramCommand {
 
 
     @Override
-    protected void setup(String histoName, HistogramDatasetPlus histoData) {
+    protected boolean setup(String histoName, HistogramDatasetPlus histoData) {
         //Show preview reference histogram
         JFreeChart chart = ChartFactory.createHistogram("Preview", "", "", histoData,
                 PlotOrientation.VERTICAL, false, false, false);
@@ -68,7 +68,9 @@ public class FindPeakInRange extends HistogramCommand {
             upBound = rangeDialog.getNextNumber();
         }
 
+        return false;
     }
+
 
     @Override
     protected void forEveryHistoDo(String histoName, HistogramDatasetPlus histoData, boolean isBatched) {
